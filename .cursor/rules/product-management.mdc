@@ -1,0 +1,57 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 产品管理系统
+
+本项目的产品管理系统允许管理员创建、编辑、查看和删除产品，包括批量操作功能。
+
+## 核心组件
+
+- **控制器**:
+  - [AdminProductController.php](mdc:app/Http/Controllers/Admin/AdminProductController.php) - 处理产品的常规CRUD操作
+  - [AdminBatchProductUploadController.php](mdc:app/Http/Controllers/Admin/AdminBatchProductUploadController.php) - 处理产品批量上传
+
+- **模型**:
+  - [Product.php](mdc:app/Models/Product.php) - 产品模型
+  - [ProductImage.php](mdc:app/Models/ProductImage.php) - 产品图片模型
+
+- **视图**:
+  - [resources/views/admin/products](mdc:resources/views/admin/products) - 包含产品管理的所有视图
+
+## 功能亮点
+
+### 基本功能
+- 完整的产品CRUD操作
+- 多语言产品信息（英文和法文）
+- 产品分类管理
+- 产品图片上传和管理
+
+### 批量操作
+- **批量上传**：通过Excel文件批量导入产品
+- **批量删除**：选择多个产品进行批量删除
+- **图片批处理**：支持产品图片的批量上传和处理
+
+## 相关路由
+
+```php
+// 批量上传产品路由
+Route::get('products/batch-upload', [AdminBatchProductUploadController::class, 'showUploadForm'])->name('products.batch_upload.form');
+Route::post('products/batch-import', [AdminBatchProductUploadController::class, 'handleBatchImport'])->name('products.batch_import.handle');
+Route::post('products/batch-upload-image', [AdminBatchProductUploadController::class, 'uploadTemporaryImage'])->name('products.batch_upload.image');
+
+// 批量删除产品路由
+Route::delete('products/batch-destroy', [AdminProductController::class, 'batchDestroy'])->name('products.batch-destroy');
+
+// 产品资源路由
+Route::resource('products', AdminProductController::class);
+Route::delete('products/{product}/images/{image}', [AdminProductController::class, 'destroyImage'])->name('products.images.destroy');
+```
+
+## 业务逻辑
+
+- 产品关联到特定分类
+- 每个产品可以有多张图片
+- 产品支持软删除（不会永久删除数据）
+- 产品展示在前台时会根据用户语言显示相应的信息

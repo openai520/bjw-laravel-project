@@ -1,0 +1,49 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Controller Structure [2025-05-24 验证更新]
+
+Controllers handle incoming HTTP requests and orchestrate responses. They are located in `app/Http/Controllers/`.
+
+**Separation:**
+*   **Frontend Controllers:** Located in [app/Http/Controllers/Frontend/](mdc:app/Http/Controllers/Frontend). These handle user-facing interactions.
+    *   [HomeController.php](mdc:app/Http/Controllers/Frontend/HomeController.php) ✅ 确认存在
+    *   [ProductController.php](mdc:app/Http/Controllers/Frontend/ProductController.php) ✅ 确认存在 (6.4KB)
+    *   [CartController.php](mdc:app/Http/Controllers/Frontend/CartController.php) ✅ 确认存在 (7.8KB)
+    *   [InquiryController.php](mdc:app/Http/Controllers/Frontend/InquiryController.php) ✅ 确认存在 (2.6KB)
+    *   [LanguageController.php](mdc:app/Http/Controllers/Frontend/LanguageController.php) ✅ 确认存在 (多语言支持)
+    *   [FrontendController.php](mdc:app/Http/Controllers/Frontend/FrontendController.php) ✅ 基础前台控制器
+    *   [Frontend/V2/](mdc:app/Http/Controllers/Frontend/V2) ✅ V2版本控制器目录
+
+*   **Admin Controllers:** Located in [app/Http/Controllers/Admin/](mdc:app/Http/Controllers/Admin). These handle backend management tasks and are protected by authentication/authorization middleware.
+    *   [AdminLoginController.php](mdc:app/Http/Controllers/Admin/AdminLoginController.php) ✅ 确认存在 (2.2KB)
+    *   [AdminDashboardController.php](mdc:app/Http/Controllers/Admin/AdminDashboardController.php) ✅ 确认存在 (1.4KB)
+    *   [AdminCategoryController.php](mdc:app/Http/Controllers/Admin/AdminCategoryController.php) ✅ 确认存在 (5.2KB)
+    *   [AdminProductController.php](mdc:app/Http/Controllers/Admin/AdminProductController.php) ✅ 确认存在 (22KB, 651行)
+    *   [AdminBatchProductUploadController.php](mdc:app/Http/Controllers/Admin/AdminBatchProductUploadController.php) ✅ 确认存在 (11KB, 265行)
+    *   [AdminInquiryController.php](mdc:app/Http/Controllers/Admin/AdminInquiryController.php) ✅ 确认存在 (1.9KB)
+    *   [AdminIpAddressController.php](mdc:app/Http/Controllers/Admin/AdminIpAddressController.php) ✅ 确认存在 (2.4KB, IP管理)
+    *   [AdminHomeSettingController.php](mdc:app/Http/Controllers/Admin/AdminHomeSettingController.php) ✅ 确认存在 (6.9KB, 首页设置)
+    *   [AdminController.php](mdc:app/Http/Controllers/Admin/AdminController.php) ✅ 基础管理员控制器
+    *   [ProductController.php](mdc:app/Http/Controllers/Admin/ProductController.php) ✅ 额外产品控制器 (774B)
+
+**Logic Placement:**
+*   Controllers should remain relatively lean.
+*   Complex business logic might be delegated to Services (e.g., `ImageService` mentioned in [PROJECT_RULES.mdx](mdc:PROJECT_RULES.mdx)) or Model methods.
+*   Form validation is often handled using Form Requests (check individual controller methods for injected Request classes).
+
+**Controller Statistics (2025-05-24):**
+*   **Total Controllers**: 14 files
+*   **Largest Controller**: AdminProductController.php (22KB, 651 lines) - 主要产品管理功能
+*   **Batch Operations**: AdminBatchProductUploadController.php (11KB) - 批量产品上传
+*   **Multi-version Support**: Frontend/V2/ 目录支持多版本前台
+
+**Key Features by Controller:**
+*   **AdminProductController**: 完整的产品CRUD、图片管理、批量删除
+*   **AdminBatchProductUploadController**: Excel批量导入、图片批处理
+*   **CartController**: 购物车管理、Ajax操作
+*   **InquiryController**: 询价表单提交、数据验证
+*   **AdminHomeSettingController**: 首页设置、特色产品管理
+

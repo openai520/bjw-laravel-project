@@ -1,0 +1,33 @@
+@php
+    // 优先使用主图的URL，然后是缩略图，最后是占位符
+    $imageUrl = $product->main_image_url ?? ($product->thumbnail_url ?? asset('img/placeholder.svg'));
+    $productName = $product->getTranslation('name', app()->getLocale()) ?? ($product->name ?? __('N/A'));
+    $productPrice = $product->price ?? '0.00';
+@endphp
+
+<div class="product-card w-full bg-white rounded-3xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md p-3 sm:p-4 flex flex-col cursor-pointer" 
+     style="height: 350px; border-radius: 20px !important;"
+     onclick="console.log('🎯 产品卡片被点击！产品ID: {{ $product->id }}'); console.log('🔍 检查openProductModal函数:', typeof window.openProductModal); if(typeof window.openProductModal === 'function') { console.log('📞 调用openProductModal函数...'); window.openProductModal({{ $product->id }}); } else { console.error('❌ openProductModal函数未找到!'); }">
+    <div class="image-container flex justify-center h-[260px] rounded-3xl overflow-hidden" style="border-radius: 10px !important;">
+        <div class="flex items-center justify-center w-full h-full">
+            <img 
+                src="{{ $imageUrl }}" 
+             alt="{{ $productName }}"
+                class="object-contain rounded-3xl max-h-full max-w-full" style="border-radius: 10px !important;"
+                onerror="this.onerror=null; this.src='{{ asset('img/placeholder.svg') }}';"
+             loading="lazy"
+            />
+        </div>
+    </div>
+
+    <div class="info-wrapper mt-2 sm:mt-4 md:mt-6 flex flex-col justify-end flex-grow">
+        <div>
+            <h2 class="text-base font-bold text-neutral-700 truncate max-w-full mb-1">
+                {{ $productName }}
+            </h2>
+        </div>
+        <div>
+            <span class="text-xl font-bold text-red-600 whitespace-nowrap">¥{{ number_format((float)$productPrice, 2) }}</span>
+        </div>
+    </div>
+</div> 

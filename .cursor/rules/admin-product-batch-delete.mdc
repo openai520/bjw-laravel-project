@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Admin Product Batch Delete Feature
+
+This feature allows administrators to select multiple products from the list and delete them in a single action.
+
+The core components involved are:
+
+*   **Controller Logic**: The `batchDestroy` method in [AdminProductController.php](mdc:app/Http/Controllers/Admin/AdminProductController.php) handles the deletion process, including removing associated images and database records within a transaction.
+*   **Frontend View**: The [index.blade.php](mdc:resources/views/admin/products/index.blade.php) view provides the user interface, including checkboxes for selection, a 'Batch Delete' button, and JavaScript for handling user interactions (selection, confirmation, form submission).
+*   **Routing**: The route for batch deletion is defined in [web.php](mdc:routes/web.php) using the `DELETE` method and pointing to the `batchDestroy` controller action.

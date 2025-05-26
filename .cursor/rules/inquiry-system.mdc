@@ -1,0 +1,53 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 询价系统
+
+该项目实现了完整的询价系统，允许顾客提交产品询价单，管理员可查看和处理这些询价单。
+
+## 核心组件
+
+- **控制器**:
+  - [InquiryController.php](mdc:app/Http/Controllers/Frontend/InquiryController.php) - 处理前台询价提交
+  - [AdminInquiryController.php](mdc:app/Http/Controllers/Admin/AdminInquiryController.php) - 处理后台询价管理
+
+- **模型**:
+  - [Inquiry.php](mdc:app/Models/Inquiry.php) - 询价主表模型
+  - [InquiryItem.php](mdc:app/Models/InquiryItem.php) - 询价项目模型
+
+- **视图**:
+  - [frontend/cart](mdc:resources/views/frontend/cart) - 包含购物车和询价表单
+  - [admin/inquiries](mdc:resources/views/admin/inquiries) - 后台询价管理视图
+
+## 业务流程
+
+1. **购物车添加商品**: 用户浏览产品并添加到购物车
+2. **提交询价表单**: 用户填写联系信息并提交购物车作为询价单
+3. **后台接收询价**: 管理员在后台查看新询价并可以更改其状态
+4. **询价状态管理**: 支持多种状态（新建、已读、处理中、已完成、已取消等）
+
+## 数据结构
+
+- `inquiries` 表存储询价单主要信息（联系人、邮箱、状态等）
+- `inquiry_items` 表存储询价单中的具体产品项目
+- 支持多语言环境下的询价处理
+
+## 相关路由
+
+```php
+// 前台询价路由
+Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
+
+// 后台询价管理路由
+Route::get('inquiries', [AdminInquiryController::class, 'index'])->name('inquiries.index');
+Route::get('inquiries/{inquiry}', [AdminInquiryController::class, 'show'])->name('inquiries.show');
+Route::patch('inquiries/{inquiry}/status', [AdminInquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
+```
+
+## 安全措施
+
+- IP地址记录和管理
+- 防止恶意提交的限制措施
+- 验证和清理用户输入数据

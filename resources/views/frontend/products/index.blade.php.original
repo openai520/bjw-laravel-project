@@ -1,0 +1,136 @@
+@extends('frontend.layouts.app')
+
+@section('title')
+    @if($currentCategory)
+        {{ app()->getLocale() === 'fr' ? $currentCategory->name_fr : $currentCategory->name_en }} - {{ __('Products') }}
+    @elseif($searchTerm)
+        {{ __('Search Results') }}: {{ $searchTerm }} - {{ __('Products') }}
+    @else
+        {{ __('All Products') }}
+    @endif
+@endsection
+
+@section('content')
+    <main>
+        @include('frontend.partials._category_nav')
+
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"
+             x-data="infiniteScrollHandler('{{ $products->nextPageUrl() }}', '{{ $currentCategory ? $currentCategory->slug : '' }}')">
+            <!-- 常规网格容器 -->
+            <div id="product-list-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                @forelse($products as $product)
+                    @include('frontend.partials._product_card', ['product' => $product])
+                @empty
+                    <div class="col-span-full text-center py-12">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('No products found') }}</h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            @if($searchTerm)
+                                {{ __('Try adjusting your search terms or filters.') }}
+                            @else
+                                {{ __('Products will be added soon.') }}
+                            @endif
+                        </p>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- 加载更多触发器 -->
+            <div id="load-more-trigger"
+                 x-intersect:enter="loadMore()"
+                 x-show="!noMorePages && !loading"
+                 class="flex justify-center mt-8">
+                <div class="px-4 py-2 text-gray-500">{{ __('Loading more products...') }}</div>
+            </div>
+
+            <!-- 加载中指示器 -->
+            <div x-show="loading" class="flex justify-center mt-8">
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>{{ __('Loading...') }}</span>
+            </div>
+
+            <!-- 无更多产品指示器 -->
+            <div x-show="noMorePages" class="flex justify-center mt-8">
+                <div class="px-4 py-2 text-gray-500">{{ __('No more products to load.') }}</div>
+            </div>
+        </div>
+    </main>
+@endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('infiniteScrollHandler', (nextPageUrl, categorySlug) => ({
+            nextPageUrl: nextPageUrl,
+            loading: false,
+            noMorePages: !nextPageUrl,
+
+            loadMore() {
+                if (this.loading || this.noMorePages) return;
+
+                this.loading = true;
+
+                // 确保 nextPageUrl 是一个有效的 URL 字符串
+                if (!this.nextPageUrl || typeof this.nextPageUrl !== 'string') {
+                    console.error('Invalid nextPageUrl:', this.nextPageUrl);
+                    this.loading = false;
+                    this.noMorePages = true; // 停止进一步的加载尝试
+                    return;
+                }
+
+                let urlToFetch;
+                try {
+                    // 解析 nextPageUrl 以提取路径和查询参数
+                    const parsedUrl = new URL(this.nextPageUrl, window.location.origin); // 提供基础 URL 以防 nextPageUrl 是相对的
+                    urlToFetch = parsedUrl.pathname + parsedUrl.search;
+                } catch (e) {
+                    // 如果 this.nextPageUrl 本身就是相对路径 (例如 /en/products?page=2),
+                    // 或者 URL 解析失败, 直接使用它 (假设它已经是正确的相对路径或绝对路径)
+                    // 但因为问题是绝对 IP 路径, 我们需要更安全的处理
+                    if (this.nextPageUrl.startsWith('http')) {
+                        // 如果是绝对路径但可能是错误的 IP 地址, 尝试提取路径
+                        try {
+                            const tempUrl = new URL(this.nextPageUrl);
+                            urlToFetch = tempUrl.pathname + tempUrl.search;
+                        } catch (errorParsingFullUrl) {
+                             console.error('Error parsing absolute nextPageUrl, falling back:', this.nextPageUrl, errorParsingFullUrl);
+                             urlToFetch = this.nextPageUrl; // 作为最后的手段
+                        }
+                    } else {
+                         urlToFetch = this.nextPageUrl; // 已经是相对路径
+                    }
+                }
+
+                fetch(urlToFetch, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 添加新产品到网格
+                    const productListElement = document.getElementById('product-list-grid');
+                    if (data.html) {
+                        productListElement.insertAdjacentHTML('beforeend', data.html);
+                    }
+
+                    // 更新URL和状态
+                    this.nextPageUrl = data.next_page_url;
+                    this.noMorePages = !data.next_page_url;
+                    this.loading = false;
+                })
+                .catch(error => {
+                    console.error('Error loading more products:', error);
+                    this.loading = false;
+                });
+            }
+        }));
+    });
+</script>
+@endpush

@@ -1,0 +1,51 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Queues & Background Jobs [2025-05-24 更新]
+
+The application utilizes Laravel Queues for handling time-consuming tasks asynchronously, particularly image processing and geolocation services.
+
+**Configuration:**
+*   Queue settings are configured via `.env` (`QUEUE_CONNECTION`, `QUEUE_DEFAULT`) and [config/queue.php](mdc:config/queue.php).
+*   The **database driver** is used in production (`QUEUE_CONNECTION=database`). Jobs are stored in the `jobs` table.
+*   ⚠️ **Current Status (2025-05-24)**: Server running `geoip` queue with 645 pending jobs
+*   **Local Config**: Default queue configured as `image_processing` (`QUEUE_DEFAULT=image_processing` in local config)
+*   **Server Issue**: Missing `QUEUE_DEFAULT` in server `.env` - causing jobs to use `geoip` queue instead
+
+**Active Queue Status:**
+*   **Current Jobs**: 645 tasks in `geoip` queue (as of 2025-05-24 08:59 CST)
+*   **Queue Worker**: Running via systemd service `laravel-queue.service` (PID: 494857)
+*   **Memory Usage**: 231.2MB
+*   **Uptime**: 2+ weeks stable operation
+
+**Image Processing Job:**
+*   The primary background task is image processing after product creation/update or batch import.
+*   This is handled by the Job class: [app/Jobs/ProcessProductImageFromLocal.php](mdc:app/Jobs/ProcessProductImageFromLocal.php).
+*   **Logic:** Takes a product ID and temporary image paths, uses `ImageService` to compress/resize/save images to public storage (`storage/app/public/products/`), and updates the `product_images` database table.
+*   Dispatched from controllers like [AdminProductController.php](mdc:app/Http/Controllers/Admin/AdminProductController.php) or [AdminBatchProductUploadController.php](mdc:app/Http/Controllers/Admin/AdminBatchProductUploadController.php).
+
+**Queue Workers:**
+*   Background queue worker processes (`php artisan queue:work`) are required to execute jobs.
+*   On the server (`43.165.63.73`), managed by `systemd` service: `laravel-queue.service`
+*   **Current Command**: `/usr/bin/php /www/wwwroot/kalala.me/artisan queue:work --queue=image_processing,default --sleep=3 --tries=3`
+*   **Service Status**: Active and running for 2+ weeks
+
+**Recommended Actions:**
+1. Add `QUEUE_DEFAULT=image_processing` to server `.env` file
+2. Monitor the 645 pending `geoip` queue jobs
+3. Consider restarting queue service if jobs accumulate further
+
+**Monitoring Commands:**
+```bash
+# Check queue status
+mysql -u kalala -p kalala_shop -e "SELECT COUNT(*) FROM jobs;"
+
+# Check queue distribution  
+mysql -u kalala -p kalala_shop -e "SELECT queue, COUNT(*) FROM jobs GROUP BY queue;"
+
+# Restart queue service
+systemctl restart laravel-queue
+```
+

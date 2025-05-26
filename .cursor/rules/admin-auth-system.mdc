@@ -1,0 +1,52 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 管理员认证系统
+
+该项目使用自定义认证系统处理管理员登录和授权。
+
+## 核心组件
+
+- **登录控制器**: [AdminLoginController.php](mdc:app/Http/Controllers/Admin/AdminLoginController.php) 处理管理员登录和登出
+- **管理员中间件**: 位于 `auth` 和 `admin` 中间件组中，用于保护管理后台路由
+- **管理员视图**: [admin/auth/login.blade.php](mdc:resources/views/admin/auth/login.blade.php) 提供登录表单
+
+## 路由配置
+
+```php
+// 后台管理路由组
+Route::prefix('admin')->name('admin.')->group(function () {
+    // 登录相关路由
+    Route::middleware('guest')->group(function () {
+        Route::get('login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+        Route::post('login', [AdminLoginController::class, 'login'])->name('login.submit');
+    });
+
+    // 需要管理员权限的路由
+    Route::middleware(['auth', 'admin'])->group(function () {
+        // 仪表盘
+        Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // 登出
+        Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
+        
+        // 其他管理员路由...
+    });
+});
+```
+
+## 认证流程
+
+1. 管理员访问 `/admin/login` 页面
+2. 输入凭据并提交表单到 `/admin/login` POST 路由
+3. `AdminLoginController@login` 方法验证凭据并创建会话
+4. 认证成功后重定向至 `/admin/dashboard`
+5. 管理员可通过 `/admin/logout` 路由登出系统
+
+## 访问控制
+
+- 未登录用户尝试访问受保护路由会被重定向到登录页面
+- 非管理员用户（即使已登录）尝试访问后台会被拒绝访问
+- 管理员访问登录页面时会被重定向到仪表盘

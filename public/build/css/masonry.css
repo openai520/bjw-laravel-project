@@ -1,0 +1,267 @@
+/* Material Design 3 风格的产品列表 */
+:root {
+    /* Material Design 3 颜色变量 */
+    --md-sys-color-primary: #006874;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #97f0ff;
+    --md-sys-color-on-primary-container: #001f24;
+    --md-sys-color-secondary: #4a6267;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #cde7ec;
+    --md-sys-color-on-secondary-container: #051f23;
+    --md-sys-color-tertiary: #525e7d;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #dae2ff;
+    --md-sys-color-on-tertiary-container: #0e1b37;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-error-container: #ffdad6;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #fafdfd;
+    --md-sys-color-on-background: #191c1d;
+    --md-sys-color-surface: #fafdfd;
+    --md-sys-color-on-surface: #191c1d;
+    --md-sys-color-surface-variant: #dbe4e6;
+    --md-sys-color-on-surface-variant: #3f484a;
+    --md-sys-color-outline: #6f797a;
+    --md-sys-color-inverse-on-surface: #eff1f1;
+    --md-sys-color-inverse-surface: #2e3132;
+    --md-sys-color-inverse-primary: #4fd8eb;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-surface-tint: #006874;
+    --md-sys-color-outline-variant: #bfc8ca;
+    --md-sys-color-scrim: #000000;
+    
+    /* Material Design 3 高度变量 */
+    --md-sys-elevation-level0: 0px 0px 0px 0px rgba(0, 0, 0, 0.2);
+    --md-sys-elevation-level1: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --md-sys-elevation-level2: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --md-sys-elevation-level3: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+    --md-sys-elevation-level4: 0px 2px 3px rgba(0, 0, 0, 0.3), 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
+    --md-sys-elevation-level5: 0px 4px 4px rgba(0, 0, 0, 0.3), 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
+    
+    /* 其他设计变量 */
+    --grid-gap: 24px;
+    --container-padding: 24px;
+    --card-border-radius: 28px;
+    --transition-timing: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 网格容器 */
+.masonry-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 24px;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: var(--md-sys-color-surface);
+}
+
+/* 响应式布局 */
+@media (min-width: 600px) {
+    .masonry-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 905px) {
+    .masonry-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1240px) {
+    .masonry-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Material Design 3 卡片样式 */
+.product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--md-sys-color-surface);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    overflow: hidden;
+    box-shadow: var(--md-sys-elevation-level1);
+    transition: box-shadow var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard),
+                transform var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard);
+    cursor: pointer;
+    text-decoration: none;
+    height: 100%;
+    border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.product-card:hover {
+    box-shadow: var(--md-sys-elevation-level2);
+    transform: translateY(-2px);
+}
+
+.product-card:active {
+    transform: scale(0.98);
+}
+
+/* 图片容器 */
+.image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    background-color: var(--md-sys-color-surface-variant);
+    overflow: hidden;
+}
+
+/* Material Design 3 图片样式 */
+.product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+/* 产品信息区域 */
+.product-info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+    background-color: var(--md-sys-color-surface);
+}
+
+/* Material Design 3 文字样式 */
+.product-title {
+    font-family: "Roboto", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--md-sys-color-on-surface);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-price {
+    font-family: "Roboto", system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    color: var(--md-sys-color-primary);
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+}
+
+.product-price::before {
+    content: "¥";
+    font-size: 0.8em;
+    margin-right: 2px;
+}
+
+/* 状态指示器 */
+.product-state-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-color: var(--md-sys-color-on-surface);
+    opacity: 0;
+    transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard);
+    border-radius: inherit;
+}
+
+.product-card:hover .product-state-layer {
+    opacity: 0.08;
+}
+
+.product-card:active .product-state-layer {
+    opacity: 0.12;
+}
+
+/* 加载状态样式 */
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 12px;
+    color: var(--md-sys-color-primary);
+    font-family: "Roboto", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.loading-indicator svg {
+    animation: spin var(--md-sys-motion-duration-long1) linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 优化触觉反馈 */
+@media (hover: hover) {
+    .product-card {
+        will-change: transform;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-4px);
+    }
+    
+    .product-card:active {
+        transform: scale(0.96);
+    }
+}
+
+/* 工具栏 */
+.layout-tools {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.layout-toggle {
+    background-color: var(--primary-bg);
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-time) ease;
+}
+
+.layout-toggle.active {
+    background-color: var(--text-primary);
+    color: var(--primary-bg);
+    border-color: var(--text-primary);
+}
+
+/* 无限滚动加载动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.masonry-container > * {
+    animation: fadeIn var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard);
+} 

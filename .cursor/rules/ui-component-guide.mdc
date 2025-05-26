@@ -1,0 +1,153 @@
+# V2版本UI组件指南
+
+本文档介绍新版UI的主要组件和设计风格，帮助开发者理解和扩展V2界面。
+
+## 设计风格
+
+V2版本采用现代化的界面设计，特点包括：
+
+- 深色导航栏与页脚
+- 圆角组件和卡片
+- 主色调为靛青色(indigo)
+- 增强的阴影效果和过渡动画
+- 响应式布局优化
+
+## 主要布局文件
+
+### 基础布局 [app.blade.php](mdc:resources/views/frontend/v2/layouts/app.blade.php)
+
+```html
+<body class="font-sans antialiased bg-gray-100 min-h-screen flex flex-col">
+    @include('frontend.v2.partials._navbar')
+    <main class="flex-grow">
+        <div class="v2-container px-4 py-6">
+            @yield('content')
+        </div>
+    </main>
+    @include('frontend.v2.partials._footer')
+</body>
+```
+
+V2版本特有的CSS类：
+- `.v2-container`: 容器类，控制内容最大宽度
+- `.v2-navbar`: 导航栏样式类
+
+## 主要组件
+
+### 导航栏 [_navbar.blade.php](mdc:resources/views/frontend/v2/partials/_navbar.blade.php)
+
+包含响应式设计，在移动端显示汉堡菜单，使用Alpine.js控制下拉菜单：
+
+```html
+<nav class="v2-navbar" x-data="{ open: false }">
+    <!-- 导航内容 -->
+    <div x-show="open" class="md:hidden bg-gray-800">
+        <!-- 移动端菜单 -->
+    </div>
+</nav>
+```
+
+### 页脚 [_footer.blade.php](mdc:resources/views/frontend/v2/partials/_footer.blade.php)
+
+四栏布局，包含公司信息、快速链接、联系方式和订阅表单：
+
+```html
+<footer class="bg-gray-800 text-gray-300">
+    <div class="v2-container px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- 四栏布局 -->
+        </div>
+    </div>
+</footer>
+```
+
+### 产品卡片
+
+新版产品卡片包含图片、分类、价格和操作按钮：
+
+```html
+<div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow">
+    <div class="relative pb-[75%]">
+        <!-- 产品图片 -->
+    </div>
+    <div class="p-4">
+        <!-- 产品信息 -->
+        <div class="mt-2 flex items-center justify-between">
+            <!-- 价格和购物车按钮 -->
+        </div>
+    </div>
+</div>
+```
+
+## 常用UI组件模式
+
+### 英雄区域
+
+```html
+<div class="relative bg-indigo-800 rounded-xl overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900 to-indigo-700 opacity-90"></div>
+    <div class="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center">
+        <!-- 内容 -->
+    </div>
+</div>
+```
+
+### 分类列表
+
+```html
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+    <!-- 分类卡片 -->
+</div>
+```
+
+### 表单样式
+
+```html
+<form class="flex">
+    <input type="email" class="px-3 py-2 w-full rounded-l-md focus:outline-none focus:ring-1 focus:ring-indigo-500">
+    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-md">
+        提交
+    </button>
+</form>
+```
+
+## JavaScript交互
+
+V2版本使用Alpine.js进行简单的状态管理和交互：
+
+```html
+<div x-data="{ open: false }">
+    <button @click="open = !open">切换</button>
+    <div x-show="open">内容</div>
+</div>
+```
+
+购物车交互使用fetch API提交AJAX请求：
+
+```javascript
+fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this),
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+    }
+})
+.then(response => response.json())
+.then(data => {
+    // 处理响应
+});
+```
+
+## 多语言支持
+
+使用Laravel的本地化功能：
+
+```html
+{{ __('Home') }} <!-- 根据当前语言环境翻译 -->
+```
+
+根据语言显示不同内容：
+
+```html
+{{ app()->getLocale() === 'fr' ? $category->name_fr : $category->name_en }}
+```

@@ -1,0 +1,70 @@
+# 新版UI开发工作流
+
+本文档描述开发新版UI时的工作流程，确保开发过程不影响当前网站运行。
+
+## 开发步骤
+
+1. **环境准备**
+   - 确保已配置`FRONTEND_VERSION=v1`在.env文件中
+   - 创建必要的目录结构：`resources/views/frontend/v2/`
+
+2. **创建视图文件**
+   - 按照现有目录结构创建对应的v2版本视图
+   - 主要视图文件：
+     - 布局: `layouts/app.blade.php`
+     - 分区: `partials/_navbar.blade.php`, `partials/_footer.blade.php`
+     - 页面: `home/index.blade.php`, `products/index.blade.php`, `cart/index.blade.php`等
+
+3. **修改控制器**
+   - 为每个前台控制器方法添加对应的V2版本
+   - 示例: `index() → indexV2()`, `show() → showV2()`
+   - 确保V2方法使用相同的服务层方法获取数据
+
+4. **测试新UI**
+   - 访问`/v2/{lang}/`路径测试新版UI
+   - 确保数据正确显示并且功能正常工作
+
+5. **切换版本**
+   - 开发完成后，使用脚本切换到新版本
+   - 命令: `./switch-ui-version.sh v2`
+   - 测试主站点`/{lang}/`路径已切换到新UI
+
+6. **清理旧版UI**
+   - 稳定运行一段时间后，可以移除旧版UI
+   - 命令: `./cleanup-old-ui.sh`
+   - 脚本会自动备份旧文件并更新路由和控制器
+
+## 开发注意事项
+
+1. **路由名称一致性**
+   - 确保v2版本的路由名称与原版保持一致的命名结构
+   - 示例：`frontend.home` → `frontend.v2.home`
+
+2. **变量传递一致性**
+   - 控制器向视图传递的变量名称必须保持一致
+   - 示例：`compact('products', 'categories')`
+
+3. **表单字段一致性**
+   - 表单提交字段名称必须与原版一致
+   - CSRF令牌确保包含在所有表单中
+
+4. **JavaScript交互**
+   - AJAX请求的响应格式保持不变
+   - 表单提交和数据获取使用相同的数据结构
+
+## 版本切换和回滚
+
+### 切换到新版本
+```bash
+./switch-ui-version.sh v2
+```
+
+### 回滚到原版
+```bash
+./switch-ui-version.sh v1
+```
+
+### 清理旧版UI
+```bash
+./cleanup-old-ui.sh
+```

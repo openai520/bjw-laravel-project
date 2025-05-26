@@ -1,0 +1,331 @@
+---
+title: '项目规则文档 [已更新至2025版本]'
+description: '产品展示与询价系统项目交接详细文档 - 基础规范'
+status: 'UPDATED_TO_2025_VERSION'
+deprecated_sections: '服务器信息已过时，请参考PROJECT_RULES_UPDATED_2025.mdx'
+---
+
+# 产品展示与询价系统项目规则文档 [基础规范 - 部分信息已更新]
+
+> ⚠️ **重要提示**: 本文档的服务器配置和当前状态信息已过时。
+> 请参考 `PROJECT_RULES_UPDATED_2025.mdx` 获取最新的服务器状态和配置信息。
+> 本文档保留作为基础开发规范参考。
+
+## 1. 项目基本信息 [基础信息 - 仍然有效]
+
+### 1.1 项目概述
+本项目是一个基于Laravel的产品展示和询价系统，专注于非洲市场，支持多语言（英语和法语），采用响应式设计适应各种设备，并针对低带宽环境进行了优化。系统包含完整的前台展示和后台管理功能。
+
+### 1.2 项目架构 [技术栈 - 仍然有效]
+- **后端框架**：Laravel 10.x
+- **前端技术**：
+  - Blade模板引擎
+  - Alpine.js（轻量级JavaScript框架）
+  - Tailwind CSS（原子化CSS框架）
+- **数据库**：MySQL 5.7+/MariaDB 10.3+ ✅ 当前运行MariaDB 10.11.4
+- **Web服务器**：Nginx ✅ 当前正常运行
+- **PHP版本**：8.2 ✅ 当前确认运行
+- **部署环境**：Linux ✅ 当前OpenCloudOS
+
+### 1.3 系统域名 [当前信息 - 已确认]
+- **生产环境**：https://kalala.me ✅ 当前可访问
+
+## 2. 服务器配置规范 [⚠️ 部分信息已过时]
+
+> **注意**: 以下服务器要求为基础规范，实际当前配置请参考 `PROJECT_RULES_UPDATED_2025.mdx`
+
+### 2.1 服务器要求 [基础要求 - 当前已超过]
+- **操作系统**：~~CentOS 7+~~ ✅ 当前OpenCloudOS (更新)
+- **内存**：~~至少2GB~~ ✅ 当前3.6GB (满足要求)
+- **存储**：~~至少20GB~~ ✅ 当前60GB (充足)
+- **PHP版本**：8.2+ ✅ 确认满足
+- **MySQL/MariaDB版本**：~~5.7+/10.3+~~ ✅ 当前10.11.4 (超过要求)
+- **Web服务器**：Nginx ✅ 正常运行
+
+### 2.2 PHP配置 [基础规范 - 需要验证当前配置]
+- **内存限制**: 128MB+
+- **最大上传文件大小**: 50MB
+- **最大POST大小**: 60MB
+- **最大执行时间**: 300秒
+- **必要扩展**: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML, GD/Imagick
+
+### 2.3 Nginx配置 [基础规范 - 当前通过宝塔管理]
+- 站点根目录指向`/www/wwwroot/kalala.me/public` ✅ 已确认
+- 启用HTTPS（使用SSL证书）✅ 通过Cloudflare
+- 配置适当的缓存头（特别是对静态资源）✅ 已启用
+- 启用gzip压缩以减少传输大小 ✅ 已启用
+- 为静态资源设置较长的过期时间 ✅ 已配置
+
+### 2.4 MySQL/MariaDB配置 [⚠️ 信息已更新]
+- **数据库名**：kalala_shop ✅ 已确认
+- **连接信息**：✅ 实际配置请参考2025版文档
+  - 主机：127.0.0.1
+  - 端口：3306
+  - ~~用户名：kalala_shop~~ → 实际：kalala
+  - 密码：[实际密码已更新，见2025版文档]
+- **字符集/排序规则**：utf8mb4/utf8mb4_unicode_ci ✅ 确认
+
+### 2.5 文件权限 [规范有效 - 当前已正确配置]
+- Laravel存储目录（`storage/`和`bootstrap/cache/`）：775，所属用户/组为www:www ✅
+- 其他目录和文件：644（文件）和755（目录）✅
+- 敏感配置文件（`.env`）：640 ✅
+
+## 3. 代码组织与规范 [开发规范 - 仍然有效]
+
+### 3.1 项目目录结构 [已确认 - 结构正确]
+- **app/Http/Controllers/Admin**: 后台控制器 ✅
+- **app/Http/Controllers/Frontend**: 前台控制器 ✅
+- **app/Models**: 数据模型 ✅
+- **app/Services**: 服务层（如ImageService负责图片处理）✅
+- **resources/views/admin**: 后台视图 ✅
+- **resources/views/frontend**: 前台视图 ✅
+- **public/storage/products**: 产品图片存储位置（符号链接）✅
+- **storage/app/public/products**: 产品图片实际存储位置 ✅
+
+### 3.2 命名规范 [开发规范 - 继续遵循]
+
+#### 控制器
+- 后台控制器使用`Admin`前缀（如`AdminProductController`）
+- 前台控制器直接使用功能名（如`ProductController`）
+- 方法名遵循Laravel约定：index, create, store, show, edit, update, destroy
+
+#### 模型
+- 使用单数形式（如`Product`而非`Products`）
+- 关联方法名反映关系（belongsTo, hasMany等）
+
+#### 视图
+- 后台视图：`admin/[模块]/[动作].blade.php`
+- 前台视图：`frontend/[模块]/[动作].blade.php`
+
+#### 路由
+- 后台路由前缀：`admin`，并使用`admin.`名称空间
+- 前台路由包含语言前缀：`{lang}`，使用`frontend.`名称空间
+- 所有路由必须命名，遵循`[命名空间].[资源].[动作]`格式
+
+### 3.3 编码规范 [开发标准 - 继续遵循]
+- 遵循PSR-1、PSR-2和PSR-4标准
+- 使用类型提示和返回类型声明
+- 控制器保持轻量，将复杂逻辑移至服务层
+- 遵循SOLID原则
+
+## 4. 数据库设计规范 [数据结构 - 已确认实际存在]
+
+### 4.1 主要数据表 [✅ 已确认存在所有表]
+1. **users**: 管理员用户表 ✅
+2. **categories**: 产品分类表 ✅
+3. **products**: 产品信息表 ✅ (当前695个产品)
+4. **product_images**: 产品图片表 ✅
+5. **inquiries**: 询价单主表 ✅
+6. **inquiry_items**: 询价单商品明细表 ✅
+7. **blocked_ips**: IP封禁表 ✅
+8. **visitor_logs**: 访客日志表 ✅ (记录活跃)
+
+#### 额外确认存在的表
+9. **failed_jobs**: 失败的队列任务 ✅
+10. **home_category_featured_products**: 首页特色产品展示 ✅
+11. **jobs**: 当前队列任务 ✅ (641个待处理)
+12. **migrations**: 数据库迁移记录 ✅
+13. **password_reset_tokens**: 密码重置令牌 ✅
+14. **personal_access_tokens**: API访问令牌 ✅
+15. **sessions**: 用户会话管理 ✅
+
+### 4.2 表间关系 [关系设计 - 继续有效]
+- 一个分类(categories)可包含多个产品(products) ✅
+- 一个产品(products)可有多张图片(product_images) ✅
+- 一个询价单(inquiries)可包含多个询价商品(inquiry_items) ✅
+- 每个询价商品(inquiry_items)关联一个产品(products) ✅
+
+## 5. 安全规范
+
+### 5.1 认证与授权
+- 后台使用Laravel Auth认证
+- 后台路由使用中间件保护（auth和admin）
+- 密码使用bcrypt哈希存储
+- 前台无需登录，但需实现IP封禁和频率限制
+
+### 5.2 数据验证
+- 所有用户输入必须经过验证
+- 使用Laravel表单请求验证（FormRequest）
+- 验证规则保持一致性
+
+### 5.3 防范XSS攻击
+- Blade模板自动转义`{{ }}`中的内容
+- 使用`{!! !!}`输出HTML时必须先过滤
+- 富文本内容使用第三方库过滤（如HTMLPurifier）
+
+### 5.4 防范CSRF攻击
+- 所有表单包含CSRF令牌
+- AJAX请求添加CSRF头
+- 使用Laravel的VerifyCsrfToken中间件
+
+### 5.5 文件上传安全
+- 严格限制允许的文件类型（仅图片格式）
+- 文件重命名（使用UUID）
+- 验证文件内容而非仅检查扩展名
+- 存储在public目录之外，通过符号链接访问
+
+### 5.6 环境变量管理
+- 敏感信息（数据库凭据、API密钥等）仅存储在.env文件
+- 生产环境设置`APP_DEBUG=false`
+- 定期更新管理员密码
+
+## 6. 前端开发规范
+
+### 6.1 响应式设计
+- 移动优先设计原则
+- 使用Tailwind CSS的响应式前缀（sm, md, lg, xl）
+- 确保在所有设备下布局正确且美观
+
+### 6.2 多语言支持
+- 支持英语（默认）和法语
+- 使用Laravel的本地化功能（resources/lang/）
+- 考虑文本长度在不同语言中的差异
+
+### 6.3 图片优化
+- 上传图片自动生成缩略图
+- 使用WebP作为主要格式，提供JPEG作为备选
+- 图片懒加载（loading="lazy"）
+- 合理压缩以减少文件大小
+
+### 6.4 JavaScript使用规范
+- Alpine.js用于UI交互
+- 避免全局变量污染
+- 使用async/await处理异步操作
+- 确保适当的错误处理
+
+## 7. 部署与维护规范
+
+### 7.1 部署流程
+1. 准备代码包（排除不必要的文件，如.git, node_modules等）
+2. 上传到服务器
+3. 解压到目标目录
+4. 设置正确的文件权限
+5. 安装/更新依赖
+6. 运行数据库迁移
+7. 清除并重建缓存
+8. 创建存储符号链接
+9. 重启相关服务（PHP-FPM, Nginx）
+
+### 7.2 自动化部署
+- 使用项目提供的`deploy.sh`或`deploy_bt.sh`脚本
+- 配置适当的服务器连接信息
+- 确保SSH密钥认证配置正确
+- 注意配置`.deployignore`文件排除不必要文件
+
+### 7.3 备份策略
+- 定期备份数据库（至少每天一次）
+- 备份上传的图片文件
+- 保留多个备份版本（至少3个）
+- 测试备份的可恢复性
+
+### 7.4 监控与日志
+- 监控服务器资源使用情况
+- 检查Laravel日志（storage/logs/laravel.log）
+- 监控Nginx访问和错误日志
+- 设置异常通知机制
+
+## 8. 管理员账户信息 [⚠️ 需要验证当前信息]
+
+### 8.1 访问信息 [需要确认]
+- **后台登录地址**：https://kalala.me/admin/login ✅ 路径确认
+- **默认管理员**：[需要验证当前账户信息]
+  - 邮箱：admin@kalala.me
+  - 密码：Admin@2024
+
+### 8.2 创建管理员账户
+可通过以下方式创建新管理员：
+```bash
+php artisan tinker --execute="use App\Models\User; User::create(['name' => '管理员名称', 'email' => 'email@example.com', 'password' => bcrypt('安全密码'), 'is_admin' => 1]);"
+```
+
+## 9. 常见问题与解决方案
+
+### 9.1 权限问题
+- 检查storage和bootstrap/cache目录权限
+- 确保文件所有者与Web服务器运行用户一致（www:www）
+- 必要时使用`sudo -u www`运行测试命令
+
+### 9.2 数据库连接问题
+- 检查.env文件中的数据库配置
+- 验证数据库服务是否运行
+- 确认用户权限设置正确
+
+### 9.3 图片上传失败
+- 检查PHP上传限制（upload_max_filesize, post_max_size）
+- 确认存储目录权限
+- 检查ImageService配置
+
+### 9.4 500错误处理
+- 查看Laravel日志（storage/logs/laravel.log）
+- 检查Nginx错误日志
+- 临时启用APP_DEBUG以获取详细错误信息
+
+## 10. 性能优化建议
+
+### 10.1 数据库优化
+- 定期运行OPTIMIZE TABLE
+- 审查慢查询并优化索引
+- 考虑数据库缓存
+
+### 10.2 前端优化
+- 使用CDN加速静态资源
+- 合并和压缩CSS/JS文件
+- 优化图片加载（延迟加载、合适尺寸）
+
+### 10.3 缓存策略
+- 实现查询缓存
+- 使用Redis/Memcached替代文件缓存
+- 启用页面级缓存
+
+## 11. 数据库恢复应急流程
+
+### 11.1 MySQL/MariaDB启动失败处理
+如果数据库因内存不足等原因崩溃，可以尝试以下步骤恢复：
+
+1. 使用安全模式启动MySQL：
+```bash
+mysqld_safe --skip-grant-tables --skip-networking &
+```
+
+2. 修复数据库表：
+```bash
+mysqlcheck -A --auto-repair
+```
+
+3. 重启数据库服务：
+```bash
+systemctl restart mariadb
+```
+
+### 11.2 用户权限修复
+如果数据库用户权限出现问题，可以在安全模式下重置：
+
+```bash
+mysql -u root
+```
+
+然后执行：
+```sql
+USE mysql;
+UPDATE user SET password=PASSWORD('新密码') WHERE User='kalala_shop';
+FLUSH PRIVILEGES;
+```
+
+## 12. 联系信息 [基础信息]
+
+如有紧急问题需要支持，请联系：
+
+- **技术支持**：admin@kalala.me
+- **项目负责人**：项目经理（电话：[待添加]）
+- **服务器信息**：43.165.63.73 ✅ 当前确认
+
+---
+
+> **更新说明**: 
+> - ✅ 表示信息已确认当前有效
+> - ⚠️ 表示信息需要验证或已部分过时
+> - ~~删除线~~ 表示信息已过时
+> 
+> **最新完整信息请参考**: `PROJECT_RULES_UPDATED_2025.mdx`
+> 
+> 此文档保留作为基础开发规范，涵盖了开发、部署和维护各方面的标准。请按照此规范操作，以确保系统的稳定性、安全性和可维护性。 

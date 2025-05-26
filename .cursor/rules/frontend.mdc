@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Frontend Development
+
+The user-facing frontend and admin panel UI are built using the following technologies:
+
+*   **Templating:** Laravel Blade engine. View files are located in:
+    *   Frontend Views: [resources/views/frontend/](mdc:resources/views/frontend)
+    *   Admin Views: [resources/views/admin/](mdc:resources/views/admin)
+    *   Layouts/Partials: [resources/views/layouts/](mdc:resources/views/layouts), [resources/views/frontend/layouts/](mdc:resources/views/frontend/layouts), [resources/views/admin/layouts/](mdc:resources/views/admin/layouts), [resources/views/frontend/partials/](mdc:resources/views/frontend/partials)
+*   **Styling:** Tailwind CSS ([tailwind.config.js](mdc:tailwind.config.js), [resources/css/app.css](mdc:resources/css/app.css)). Utility classes are used directly in Blade templates.
+*   **JavaScript:** Alpine.js is used for lightweight interactivity directly within Blade templates (using `x-data`, `x-on`, `x-model` etc.). More complex JS might reside in [resources/js/app.js](mdc:resources/js/app.js) or other files in [resources/js/](mdc:resources/js).
+*   **Build Process:** Frontend assets (CSS, JS) are compiled using Vite ([vite.config.js](mdc:vite.config.js)). Compiled assets are placed in `public/build`. The build command is likely `npm run build` ([package.json](mdc:package.json)).
+*   **Multi-language:** Text localization is handled by Laravel's translation features. String files are likely in [lang/](mdc:lang) or [resources/lang/](mdc:resources/lang).
+
+Key interactive components (like cart updates, admin forms) rely on Alpine.js making `fetch` requests to backend routes.
+

@@ -1,0 +1,127 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 数据层设计规范 [2025-05-24 验证更新]
+
+该项目采用分层架构，确保前台展示版本更新时数据访问逻辑保持一致。
+
+## 架构层次
+
+```
+后台管理系统 → 数据库 ← Services ← 前台控制器(V1/V2) → 前台视图(V1/V2)
+```
+
+**Current Architecture Status (2025-05-24):**
+- ✅ **Backend**: 完整的管理后台 (AdminProductController: 22KB, 651行)
+- ✅ **Database**: MariaDB 10.11.4 (695个产品，15个表)
+- ✅ **Frontend V1**: 基础前台控制器
+- ✅ **Frontend V2**: V2版本控制器目录 [app/Http/Controllers/Frontend/V2/](mdc:app/Http/Controllers/Frontend/V2)
+- ✅ **Services**: ProductService 和 ImageService
+
+## 服务层 (Verified Components)
+
+服务层是确保数据一致性的关键，集中封装数据访问逻辑：
+
+- **[app/Services/ProductService.php](mdc:app/Services/ProductService.php)**: 提供产品相关数据访问方法
+  - `getProductsList()`: 获取产品列表（支持过滤和分页）
+  - `getLatestProducts()`: 获取最新产品
+  - `getProductDetail()`: 获取单个产品详情
+  - `getAllCategories()`: 获取所有分类
+
+- **[app/Services/ImageService.php](mdc:app/Services/ImageService.php)**: 处理图片相关操作
+  - 图片压缩和调整尺寸
+  - WebP格式转换
+  - 批量图片处理 (队列任务: 645个待处理)
+
+## 缓存策略 (Production Implementation)
+
+为减少数据库查询，项目使用一致的缓存策略：
+
+```php
+return Cache::remember('cache.key', $expiration, function() {
+    // 数据库查询逻辑
+});
+```
+
+主要缓存键：
+- `products.latest.{limit}`: 最新产品
+- `products.detail.{id}`: 产品详情
+- `categories.all`: 所有分类
+
+**Current Cache Usage:**
+- 框架缓存: 584KB
+- 调试文件: 75MB (建议生产环境关闭)
+
+## 控制器设计 (Multi-Version Support)
+
+控制器使用依赖注入获取服务实例，新旧版本都调用相同的服务方法：
+
+```php
+// HomeController.php (V1)
+protected $productService;
+
+public function __construct(ProductService $productService)
+{
+    $this->productService = $productService;
+}
+
+// V1版本方法
+public function index()
+{
+    $latestProducts = $this->productService->getLatestProducts();
+    $categories = $this->productService->getAllCategories();
+    return view('frontend.home.index', compact('latestProducts', 'categories'));
+}
+
+// V2版本方法 (Frontend/V2/ 目录)
+public function indexV2()
+{
+    // 使用相同的数据访问逻辑
+    $latestProducts = $this->productService->getLatestProducts();
+    $categories = $this->productService->getAllCategories();
+    // 仅视图路径不同
+    return view('frontend.v2.home.index', compact('latestProducts', 'categories'));
+}
+```
+
+## 表单提交 (Verified Routes)
+
+不同UI版本保持相同的表单字段名称和提交逻辑：
+
+1. **添加到购物车表单**:
+```html
+<form action="{{ route('frontend.v2.cart.store', ['lang' => app()->getLocale()]) }}" method="POST">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit">添加到购物车</button>
+</form>
+```
+
+2. **询价表单**:
+```html
+<form action="{{ route('frontend.v2.inquiries.store', ['lang' => app()->getLocale()]) }}" method="POST">
+    @csrf
+    <!-- 表单字段 -->
+    <button type="submit">提交询价</button>
+</form>
+```
+
+## 数据一致性保障
+
+**Queue System Integration:**
+- 图片处理通过Laravel Queue异步处理
+- 当前状态: 645个待处理任务 (geoip队列)
+- 确保数据更新不阻塞用户界面
+
+**Multi-language Support:**
+- 路由前缀: `/{lang}/` (en, fr支持)
+- 数据模型支持多语言字段
+- 统一的语言切换逻辑
+
+**Performance Optimization:**
+- 数据库索引优化 (695个产品高效查询)
+- 缓存策略减少重复查询
+- 静态资源CDN加速 (Cloudflare)

@@ -1,0 +1,231 @@
+{{-- 产品详情模态框 - 半透明遮罩效果 --}}
+<div id="product-modal" 
+     x-data="productModal()" 
+     x-show="isOpen" 
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     @keydown.escape.window="closeModal()"
+     @open-product-modal.window="openModal($event.detail.productId)"
+     class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4" 
+     style="display: none; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(2px);"
+     @click.self="closeModal()">
+    
+    <!-- 模态框容器 - 用于相对定位关闭按钮，微调小屏幕宽度 -->
+    <div class="modal-container relative w-full max-h-[90vh] sm:max-h-[85vh] sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto my-4 sm:my-8"
+         style="max-width: 350px;"
+         x-transition:enter="transition ease-out duration-300 delay-100"
+         x-transition:enter-start="opacity-0 transform scale-90 translate-y-5"
+         x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform scale-100 translate-y-0"
+         x-transition:leave-end="opacity-0 transform scale-90 translate-y-5">
+        
+        <!-- 红色圆形关闭按钮 - 位于模态框外部左上角 -->
+        <button @click="closeModal()" 
+                class="absolute"
+                style="position: absolute; top: -20px; left: -20px; width: 40px; height: 40px; background-color: #ef4444; border: 3px solid white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; z-index: 60; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);"
+                onmouseover="this.style.backgroundColor='#dc2626'; this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 16px rgba(0, 0, 0, 0.2)';"
+                onmouseout="this.style.backgroundColor='#ef4444'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                onmousedown="this.style.transform='scale(0.95)';"
+                onmouseup="this.style.transform='scale(1)';">
+            <svg style="width: 18px; height: 18px; color: white; stroke-width: 2.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <!-- 模态框内容 - 响应式尺寸和圆角矩形设计 -->
+        <div class="modal bg-white shadow-2xl w-full overflow-y-auto transition-all duration-300"
+             style="border-radius: 20px !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+            
+            <!-- 隐藏加载状态 - 改为永远不显示 -->
+            <div x-show="false" class="flex items-center justify-center h-32 sm:h-48">
+                <div class="flex items-center space-x-2">
+                    <svg class="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-sm text-gray-600">{{ __('Loading...') }}</span>
+                </div>
+            </div>
+
+            <!-- 错误状态 -->
+            <div x-show="error && !loading" class="flex items-center justify-center h-32 sm:h-48">
+                <div class="text-center p-4">
+                    <svg class="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">{{ __('Error loading product') }}</h3>
+                    <p class="mt-1 text-xs text-gray-500" x-text="error"></p>
+                    <button @click="closeModal()" class="mt-3 bg-red-600 text-white px-3 py-1 text-sm rounded-lg hover:bg-red-700 transition-colors">
+                        {{ __('Close') }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- 产品内容 - 直接显示，无需等待加载完成 -->
+            <div x-show="!error" class="flex flex-col lg:flex-row">
+
+                <!-- 产品图片区域 -->
+                <div class="p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-blue-50 to-indigo-100 lg:w-1/2" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <div class="space-y-2 sm:space-y-4">
+                        <!-- 主图片 -->
+                        <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 12px;">
+                            <div class="flex items-center justify-center aspect-square">
+                                <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
+                                     :alt="product ? product.name : ''"
+                                     class="w-full h-full object-contain"
+                                     style="border-radius: 8px;"
+                                     onerror="this.src='{{ asset('img/placeholder.svg') }}';">
+                            </div>
+                        </div>
+
+                        <!-- 缩略图 - 增大尺寸 -->
+                        <div class="flex space-x-2 sm:space-x-3 justify-center" x-show="product.images && product.images.length > 1">
+                            <template x-for="(image, index) in product.images" :key="image.id">
+                                <button @click="product.main_image_url = image.main_image_url"
+                                        :class="{'border-blue-500': product.main_image_url === image.main_image_url, 'border-gray-200': product.main_image_url !== image.main_image_url}"
+                                        class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 border-2 transition-all overflow-hidden"
+                                        style="border-radius: 10px;">
+                                    <img :src="image.thumbnail_url" 
+                                         :alt="product.name"
+                                         class="w-full h-full object-cover"
+                                         onerror="this.src='{{ asset('img/placeholder.svg') }}';">
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品信息区域 -->
+                <div class="flex flex-col lg:w-1/2">
+                    <div class="p-3 sm:p-4 lg:p-6 flex-grow">
+                        <!-- 标题和价格 -->
+                        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 mt-6 lg:mt-8" x-text="product.name"></h2>
+                        
+                        <p class="text-xl sm:text-2xl lg:text-3xl font-semibold text-red-600 mb-3 sm:mb-5">
+                            ¥<span x-text="product.price ? parseFloat(product.price).toFixed(2) : '0.00'"></span>
+                        </p>
+
+                        <!-- 描述 -->
+                        <div class="prose prose-sm max-w-none text-gray-600 mb-3 sm:mb-6 text-sm" x-show="product.description">
+                            <p x-html="product.description ? product.description.replace(/\n/g, '<br>') : ''"></p>
+                        </div>
+
+                        <!-- 最小订单数量 -->
+                        <p class="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-5">
+                            <span x-text="translations.minimum_order_quantity"></span>: 
+                            <span x-text="product.min_order_quantity"></span>
+                        </p>
+
+                        <!-- 购买操作 -->
+                        <div class="space-y-3 sm:space-y-4">
+                            <!-- 数量选择器 - 删除Quantity标签，优化小屏幕显示 -->
+                            <div class="mb-3 sm:mb-4">
+                                <div class="quantity-controller" style="display: flex; align-items: center; background-color: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 4px; width: fit-content; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); transition: all 0.2s ease; margin: 0 auto; max-width: 100%;">
+                                    <button type="button"
+                                            @click="quantity > (product.min_order_quantity || 1) && quantity--"
+                                            class="quantity-btn minus"
+                                            style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: transparent; border: none; border-radius: 8px; color: #6b7280; font-size: 18px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; flex-shrink: 0;"
+                                            :disabled="quantity <= (product.min_order_quantity || 1)"
+                                            onmouseover="this.style.backgroundColor='#f3f4f6'; this.style.color='#374151';"
+                                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#6b7280';"
+                                            onmousedown="this.style.backgroundColor='#e5e7eb'; this.style.transform='scale(0.95)';"
+                                            onmouseup="this.style.transform='scale(1)';">
+                                        −
+                                    </button>
+                                    <input type="text" 
+                                           x-model.number="quantity"
+                                           @change="validateQuantity()"
+                                           class="quantity-display"
+                                           style="display: flex; align-items: center; justify-content: center; min-width: 50px; width: auto; height: 40px; padding: 0 12px; font-size: 16px; font-weight: 600; color: #111827; background-color: transparent; border: none; text-align: center; outline: none; flex-shrink: 0;"
+                                           readonly>
+                                    <button type="button"
+                                            @click="quantity++"
+                                            class="quantity-btn plus"
+                                            style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: transparent; border: none; border-radius: 8px; color: #6b7280; font-size: 18px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; flex-shrink: 0;"
+                                            onmouseover="this.style.backgroundColor='#f3f4f6'; this.style.color='#374151';"
+                                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#6b7280';"
+                                            onmousedown="this.style.backgroundColor='#e5e7eb'; this.style.transform='scale(0.95)';"
+                                            onmouseup="this.style.transform='scale(1)';">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 添加到购物车按钮 -->
+                            <button type="button"
+                                    @click="addToCart()"
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-8 transition duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                                    style="border-radius: 10px;"
+                                    :disabled="addToCartFeedback !== ''"
+                                    :class="{ 'opacity-50 cursor-not-allowed': addToCartFeedback !== '' }">
+                                <!-- 购物车图标 -->
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 8H6L5 9z"></path>
+                                </svg>
+                                <span x-show="!addToCartFeedback" x-text="translations.add_to_cart"></span>
+                                <span x-show="addToCartFeedback" x-text="addToCartFeedback"></span>
+                                <svg x-show="addToCartFeedback && addToCartFeedback === translations.processing" class="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+{{-- 移动端全屏模态框样式 --}}
+<style>
+@media (max-width: 768px) {
+    .modal-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .modal {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    
+    /* 移动端关闭按钮位置调整 */
+    .modal-container .absolute {
+        top: 10px !important;
+        right: 10px !important;
+        left: auto !important;
+        position: fixed !important;
+        z-index: 70 !important;
+    }
+    
+    /* 移动端内容区域调整 */
+    .modal .flex.flex-col.lg\\:flex-row {
+        flex-direction: column !important;
+    }
+    
+    /* 移动端图片区域调整 */
+    .modal .lg\\:w-1\\/2:first-child {
+        width: 100% !important;
+        border-radius: 0 !important;
+    }
+    
+    /* 移动端信息区域调整 */
+    .modal .lg\\:w-1\\/2:last-child {
+        width: 100% !important;
+        flex: 1 !important;
+    }
+}
+</style> 

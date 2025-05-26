@@ -1,0 +1,118 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+// 前台控制器
+use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ProductController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\InquiryController;
+
+// 后台控制器
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminBatchProductUploadController;
+use App\Http\Controllers\Admin\AdminInquiryController;
+use App\Http\Controllers\Admin\AdminIpAddressController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
+// !!! 临时测试路由，放在最前面 !!!
+Route::post('/cart/update/{itemId}', [CartController::class, 'update'])->name('cart.update.temp');
+Route::post('/cart/remove/{itemId}', [CartController::class, 'destroy'])->name('cart.remove.temp');
+
+// 语言切换路由
+Route::get('/language/{lang}', [LanguageController::class, 'switchLanguage'])
+    ->where('lang', '[a-z]{2}|[a-z]{2}_[A-Z]{2}')
+    ->name('language.switch');
+
+// 根路径根据环境变量重定向到相应版本的主页
+Route::get('/', function () {
+    $version = env('FRONTEND_VERSION', 'v1');
+    
+    if ($version === 'v2') {
+        return redirect()->route('frontend.v2.home', ['lang' => 'zh_CN']);
+    } else {
+        return redirect()->route('frontend.home', ['lang' => 'en']);
+    }
+});
+
+// 带语言前缀的前台路由组 (V1)
+Route::prefix('{lang}')
+    ->where(['lang' => '[a-z]{2}|[a-z]{2}_[A-Z]{2}'])
+    ->middleware('setLocale')
+    ->name('frontend.')
+    ->group(function () {
+        // 主页
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+
+        // 产品路由
+        Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::get('/products/{product:id}', [ProductController::class, 'show'])->name('products.show');
+
+        // 购物车路由
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+        Route::post('/cart/update/{itemId}', [CartController::class, 'update'])->name('cart.update');
+        Route::post('/cart/remove/{itemId}', [CartController::class, 'destroy'])->name('cart.remove');
+
+        // 询价路由
+        Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
+    });
+
+// 后台管理路由组
+Route::prefix('admin')->name('admin.')->group(function () {
+    // 登录相关路由
+    Route::middleware('guest')->group(function () {
+        Route::get('login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+        Route::post('login', [AdminLoginController::class, 'login'])->name('login.submit');
+    });
+
+    // 需要管理员权限的路由
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::post('logout', [AdminLoginController::class, 'logout'])->name('logout');
+        Route::resource('categories', AdminCategoryController::class)->except(['show']);
+        Route::post('categories/{category}/move', [AdminCategoryController::class, 'move'])->name('categories.move');
+        Route::get('products/batch-upload', [AdminBatchProductUploadController::class, 'showUploadForm'])->name('products.batch_upload.form');
+        Route::post('products/batch-import', [AdminBatchProductUploadController::class, 'handleBatchImport'])->name('products.batch_import.handle');
+        Route::post('products/batch-upload-image', [AdminBatchProductUploadController::class, 'uploadTemporaryImage'])->name('products.batch_upload.image');
+        Route::delete('products/batch-destroy', [AdminProductController::class, 'batchDestroy'])->name('products.batch-destroy');
+        Route::patch('products/batch-update-status', [AdminProductController::class, 'batchUpdateStatus'])->name('products.batch-update-status');
+        Route::resource('products', AdminProductController::class);
+        Route::delete('products/{product}/images/{image}', [AdminProductController::class, 'destroyImage'])->name('products.images.destroy');
+        Route::get('inquiries', [AdminInquiryController::class, 'index'])->name('inquiries.index');
+        Route::get('inquiries/{inquiry}', [AdminInquiryController::class, 'show'])->name('inquiries.show');
+        Route::patch('inquiries/{inquiry}/status', [AdminInquiryController::class, 'updateStatus'])->name('inquiries.updateStatus');
+        Route::get('ip-addresses', [AdminIpAddressController::class, 'index'])->name('ip_addresses.index');
+        Route::post('ip-addresses/block', [AdminIpAddressController::class, 'block'])->name('ip_addresses.block');
+        Route::delete('ip-addresses/unblock/{ip}', [AdminIpAddressController::class, 'unblock'])->name('ip_addresses.unblock');
+        Route::post('ip-addresses/clear-logs', [AdminIpAddressController::class, 'clearLogs'])->name('ip_addresses.clear-logs');
+    });
+});
+
+// V2.0 Frontend Routes (Development)
+Route::prefix('v2/{lang}')
+    ->where(['lang' => '[a-z]{2}|[a-z]{2}_[A-Z]{2}'])
+    ->middleware('setLocale') // Assuming V2 still uses this middleware
+    ->group(function () {
+        // V2 Home Page
+        Route::get('/', [App\Http\Controllers\Frontend\V2\HomeController::class, 'index'])->name('frontend.v2.home'); // 使用别名 V2HomeController
+        
+        // V2 Product Routes
+        Route::get('/products', [App\Http\Controllers\Frontend\V2\ProductController::class, 'index'])->name('frontend.v2.products.index');
+        Route::get('/products/{product}', [App\Http\Controllers\Frontend\V2\ProductController::class, 'show'])->name('frontend.v2.products.show');
+        
+        // V2 Cart Routes
+        Route::get('/cart', [App\Http\Controllers\Frontend\V2\CartController::class, 'index'])->name('frontend.v2.cart.index');
+        Route::post('/cart/add', [App\Http\Controllers\Frontend\V2\CartController::class, 'addToCart'])->name('frontend.v2.cart.add');
+        Route::post('/cart/update', [App\Http\Controllers\Frontend\V2\CartController::class, 'updateCart'])->name('frontend.v2.cart.update');
+        Route::post('/cart/remove', [App\Http\Controllers\Frontend\V2\CartController::class, 'removeFromCart'])->name('frontend.v2.cart.remove');
+    });

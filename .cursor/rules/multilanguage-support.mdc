@@ -1,0 +1,53 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 多语言支持系统
+
+该项目实现了完整的多语言支持系统，主要支持英文和法文。
+
+## 核心组件
+
+- **语言切换控制器**: [LanguageController.php](mdc:app/Http/Controllers/Frontend/LanguageController.php) 处理语言切换逻辑
+- **中间件**: `setLocale` 中间件根据URL中的语言代码设置当前语言
+- **本地化文件**: 
+  - 英文: [resources/lang/en](mdc:resources/lang/en)
+  - 法文: [resources/lang/fr](mdc:resources/lang/fr)
+  - 中文: [resources/lang/zh_CN](mdc:resources/lang/zh_CN)
+
+## 实现方式
+
+1. **URL前缀**: 所有前台路由都包含语言前缀，如 `/en/products` 或 `/fr/products`
+2. **模型字段**: 多语言内容通过模型中的语言特定字段实现，如 `name_en` 和 `name_fr`
+3. **视图本地化**: 使用 Laravel 的 `__()` 或 `trans()` 函数进行视图文本翻译
+
+## 路由配置
+
+```php
+// 语言切换路由
+Route::get('/language/{lang}', [LanguageController::class, 'switchLanguage'])
+    ->where('lang', '[a-z]{2}')
+    ->name('language.switch');
+
+// 带语言前缀的前台路由组
+Route::prefix('{lang}')
+    ->where(['lang' => '[a-z]{2}'])
+    ->middleware('setLocale')
+    ->name('frontend.')
+    ->group(function () {
+        // 各种路由...
+    });
+```
+
+## 使用示例
+
+在视图中根据当前语言显示相应内容:
+```php
+{{ $product->{'name_' . app()->getLocale()} }}
+```
+
+或使用翻译字符串:
+```php
+{{ __('messages.welcome') }}
+```

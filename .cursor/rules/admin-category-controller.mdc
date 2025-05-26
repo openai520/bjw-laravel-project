@@ -1,0 +1,32 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# 管理后台分类控制器
+
+`AdminCategoryController` 是后台管理系统中负责处理产品分类的控制器。
+
+## 主要功能
+
+- **分类列表**：`index` 方法显示所有分类，按照 `sort_order` 排序
+- **创建分类**：`create` 和 `store` 方法处理分类创建表单和保存逻辑
+- **编辑分类**：`edit` 和 `update` 方法处理分类编辑表单和更新逻辑
+- **删除分类**：`destroy` 方法处理分类删除
+- **排序分类**：`move` 方法实现分类的上移和下移功能
+
+## 相关文件
+
+- 控制器: [AdminCategoryController.php](mdc:app/Http/Controllers/Admin/AdminCategoryController.php)
+- 模型: [Category.php](mdc:app/Models/Category.php)
+- 视图:
+  - [index.blade.php](mdc:resources/views/admin/categories/index.blade.php)
+  - [create.blade.php](mdc:resources/views/admin/categories/create.blade.php)
+  - [edit.blade.php](mdc:resources/views/admin/categories/edit.blade.php)
+- 路由: 在 [web.php](mdc:routes/web.php) 中定义，使用 `Route::resource` 和 `Route::post('categories/{category}/move')`
+
+## 注意事项
+
+- 分类支持多语言，包含英文（`name_en`）和法文（`name_fr`）名称
+- 分类使用 `slug` 字段生成友好的URL
+- 分类包含 `sort_order` 字段用于自定义排序

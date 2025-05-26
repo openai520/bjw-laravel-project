@@ -1,0 +1,34 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Routing Structure
+
+This project uses standard Laravel routing defined in the `routes/` directory.
+
+**Key Route Files:**
+*   **Web Routes:** [routes/web.php](mdc:routes/web.php) defines routes for both the user-facing frontend and the admin backend.
+*   **API Routes:** [routes/api.php](mdc:routes/api.php) defines routes for API endpoints, currently used for cart summary.
+
+**Route Groups & Prefixes:**
+*   **Frontend Routes:**
+    *   Prefixed with a language code: `/{lang}/...` (e.g., `/en/products`)
+    *   Managed by `Route::prefix('{lang}')...` in [routes/web.php](mdc:routes/web.php).
+    *   Uses the `frontend.` route name prefix.
+    *   Handled by controllers in [app/Http/Controllers/Frontend/](mdc:app/Http/Controllers/Frontend).
+    *   Uses the `setLocale` middleware ([app/Http/Middleware/SetLocale.php](mdc:app/Http/Middleware/SetLocale.php)).
+*   **Admin Routes:**
+    *   Prefixed with `/admin/...`
+    *   Managed by `Route::prefix('admin')...` in [routes/web.php](mdc:routes/web.php).
+    *   Uses the `admin.` route name prefix.
+    *   Handled by controllers in [app/Http/Controllers/Admin/](mdc:app/Http/Controllers/Admin).
+    *   Protected by `auth` and `admin` middleware ([app/Http/Middleware/AdminMiddleware.php](mdc:app/Http/Middleware/AdminMiddleware.php)).
+*   **API Routes:**
+    *   Prefixed with `/api/...`
+    *   Defined in [routes/api.php](mdc:routes/api.php).
+    *   Uses the `api.` route name prefix.
+
+**Middleware:**
+*   Global and route middleware are defined in [app/Http/Kernel.php](mdc:app/Http/Kernel.php). Key custom middleware includes `BlockIpMiddleware`, `LogVisitor`, `AdminMiddleware`, `SetLocale`.
+

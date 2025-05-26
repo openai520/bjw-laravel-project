@@ -1,0 +1,92 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log*
+yarn-error.log*
+yarn.lock
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# MacOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 项目特定文件
+*.tgz
+*.tar.gz
+kalala_*.tgz
+kalala-shop-project.tar.gz
+v1_frontend_backup_*.tar.gz
+
+# 上传脚本（根据需要可以选择是否忽略）
+upload_*.sh
+deploy.sh
+
+# 监控脚本
+monitor_server.sh
+
+# Nginx配置（服务器特定）
+nginx.conf
+nginx-cache-config.txt
+nginx_update.sh
+
+# PHP配置（服务器特定）
+php.ini
+
+# 生产环境配置
+production.env
+
+# 上传设置
+upload_settings.ini
+
+# 临时文件
+*.tmp
+*.temp
+
+# 日志文件
+*.log
+/storage/logs/*
+
+# 缓存文件
+/bootstrap/cache/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# 数据库文件
+*.sqlite
+*.sqlite3
+
+# 备份文件
+*.bak
+*.backup
+
+# 修复脚本（根据需要决定是否版本控制）
+fix_*.php
+
+# 部署忽略文件
+.deployignore
+.rsync_files_to_upload*.txt
+
+# 文档备份
+v1_frontend_backup_*.tar.gz
+
+# 最终审查脚本（工具文件，可选择是否忽略）
+final_review_gate.py 

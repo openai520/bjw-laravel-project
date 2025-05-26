@@ -1,0 +1,83 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Database & Models [2025-05-24 验证更新]
+
+The project uses MariaDB 10.11.4 as its database running on server 43.165.63.73.
+
+**Configuration:**
+*   Database connection settings are primarily managed via the `.env` file.
+*   Default configurations can be found in [config/database.php](mdc:config/database.php).
+*   **Server database**: `kalala_shop` ✅ 确认运行
+*   **Database User**: `kalala` ✅ 确认配置
+*   **Connection**: MySQL/MariaDB via localhost (127.0.0.1:3306)
+
+**Current Database Statistics (2025-05-24):**
+*   **Total Tables**: 15 tables
+*   **Products**: 695 products in database
+*   **Queue Jobs**: 645 pending jobs
+*   **Database Size**: ~884MB storage usage
+*   **Recent Activity**: 243 visits (2025-05-23), 5 visits (2025-05-24)
+
+**Database Tables (Confirmed):**
+1. **blocked_ips** - IP封禁管理
+2. **categories** - 产品分类 (关联695个产品)
+3. **failed_jobs** - 失败的队列任务记录
+4. **home_category_featured_products** - 首页特色产品展示
+5. **inquiries** - 客户询价主表
+6. **inquiry_items** - 询价项目明细表
+7. **jobs** - 当前队列任务 (645个待处理)
+8. **migrations** - 数据库迁移历史
+9. **password_reset_tokens** - 密码重置令牌
+10. **personal_access_tokens** - API访问令牌
+11. **product_images** - 产品图片管理
+12. **products** - 产品信息主表 (695个产品)
+13. **sessions** - 用户会话管理
+14. **users** - 系统用户和管理员
+15. **visitor_logs** - 访客行为日志
+
+**Products Table Structure (Verified):**
+```sql
+Field                   Type                    Key     Default
+id                     bigint(20) unsigned     PRI     auto_increment
+category_id            bigint(20) unsigned     MUL     (Foreign Key)
+name                   varchar(100)            MUL     (Indexed)
+description            text                            
+price                  decimal(10,2)           MUL     (Indexed)
+min_order_quantity     int(11)                         1
+status                 enum('draft','published') MUL   'draft'
+created_at             timestamp               MUL     (Indexed)
+updated_at             timestamp
+deleted_at             timestamp                       (Soft Delete)
+```
+
+**Models:**
+*   Eloquent models representing database tables are located in [app/Models/](mdc:app/Models).
+*   Key models include:
+    *   [User.php](mdc:app/Models/User.php) (Admin users) ✅
+    *   [Category.php](mdc:app/Models/Category.php) ✅
+    *   [Product.php](mdc:app/Models/Product.php) ✅ (695 records)
+    *   [ProductImage.php](mdc:app/Models/ProductImage.php) ✅
+    *   [Inquiry.php](mdc:app/Models/Inquiry.php) ✅
+    *   [InquiryItem.php](mdc:app/Models/InquiryItem.php) ✅
+    *   [BlockedIp.php](mdc:app/Models/BlockedIp.php) ✅
+    *   [VisitorLog.php](mdc:app/Models/VisitorLog.php) ✅
+
+**Migrations:**
+*   Database schema is managed using Laravel Migrations located in [database/migrations/](mdc:database/migrations).
+*   Refer to these files for authoritative table structures and relationships.
+
+**Relationships (Confirmed):**
+*   `Product` belongs to `Category` (category_id foreign key)
+*   `Product` has many `ProductImage` (product images relationship)
+*   `Inquiry` has many `InquiryItem` (inquiry items relationship)
+*   `InquiryItem` belongs to `Product` (product reference in inquiry)
+*   `Product` supports soft deletes (deleted_at timestamp)
+
+**Database Performance:**
+*   **Indexing**: Proper indexes on category_id, name, price, status, created_at
+*   **Query Performance**: Good performance with 695 products
+*   **Storage**: Efficient usage at 28% of 60GB total server storage
+
