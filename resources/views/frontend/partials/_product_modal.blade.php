@@ -70,9 +70,9 @@
 
                 <!-- 产品图片区域 -->
                 <div class="p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-blue-50 to-indigo-100" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
-                    <div class="flex flex-col lg:flex-row gap-4">
+                    <div class="flex flex-col gap-4">
                         <!-- 主图片 -->
-                        <div class="flex-1">
+                        <div class="w-full">
                             <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 12px;">
                                 <div class="flex items-center justify-center aspect-square">
                                     <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
@@ -84,8 +84,8 @@
                             </div>
                         </div>
 
-                        <!-- 缩略图 - 垂直排列 -->
-                        <div class="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 justify-center lg:justify-start overflow-x-auto lg:overflow-x-visible" x-show="product.images && product.images.length > 1">
+                        <!-- 缩略图 - 水平排列 -->
+                        <div class="flex space-x-2 justify-center overflow-x-auto" x-show="product.images && product.images.length > 1">
                             <template x-for="(image, index) in product.images" :key="image.id">
                                 <button @click="product.main_image_url = image.main_image_url"
                                         :class="{'border-blue-500': product.main_image_url === image.main_image_url, 'border-gray-200': product.main_image_url !== image.main_image_url}"
@@ -208,13 +208,9 @@
         height: 36px !important;
     }
     
-    /* 移动端缩略图排列调整 */
-    .modal .lg\\:flex-col {
-        flex-direction: row !important;
-    }
-    
-    .modal .lg\\:space-y-2 {
-        margin-top: 0 !important;
+    /* 移动端缩略图优化 */
+    .modal .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
     }
 }
 
