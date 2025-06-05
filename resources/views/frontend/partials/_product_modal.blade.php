@@ -66,28 +66,30 @@
             </div>
 
             <!-- 产品内容 - 直接显示，无需等待加载完成 -->
-            <div x-show="!error" class="flex flex-col lg:flex-row">
+            <div x-show="!error" class="flex flex-col">
 
                 <!-- 产品图片区域 -->
-                <div class="p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-blue-50 to-indigo-100 lg:w-1/2" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
-                    <div class="space-y-2 sm:space-y-4">
+                <div class="p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-blue-50 to-indigo-100" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <div class="flex flex-col lg:flex-row gap-4">
                         <!-- 主图片 -->
-                        <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 12px;">
-                            <div class="flex items-center justify-center aspect-square">
-                                <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
-                                     :alt="product ? product.name : ''"
-                                     class="w-full h-full object-contain"
-                                     style="border-radius: 8px;"
-                                     onerror="this.src='{{ asset('img/placeholder.svg') }}';">
+                        <div class="flex-1">
+                            <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 12px;">
+                                <div class="flex items-center justify-center aspect-square">
+                                    <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
+                                         :alt="product ? product.name : ''"
+                                         class="w-full h-full object-contain"
+                                         style="border-radius: 8px;"
+                                         onerror="this.src='{{ asset('img/placeholder.svg') }}';">
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 缩略图 - 增大尺寸 -->
-                        <div class="flex space-x-2 sm:space-x-3 justify-center" x-show="product.images && product.images.length > 1">
+                        <!-- 缩略图 - 垂直排列 -->
+                        <div class="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 justify-center lg:justify-start overflow-x-auto lg:overflow-x-visible" x-show="product.images && product.images.length > 1">
                             <template x-for="(image, index) in product.images" :key="image.id">
                                 <button @click="product.main_image_url = image.main_image_url"
                                         :class="{'border-blue-500': product.main_image_url === image.main_image_url, 'border-gray-200': product.main_image_url !== image.main_image_url}"
-                                        class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 border-2 transition-all overflow-hidden"
+                                        class="w-16 h-16 sm:w-20 sm:h-20 border-2 transition-all overflow-hidden flex-shrink-0"
                                         style="border-radius: 10px;">
                                     <img :src="image.thumbnail_url" 
                                          :alt="product.name"
@@ -100,10 +102,10 @@
                 </div>
 
                 <!-- 产品信息区域 -->
-                <div class="flex flex-col lg:w-1/2">
+                <div class="flex flex-col">
                     <div class="p-3 sm:p-4 lg:p-6 flex-grow">
                         <!-- 标题和价格 -->
-                        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4 mt-6 lg:mt-8" x-text="product.name"></h2>
+                        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4" x-text="product.name"></h2>
                         
                         <p class="text-xl sm:text-2xl lg:text-3xl font-semibold text-red-600 mb-3 sm:mb-5">
                             ¥<span x-text="product.price ? parseFloat(product.price).toFixed(2) : '0.00'"></span>
@@ -206,9 +208,13 @@
         height: 36px !important;
     }
     
-    /* 移动端内容区域调整 */
-    .modal .flex.flex-col.lg\\:flex-row {
-        flex-direction: column !important;
+    /* 移动端缩略图排列调整 */
+    .modal .lg\\:flex-col {
+        flex-direction: row !important;
+    }
+    
+    .modal .lg\\:space-y-2 {
+        margin-top: 0 !important;
     }
 }
 
