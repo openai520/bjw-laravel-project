@@ -222,33 +222,62 @@
     }
 }
 
-/* 大屏幕（桌面端）样式 - 确保垂直布局 */
+/* 大屏幕（桌面端）样式 - 确保垂直布局 - 更高优先级 */
 @media (min-width: 1025px) {
     .modal-container {
         max-width: 800px !important;
         margin: 5vh auto !important;
     }
     
-    /* 确保大屏幕上也是垂直布局 */
-    .modal .flex.flex-col {
+    /* 强制所有屏幕尺寸使用垂直布局 - 最高优先级 */
+    #product-modal .modal .flex.flex-col,
+    #product-modal .modal > div[x-show]:not([x-show="false"]) > .flex.flex-col,
+    #product-modal .modal div[x-show]:not([x-show="false"]).flex.flex-col {
         flex-direction: column !important;
+        display: flex !important;
     }
     
-    /* 图片区域在大屏幕上的优化 */
-    .modal .flex.flex-col.gap-4 {
+    /* 强制图片容器垂直布局 */
+    #product-modal .modal .flex.flex-col.gap-4,
+    #product-modal .modal div.flex.flex-col.gap-4 {
         flex-direction: column !important;
+        display: flex !important;
+    }
+    
+    /* 强制产品信息区域垂直布局 */
+    #product-modal .modal .flex.flex-col:not(.gap-4),
+    #product-modal .modal div.flex.flex-col:not(.gap-4) {
+        flex-direction: column !important;
+        display: flex !important;
     }
     
     /* 缩略图在大屏幕上水平排列 */
-    .modal .flex.space-x-2.justify-center.overflow-x-auto {
+    #product-modal .modal .flex.space-x-2.justify-center.overflow-x-auto {
         justify-content: center !important;
         overflow-x: visible !important;
+        flex-direction: row !important;
     }
     
     /* 大屏幕上的缩略图尺寸 */
-    .modal .w-16.h-16.sm\\:w-20.sm\\:h-20 {
+    #product-modal .modal .w-16.h-16.sm\\:w-20.sm\\:h-20 {
         width: 80px !important;
         height: 80px !important;
     }
+    
+    /* 确保主容器也是垂直布局 */
+    #product-modal .modal-container .modal > div > div {
+        flex-direction: column !important;
+    }
+}
+
+/* 全局强制垂直布局 - 适用于所有屏幕尺寸 */
+#product-modal .modal .flex.flex-col {
+    flex-direction: column !important;
+}
+
+/* 强制主要内容区域垂直排列 */
+#product-modal .modal div[x-show]:not([x-show="false"]) {
+    flex-direction: column !important;
+    display: flex !important;
 }
 </style> 
