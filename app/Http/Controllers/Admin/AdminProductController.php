@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
+use App\Services\ImageService;
 
 class AdminProductController extends Controller
 {
@@ -112,7 +113,7 @@ class AdminProductController extends Controller
             'min_order_quantity' => 'required|integer|min:1',
             'status' => 'required|in:published,draft',
             'images' => 'nullable|array|max:6',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // 10MB，支持WebP
         ]);
 
         \Log::debug('Validation passed');
@@ -132,25 +133,42 @@ class AdminProductController extends Controller
 
             \Log::debug('Product base info created', ['product_id' => $product->id]);
 
-            // 处理图片上传
+            // 处理图片上传 - 使用ImageService转换为WebP格式
             if ($request->hasFile('images')) {
+                $imageService = new ImageService();
                 $isFirst = true;
+                
                 foreach ($request->file('images') as $index => $image) {
                     try {
-                        $path = $image->store('products', 'public');
-                        \Log::debug("Stored image {$index}", ['path' => $path]);
+                        // 使用ImageService保存并优化图片为WebP格式
+                        $imagePaths = $imageService->saveOptimizedImage(
+                            $image,
+                            'products',
+                            true, // 创建缩略图
+                            true, // 调整尺寸
+                            'webp' // 转换为WebP格式
+                        );
+                        
+                        \Log::debug("WebP image processed {$index}", [
+                            'main_path' => $imagePaths['main'],
+                            'thumbnail_path' => $imagePaths['thumbnail'] ?? null
+                        ]);
 
                         $productImage = new ProductImage([
-                            'image_path' => $path,
+                            'image_path' => $imagePaths['main'],
+                            'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
                             'is_main' => $isFirst
                         ]);
 
                         $product->images()->save($productImage);
-                        \Log::debug("Image {$index} saved to database", ['is_main' => $isFirst]);
+                        \Log::debug("WebP image {$index} saved to database", [
+                            'is_main' => $isFirst,
+                            'has_thumbnail' => isset($imagePaths['thumbnail'])
+                        ]);
 
                         $isFirst = false;
                     } catch (\Exception $e) {
-                        \Log::error("Error processing image {$index}", [
+                        \Log::error("Error processing WebP image {$index}", [
                             'error' => $e->getMessage(),
                             'trace' => $e->getTraceAsString()
                         ]);
@@ -265,7 +283,7 @@ class AdminProductController extends Controller
             'min_order_quantity' => 'required|integer|min:1',
             'status' => 'required|in:draft,published',
             'images' => 'nullable|array|max:6',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'main_image_id' => 'nullable|exists:product_images,id'
         ]);
 
@@ -314,13 +332,14 @@ class AdminProductController extends Controller
                 }
             }
 
-            // 处理新上传的图片
+            // 处理新上传的图片 - 使用ImageService转换为WebP格式
             if ($request->hasFile('images')) {
-                Log::debug('Processing new image uploads');
+                Log::debug('Processing new image uploads for WebP conversion');
+                $imageService = new ImageService();
                 $isFirstImage = !$product->images()->where('is_main', true)->exists();
 
                 foreach ($request->file('images') as $index => $image) {
-                    Log::debug("Processing image {$index}", [
+                    Log::debug("Processing image {$index} for WebP conversion", [
                         'original_name' => $image->getClientOriginalName(),
                         'size' => $image->getSize(),
                         'mime_type' => $image->getMimeType()
@@ -332,19 +351,31 @@ class AdminProductController extends Controller
                     }
 
                     try {
-                        $path = $image->store('products', 'public');
+                        // 使用ImageService保存并优化图片为WebP格式
+                        $imagePaths = $imageService->saveOptimizedImage(
+                            $image,
+                            'products',
+                            true, // 创建缩略图
+                            true, // 调整尺寸
+                            'webp' // 转换为WebP格式
+                        );
 
                         $productImage = new ProductImage([
-                            'image_path' => $path,
+                            'image_path' => $imagePaths['main'],
+                            'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
                             'is_main' => $isFirstImage
                         ]);
 
                         $product->images()->save($productImage);
-                        Log::debug('New image saved', ['path' => $path, 'is_main' => $isFirstImage]);
+                        Log::debug('New WebP image saved', [
+                            'main_path' => $imagePaths['main'],
+                            'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
+                            'is_main' => $isFirstImage
+                        ]);
 
                         $isFirstImage = false;
                     } catch (\Exception $e) {
-                        Log::error('Failed to save image', [
+                        Log::error('Failed to save WebP image', [
                             'error' => $e->getMessage(),
                             'trace' => $e->getTraceAsString()
                         ]);

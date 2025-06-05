@@ -93,12 +93,13 @@ class ProcessProductImageFromLocal implements ShouldQueue
                     continue;
                 }
 
-                Log::info("[JOB_PROCESS] Calling ImageService->saveCompressedImage for {$originalName}, Product ID: {$this->productId}");
-                $imagePaths = $imageService->saveCompressedImage(
+                Log::info("[JOB_PROCESS] Calling ImageService->saveOptimizedImage for WebP conversion of {$originalName}, Product ID: {$this->productId}");
+                $imagePaths = $imageService->saveOptimizedImage(
                     $uploadedFile,
                     'products', 
-                    true,
-                    'original'
+                    true, // 创建缩略图
+                    true, // 调整尺寸
+                    'webp' // 转换为WebP格式
                 );
                 
                 if (empty($imagePaths) || !isset($imagePaths['main']) || !isset($imagePaths['thumbnail'])) {
