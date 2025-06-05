@@ -221,4 +221,34 @@
         margin: 5vh auto !important;
     }
 }
+
+/* 大屏幕（桌面端）样式 - 确保垂直布局 */
+@media (min-width: 1025px) {
+    .modal-container {
+        max-width: 800px !important;
+        margin: 5vh auto !important;
+    }
+    
+    /* 确保大屏幕上也是垂直布局 */
+    .modal .flex.flex-col {
+        flex-direction: column !important;
+    }
+    
+    /* 图片区域在大屏幕上的优化 */
+    .modal .flex.flex-col.gap-4 {
+        flex-direction: column !important;
+    }
+    
+    /* 缩略图在大屏幕上水平排列 */
+    .modal .flex.space-x-2.justify-center.overflow-x-auto {
+        justify-content: center !important;
+        overflow-x: visible !important;
+    }
+    
+    /* 大屏幕上的缩略图尺寸 */
+    .modal .w-16.h-16.sm\\:w-20.sm\\:h-20 {
+        width: 80px !important;
+        height: 80px !important;
+    }
+}
 </style> 
