@@ -3,10 +3,11 @@
 namespace App\Http\Middleware;
 
 use App\Models\VisitorLog;
+use App\Jobs\ProcessGeoIpLookup;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
-use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogVisitor
@@ -27,29 +28,32 @@ class LogVisitor
         }
 
         try {
-            // 获取IP地址
             $ip = $request->ip();
-            $country = 'Unknown';
-
-            // 获取国家信息
-            try {
-                $location = Location::get($ip);
-                if ($location) {
-                    $country = $location->countryName ?? 'Unknown';
-                }
-            } catch (\Exception $e) {
-                \Log::warning('Failed to get location for IP: ' . $ip . '. Error: ' . $e->getMessage());
+            
+            // 使用缓存避免重复记录同一IP在短时间内的访问
+            $cacheKey = "visitor_logged_{$ip}_" . date('Y-m-d-H'); // 每小时只记录一次同一IP
+            
+            if (Cache::has($cacheKey)) {
+                // 如果这个IP在这小时内已经记录过，跳过
+                return $response;
             }
 
-            // 记录访问日志
-            VisitorLog::create([
+            // 先创建基本的访问日志记录（不包含地理位置信息）
+            $visitorLog = VisitorLog::create([
                 'ip_address' => $ip,
                 'user_agent' => $request->userAgent(),
                 'url' => $request->fullUrl(),
                 'referer' => $request->header('referer'),
-                'country' => $country,
+                'country' => 'Unknown', // 默认设为Unknown，后台队列处理
                 'visited_at' => Carbon::now(),
             ]);
+
+            // 将地理位置查询任务放入队列异步处理
+            ProcessGeoIpLookup::dispatch($visitorLog->id);
+
+            // 设置缓存，1小时内不再记录同一IP
+            Cache::put($cacheKey, true, 3600); // 3600秒 = 1小时
+
         } catch (\Exception $e) {
             // 记录日志失败不应影响用户体验，只静默失败
             \Log::error('Failed to log visitor: ' . $e->getMessage());

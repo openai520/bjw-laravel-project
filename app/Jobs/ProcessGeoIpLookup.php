@@ -27,6 +27,7 @@ class ProcessGeoIpLookup implements ShouldQueue
     public function __construct(int $visitorLogId)
     {
         $this->visitorLogId = $visitorLogId;
+        $this->onQueue('image_processing'); // 设置队列
     }
 
     /**

@@ -31,6 +31,9 @@ class AdminProductController extends Controller
         $query = Product::with([
             'category',
             'images' => fn($query) => $query->where('is_main', true)
+        ])->withCount([
+            'views as view_count',
+            'views as today_view_count' => fn($query) => $query->whereDate('viewed_at', today())
         ])->latest();
 
         // 应用搜索条件

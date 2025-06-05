@@ -20,6 +20,7 @@ class InquiryItem extends Model
         'inquiry_id',
         'product_id',
         'quantity',
+        'price',
         'remark',
     ];
 

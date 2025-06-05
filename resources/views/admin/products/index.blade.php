@@ -113,6 +113,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">名称</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">分类</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">价格</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">访问次数</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-40">操作</th>
                     </tr>
@@ -147,6 +148,12 @@
                                         <button type="button" class="ml-1 text-xs text-blue-600" onclick="updatePrice({{ $product->id }})">✓</button>
                                         <button type="button" class="ml-1 text-xs text-red-600" onclick="cancelEditPrice({{ $product->id }})">✗</button>
                                     </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <div class="text-center">
+                                    <div class="text-lg font-semibold text-blue-600">{{ $product->view_count ?? 0 }}</div>
+                                    <div class="text-xs text-gray-500">今日: {{ $product->today_view_count ?? 0 }}</div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

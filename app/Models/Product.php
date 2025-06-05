@@ -118,6 +118,30 @@ class Product extends Model
     }
 
     /**
+     * 获取产品的访问记录
+     */
+    public function views()
+    {
+        return $this->hasMany(ProductView::class);
+    }
+
+    /**
+     * 获取产品总访问次数
+     */
+    public function getViewCountAttribute()
+    {
+        return $this->views()->count();
+    }
+
+    /**
+     * 获取产品今日访问次数
+     */
+    public function getTodayViewCountAttribute()
+    {
+        return $this->views()->whereDate('viewed_at', today())->count();
+    }
+
+    /**
      * 临时方法，用于处理视图中的 getTranslation 调用
      * TODO: 后续需要实现真正的多语言支持
      */

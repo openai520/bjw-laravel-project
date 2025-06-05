@@ -195,5 +195,35 @@
             }
         };
     }
+
+    // 产品访问统计 - 页面加载完成后异步发送，不阻塞页面渲染
+    document.addEventListener('DOMContentLoaded', function() {
+        // 延迟500ms执行，确保页面完全加载
+        setTimeout(function() {
+            recordProductView({{ $product->id }});
+        }, 500);
+    });
+
+    /**
+     * 记录产品访问统计（异步，不影响页面性能）
+     */
+    function recordProductView(productId) {
+        fetch(`/api/products/${productId}/view`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('产品访问统计已记录:', data);
+        })
+        .catch(error => {
+            // 统计失败不影响用户体验，仅记录日志
+            console.log('访问统计记录失败:', error);
+        });
+    }
 </script>
 @endpush

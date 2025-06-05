@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AdminBatchProductUploadController;
 use App\Http\Controllers\Admin\AdminInquiryController;
 use App\Http\Controllers\Admin\AdminIpAddressController;
 use App\Http\Controllers\Admin\AdminHomeSettingController;
+use App\Http\Controllers\Admin\ProductAnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,9 @@ Route::prefix('{lang}')
         // 产品路由
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/{product:id}', [ProductController::class, 'show'])->name('products.show');
+        
+        // 产品模态框API路由
+        Route::get('/api/products/{product}/modal', [ProductController::class, 'getModalData'])->name('products.modal');
 
         // 购物车路由
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -97,5 +101,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('home-settings', [AdminHomeSettingController::class, 'index'])->name('home_settings.index');
         Route::get('home-settings/category/{category}/featured-products', [AdminHomeSettingController::class, 'editFeaturedProducts'])->name('home_settings.edit_featured_products');
         Route::put('home-settings/category/{category}/featured-products', [AdminHomeSettingController::class, 'updateFeaturedProducts'])->name('home_settings.update_featured_products');
+
+        // 产品访问统计
+        Route::get('product-analytics', [ProductAnalyticsController::class, 'index'])->name('product_analytics.index');
+        Route::get('product-analytics/{product}', [ProductAnalyticsController::class, 'productDetail'])->name('product_analytics.product');
     });
 });
