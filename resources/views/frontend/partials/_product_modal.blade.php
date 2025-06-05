@@ -270,14 +270,31 @@
     }
 }
 
-/* 全局强制垂直布局 - 适用于所有屏幕尺寸 */
-#product-modal .modal .flex.flex-col {
-    flex-direction: column !important;
-}
-
-/* 强制主要内容区域垂直排列 */
-#product-modal .modal div[x-show]:not([x-show="false"]) {
+/* 全局强制垂直布局 - 适用于所有屏幕尺寸 - 超高优先级 */
+#product-modal .modal .flex.flex-col,
+#product-modal .modal .flex.flex-col.lg\\:flex-row,
+#product-modal .modal div.flex.flex-col,
+#product-modal .modal div.flex.flex-col.lg\\:flex-row {
     flex-direction: column !important;
     display: flex !important;
+}
+
+/* 强制主要内容区域垂直排列 - 超高优先级 */
+#product-modal .modal div[x-show]:not([x-show="false"]),
+#product-modal .modal div[x-show]:not([x-show="false"]).flex,
+#product-modal .modal div[x-show]:not([x-show="false"]).flex.flex-col,
+#product-modal .modal div[x-show]:not([x-show="false"]).flex.flex-col.lg\\:flex-row {
+    flex-direction: column !important;
+    display: flex !important;
+}
+
+/* 强制覆盖所有可能的Tailwind响应式类 */
+@media (min-width: 1024px) {
+    #product-modal .modal .lg\\:flex-row,
+    #product-modal .modal div.lg\\:flex-row,
+    #product-modal .modal .flex.lg\\:flex-row,
+    #product-modal .modal div.flex.lg\\:flex-row {
+        flex-direction: column !important;
+    }
 }
 </style> 
