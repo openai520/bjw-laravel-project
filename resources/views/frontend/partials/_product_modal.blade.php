@@ -14,9 +14,8 @@
      style="display: none; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(2px);"
      @click.self="closeModal()">
     
-    <!-- 模态框容器 - 用于相对定位关闭按钮，微调小屏幕宽度 -->
+    <!-- 模态框容器 - 用于相对定位关闭按钮，响应式宽度 -->
     <div class="modal-container relative w-full max-h-[90vh] sm:max-h-[85vh] sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto my-4 sm:my-8"
-         style="max-width: 350px;"
          x-transition:enter="transition ease-out duration-300 delay-100"
          x-transition:enter-start="opacity-0 transform scale-90 translate-y-5"
          x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
@@ -182,50 +181,42 @@
     </div>
 </div> 
 
-{{-- 移动端全屏模态框样式 --}}
+{{-- 移动端响应式样式 - 优化显示 --}}
 <style>
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     .modal-container {
-        width: 100vw !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        max-width: 100vw !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        width: 95vw !important;
+        max-width: 95vw !important;
+        margin: 2.5vw auto !important;
+        max-height: 95vh !important;
     }
     
     .modal {
-        width: 100vw !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
+        border-radius: 16px !important;
+        max-height: 95vh !important;
+        overflow-y: auto !important;
     }
     
     /* 移动端关闭按钮位置调整 */
     .modal-container .absolute {
-        top: 10px !important;
-        right: 10px !important;
+        top: -15px !important;
+        right: -15px !important;
         left: auto !important;
-        position: fixed !important;
-        z-index: 70 !important;
+        width: 36px !important;
+        height: 36px !important;
     }
     
     /* 移动端内容区域调整 */
     .modal .flex.flex-col.lg\\:flex-row {
         flex-direction: column !important;
     }
-    
-    /* 移动端图片区域调整 */
-    .modal .lg\\:w-1\\/2:first-child {
-        width: 100% !important;
-        border-radius: 0 !important;
-    }
-    
-    /* 移动端信息区域调整 */
-    .modal .lg\\:w-1\\/2:last-child {
-        width: 100% !important;
-        flex: 1 !important;
+}
+
+/* 平板设备样式 */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .modal-container {
+        max-width: 90vw !important;
+        margin: 5vh auto !important;
     }
 }
 </style> 
