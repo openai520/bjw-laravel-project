@@ -182,18 +182,77 @@ class AdminBatchProductUploadController extends Controller
                         }
                         Log::info("[BATCH] Product ID {$product->id}: Valid Paths Array:", $validImagePaths);
 
-                        // If there are valid image paths, dispatch the image processing job
+                        // If there are valid image paths, process images synchronously (avoiding queue issues)
                         if (!empty($validImagePaths)) {
-                            // --- 准备分发Job (移除 mainImageIdentifier) ---
-                            Log::info("[BATCH] Product ID {$product->id}: Preparing to dispatch job."); // 恢复旧日志
+                            Log::info("[BATCH] Product ID {$product->id}: Processing images synchronously for WebP conversion");
 
-                            // ProcessProductImageFromLocal::dispatch($product->id, $validImagePaths, $mainImageIdentifier) - 移除参数
-                            ProcessProductImageFromLocal::dispatch($product->id, $validImagePaths)
-                                ->onQueue('image_processing');
+                            // 直接同步处理图片，避免队列问题
+                            $imageService = new \App\Services\ImageService();
+                            $isFirstImage = true;
 
-                            Log::info("[BATCH] Product ID {$product->id}: Job DISPATCHED."); // 恢复旧日志
+                            foreach ($validImagePaths as $index => $tempPath) {
+                                Log::info("[BATCH] Processing image #{$index}: {$tempPath} for Product ID: {$product->id}");
+
+                                if (!file_exists($tempPath)) {
+                                    Log::error("[BATCH] Temp file not found: {$tempPath} for Product ID: {$product->id}");
+                                    continue;
+                                }
+
+                                try {
+                                    $originalName = basename($tempPath);
+                                    $mimeType = @mime_content_type($tempPath) ?: 'application/octet-stream';
+                                    $fileSize = @filesize($tempPath);
+                                    if ($fileSize === false) {
+                                        Log::error("[BATCH] Could not get filesize for temp file: {$tempPath} for Product ID: {$product->id}");
+                                        continue;
+                                    }
+                                    
+                                    $uploadedFile = new \Illuminate\Http\UploadedFile($tempPath, $originalName, $mimeType, UPLOAD_ERR_OK, true);
+                                    if (!$uploadedFile->isValid()) {
+                                        Log::error("[BATCH] UploadedFile created from temp path is invalid: {$tempPath}. Product ID: {$product->id}");
+                                        continue;
+                                    }
+
+                                    Log::info("[BATCH] Calling ImageService->saveOptimizedImage for WebP conversion of {$originalName}, Product ID: {$product->id}");
+                                    $imagePaths = $imageService->saveOptimizedImage(
+                                        $uploadedFile,
+                                        'products', 
+                                        true, // 创建缩略图
+                                        true, // 调整尺寸
+                                        'webp' // 转换为WebP格式
+                                    );
+                                    
+                                    if (empty($imagePaths) || !isset($imagePaths['main']) || !isset($imagePaths['thumbnail'])) {
+                                        Log::error("[BATCH] ImageService returned empty or invalid paths: " . json_encode($imagePaths) . " for Product ID: {$product->id}, Temp file: {$tempPath}");
+                                        continue; 
+                                    }
+
+                                    Log::info("[BATCH] Saving ProductImage record for Product ID: {$product->id}, Image Path: {$imagePaths['main']}, Is Main: " . ($isFirstImage ? 'Yes' : 'No'));
+                                    $productImage = new \App\Models\ProductImage();
+                                    $productImage->product_id = $product->id;
+                                    $productImage->image_path = $imagePaths['main'];
+                                    $productImage->thumbnail_path = $imagePaths['thumbnail'];
+                                    $productImage->is_main = $isFirstImage;
+
+                                    if ($productImage->save()) {
+                                        Log::info("[BATCH] Saved ProductImage record. ID: {$productImage->id}, ProductID: {$product->id}, IsMain: " . ($isFirstImage ? 'Yes' : 'No'));
+                                        $isFirstImage = false;
+                                        
+                                        // 删除临时文件
+                                        @unlink($tempPath);
+                                        Log::info("[BATCH] Deleted temp file: {$tempPath}");
+                                    } else {
+                                        Log::error("[BATCH] Failed to save ProductImage record for Product ID: {$product->id}, Image Path: {$imagePaths['main']}");
+                                    }
+
+                                } catch (\Exception $e) {
+                                    Log::error("[BATCH] Exception occurred while processing {$tempPath} for Product ID: {$product->id}. Error: " . $e->getMessage());
+                                }
+                            }
+
+                            Log::info("[BATCH] Finished processing all images synchronously for Product ID: {$product->id}");
                         } else {
-                            Log::info("[BATCH] Product ID {$product->id}: No valid paths, job NOT dispatched.");
+                            Log::info("[BATCH] Product ID {$product->id}: No valid paths, no images to process.");
                         }
 
                         $successCount++;
