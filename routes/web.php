@@ -105,5 +105,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // 产品访问统计
         Route::get('product-analytics', [ProductAnalyticsController::class, 'index'])->name('product_analytics.index');
         Route::get('product-analytics/{product}', [ProductAnalyticsController::class, 'productDetail'])->name('product_analytics.product');
+
+        // 测试路由
+        Route::get('/test', function () {
+            return view('admin.test');
+        })->name('test');
     });
 });
