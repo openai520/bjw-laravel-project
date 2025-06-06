@@ -64,7 +64,7 @@ class AdminProductController extends Controller
         $products = $query->paginate(15);
         $categories = Category::orderBy('name_en')->get();
 
-        return view('admin.products.index', compact('products', 'searchTerm', 'categoryId', 'status'));
+        return view('admin.products.index', compact('products', 'categories', 'searchTerm', 'categoryId', 'status'));
     }
 
     /**

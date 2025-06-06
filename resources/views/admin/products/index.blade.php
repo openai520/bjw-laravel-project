@@ -28,7 +28,7 @@
                 <div class="relative mr-2 mb-2">
                     <select name="category_id" class="h-10 pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         <option value="">全部分类</option>
-                        @foreach(\App\Models\Category::orderBy('name_en')->get() as $category)
+                        @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name_en }}
                             </option>
