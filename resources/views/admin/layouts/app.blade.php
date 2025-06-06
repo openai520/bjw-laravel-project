@@ -15,10 +15,10 @@
     <link href="https://unpkg.com/filepond-plugin-image-preview@^4/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-edit@^1/dist/filepond-plugin-image-edit.css" rel="stylesheet" />
     
-    <!-- Alpine.js for dynamic interactions -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine.js for dynamic interactions - TEMPORARILY DISABLED -->
+    <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
 </head>
-<body class="font-sans antialiased bg-gray-50" x-data="{ sidebarOpen: false }">
+<body class="font-sans antialiased bg-gray-50" data-sidebar-open="false">
     <!-- 移动端侧边栏 -->
     <div x-show="sidebarOpen" class="fixed inset-0 flex z-40 lg:hidden" role="dialog" aria-modal="true">
         <!-- 遮罩层 -->

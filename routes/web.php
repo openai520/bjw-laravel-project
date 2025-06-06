@@ -110,5 +110,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/test', function () {
             return view('admin.test');
         })->name('test');
+        
+        Route::get('/simple-test', function () {
+            return view('admin.simple-test');
+        })->name('simple-test');
     });
 });
