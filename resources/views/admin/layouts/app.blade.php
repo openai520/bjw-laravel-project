@@ -110,7 +110,7 @@
 
     <!-- 主内容区域 -->
     <div class="lg:pl-64">
-        <div class="flex flex-col w-0 flex-1">
+        <div class="flex flex-col flex-1 min-w-0">
             <!-- 顶部栏 -->
             <div class="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow-sm border-b border-gray-200 lg:border-none">
                 <!-- 移动端菜单按钮 - DISABLED -->
@@ -148,9 +148,9 @@
             </div>
 
             <!-- 主要内容 -->
-            <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-50">
-                <div class="py-6">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-50" style="min-height: 500px; background-color: #f9fafb !important;">
+                <div class="py-6" style="min-height: 400px;">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="min-height: 300px; background-color: rgba(255,0,0,0.1);"">
                         <!-- Flash 消息 -->
                         @if(session('success'))
                             <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4" role="alert">
