@@ -150,7 +150,7 @@
             <!-- 主要内容 -->
             <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-50" style="min-height: 500px; background-color: #f9fafb !important;">
                 <div class="py-6" style="min-height: 400px;">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="min-height: 300px; background-color: rgba(255,0,0,0.1);"">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="min-height: 300px; background-color: rgba(255,0,0,0.1);">
                         <!-- Flash 消息 -->
                         @if(session('success'))
                             <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4" role="alert">
