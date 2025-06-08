@@ -12,10 +12,12 @@
         <div class="flex items-center justify-center w-full h-full">
             <img 
                 src="{{ $imageUrl }}" 
-             alt="{{ $productName }}"
-                class="object-contain rounded-3xl max-h-full max-w-full" style="border-radius: 10px !important;"
+                alt="{{ $productName }}"
+                class="object-cover rounded-3xl max-h-full max-w-full transition-all duration-300" 
+                style="opacity: 0; border-radius: 10px !important; object-fit: cover;"
                 onerror="this.onerror=null; this.src='{{ asset('img/placeholder.svg') }}';"
-             loading="lazy"
+                loading="lazy"
+                onload="this.style.opacity='1'"
             />
         </div>
     </div>

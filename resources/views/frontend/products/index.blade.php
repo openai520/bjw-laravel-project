@@ -12,6 +12,49 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/masonry.css') }}">
+    <style>
+        /* 响应式骨架屏加载效果 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 20px;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* 响应式网格增强 */
+        #product-list-grid {
+            min-height: 400px;
+        }
+        
+        /* 小屏幕响应式调整 */
+        @media (max-width: 640px) {
+            #product-list-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+                gap: 0.75rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #product-list-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.5rem !important;
+            }
+        }
+        
+        /* 图片加载优化 */
+        .product-card img {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .product-card:hover img {
+            transform: scale(1.02);
+        }
+    </style>
     {{-- <style>
         /* 内联样式确保列数 */
         .masonry-container {
@@ -58,8 +101,8 @@
 
         <div class="w-full px-4 py-6"
              x-data="infiniteScrollHandler('{{ $products->nextPageUrl() }}', '{{ $currentCategory ? $currentCategory->slug : '' }}')">
-            <!-- 产品网格容器 -->
-            <div id="product-list-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4">
+            <!-- 产品网格容器 - 响应式优化 -->
+            <div id="product-list-grid" class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
                 @forelse($products as $product)
                     @include('frontend.partials._product_card', ['product' => $product])
                 @empty
@@ -79,17 +122,24 @@
                 @endforelse
             </div>
 
-            <!-- 加载更多指示器 -->
+            <!-- 加载更多指示器 - 增强版 -->
             <div class="loading-indicator"
                  :class="{ 'opacity-100 h-auto py-4': loading, 'opacity-0 h-px overflow-hidden pointer-events-none': !loading }"
                  style="transition: opacity 0.3s, height 0.3s;">
                 <div class="flex justify-center items-center">
-                    <svg class="animate-spin h-5 w-5 text-primary mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span>{{ __('Loading more products...') }}</span>
+                    <svg class="animate-spin h-5 w-5 text-blue-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-gray-600 font-medium">{{ __('Loading more products...') }}</span>
                 </div>
+            </div>
+            
+            <!-- 骨架屏占位符（在没有更多内容时显示） -->
+            <div x-show="loading" class="grid gap-4 mt-4" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                <template x-for="i in 8">
+                    <div class="skeleton h-[350px] w-full"></div>
+                </template>
             </div>
         </div>
     </main>
