@@ -31,6 +31,7 @@ function productModal() {
             main_image_url: '',
             thumbnail_url: ''
         },
+        currentImageUrl: '', // 当前显示的主图URL
         quantity: 1,
         addToCartFeedback: '',
         cartStoreUrl: '',
@@ -102,6 +103,7 @@ function productModal() {
                 main_image_url: '',
                 thumbnail_url: ''
             };
+            this.currentImageUrl = '';
             this.quantity = 1;
             this.addToCartFeedback = '';
         },
@@ -147,11 +149,15 @@ function productModal() {
                     this.translations = data.translations || {};
                     this.quantity = this.product.min_order_quantity || 1;
                     
+                    // 设置当前显示的主图
+                    this.currentImageUrl = this.product.main_image_url;
+                    
                     // 更新按钮状态
                     this.updateButtonStates();
                     
                     console.log('Product set:', this.product);
                     console.log('Main image URL:', this.product.main_image_url);
+                    console.log('Current image URL:', this.currentImageUrl);
                 } else {
                     throw new Error(data.message || 'Failed to load product data');
                 }
@@ -171,29 +177,13 @@ function productModal() {
             this.updateButtonStates();
         },
 
-        // 图片放大功能
-        zoomImage() {
-            const overlay = document.getElementById('imageZoomOverlay');
-            const zoomedImage = document.getElementById('zoomedImage');
-            
-            if (overlay && zoomedImage && this.product.main_image_url) {
-                zoomedImage.src = this.product.main_image_url;
-                overlay.style.display = 'flex';
-                // 防止背景滚动
-                document.body.style.overflow = 'hidden';
-            }
+        // 切换主图
+        changeMainImage(imageUrl) {
+            this.currentImageUrl = imageUrl;
+            console.log('Main image changed to:', imageUrl);
         },
 
-        closeImageZoom() {
-            const overlay = document.getElementById('imageZoomOverlay');
-            if (overlay) {
-                overlay.style.display = 'none';
-                // 如果模态框还在显示，保持背景不滚动，否则恢复滚动
-                if (!this.isOpen) {
-                    document.body.style.overflow = '';
-                }
-            }
-        },
+
 
         async addToCart() {
             if (!this.product.id || !this.cartStoreUrl) {

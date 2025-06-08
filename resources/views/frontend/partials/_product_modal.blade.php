@@ -61,10 +61,9 @@
                 <div class="image-section">
                     <!-- 主图片显示区域 -->
                     <div class="main-image-container">
-                        <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
+                        <img :src="currentImageUrl || '{{ asset('img/placeholder.svg') }}'" 
                              :alt="product ? product.name : ''"
                              class="main-image"
-                             @click="zoomImage"
                              onerror="this.src='{{ asset('img/placeholder.svg') }}';">
                     </div>
                     
@@ -72,8 +71,8 @@
                     <div class="thumbnails-container" x-show="product.images && product.images.length > 1">
                         <template x-for="(image, index) in product.images" :key="image.id">
                             <div class="thumbnail" 
-                                 :class="{'active': product.main_image_url === image.main_image_url}"
-                                 @click="product.main_image_url = image.main_image_url">
+                                 :class="{'active': currentImageUrl === image.main_image_url}"
+                                 @click="changeMainImage(image.main_image_url)">
                                 <img :src="image.thumbnail_url" 
                                      :alt="product.name"
                                      onerror="this.src='{{ asset('img/placeholder.svg') }}';">
@@ -128,10 +127,7 @@
     </div>
 </div> 
 
-<!-- 图片放大查看 -->
-<div class="image-zoom-overlay" id="imageZoomOverlay" style="display: none;" @click="closeImageZoom()">
-    <img id="zoomedImage" src="" alt="Zoomed Image" class="zoomed-image">
-</div>
+
 
 {{-- 优化的Grid布局样式 --}}
 <style>
@@ -160,7 +156,6 @@
     margin-bottom: 1rem;
     position: relative;
     overflow: hidden;
-    cursor: zoom-in;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
@@ -327,27 +322,7 @@
     transform: translateY(0);
 }
 
-/* 图片放大查看 */
-.image-zoom-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    cursor: zoom-out;
-}
 
-.zoomed-image {
-    max-width: 90vw;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 8px;
-}
 
 /* 桌面端优化 */
 @media (min-width: 768px) {
