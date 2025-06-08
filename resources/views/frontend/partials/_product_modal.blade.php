@@ -74,7 +74,7 @@
                         <!-- 主图片 -->
                         <div class="w-full">
                             <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 8px;">
-                                <div class="flex items-center justify-center h-44 sm:h-48">
+                                <div class="flex items-center justify-center h-56 sm:h-64 lg:h-72">
                                     <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
                                          :alt="product ? product.name : ''"
                                          class="object-contain"
@@ -214,16 +214,22 @@
     }
     
     /* 移动端图片区域高度调整 - 覆盖全局设置 */
-    #product-modal .modal .h-44 {
-        height: 150px !important;
-        min-height: 150px !important;
-        max-height: 150px !important;
+    #product-modal .modal .h-56 {
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
     }
     
-    #product-modal .modal .sm\\:h-48 {
-        height: 150px !important;
-        min-height: 150px !important;
-        max-height: 150px !important;
+    #product-modal .modal .sm\\:h-64 {
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
+    }
+    
+    #product-modal .modal .lg\\:h-72 {
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
     }
 }
 
@@ -365,16 +371,22 @@
 }
 
 /* 图片容器严格高度控制 */
-#product-modal .modal .h-44 {
-    height: 176px !important;
-    min-height: 176px !important;
-    max-height: 176px !important;
+#product-modal .modal .h-56 {
+    height: 224px !important;
+    min-height: 224px !important;
+    max-height: 224px !important;
 }
 
-#product-modal .modal .sm\\:h-48 {
-    height: 192px !important;
-    min-height: 192px !important;
-    max-height: 192px !important;
+#product-modal .modal .sm\\:h-64 {
+    height: 256px !important;
+    min-height: 256px !important;
+    max-height: 256px !important;
+}
+
+#product-modal .modal .lg\\:h-72 {
+    height: 288px !important;
+    min-height: 288px !important;
+    max-height: 288px !important;
 }
 
 /* 确保图片不会溢出容器 */
