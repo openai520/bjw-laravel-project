@@ -78,32 +78,48 @@
                             isDesktop = window.innerWidth >= 768;
                             applyDesktopLayout();
                         });
-                        function applyDesktopLayout() {
-                            const container = document.getElementById('modal-content-container');
-                            const imageSection = container.querySelector('.image-section');
-                            const infoSection = container.querySelector('.info-section');
-                            if (isDesktop && container && imageSection && infoSection) {
-                                container.style.flexDirection = 'row';
-                                imageSection.style.width = '50%';
-                                imageSection.style.maxWidth = '50%';
-                                imageSection.style.flex = '0 0 50%';
-                                infoSection.style.width = '50%';
-                                infoSection.style.maxWidth = '50%';
-                                infoSection.style.flex = '0 0 50%';
-                            } else if (!isDesktop && container) {
-                                container.style.flexDirection = 'column';
-                                if (imageSection) {
-                                    imageSection.style.width = '100%';
-                                    imageSection.style.maxWidth = '100%';
-                                    imageSection.style.flex = '';
-                                }
-                                if (infoSection) {
-                                    infoSection.style.width = '100%';
-                                    infoSection.style.maxWidth = '100%';
-                                    infoSection.style.flex = '';
-                                }
-                            }
-                        }
+                                                 function applyDesktopLayout() {
+                             const container = document.getElementById('modal-content-container');
+                             const imageSection = container ? container.querySelector('.image-section') : null;
+                             const infoSection = container ? container.querySelector('.info-section') : null;
+                             
+                             console.log('Layout debug:', {
+                                 isDesktop,
+                                 container: !!container,
+                                 imageSection: !!imageSection,
+                                 infoSection: !!infoSection
+                             });
+                             
+                             if (isDesktop && container && imageSection && infoSection) {
+                                 container.style.flexDirection = 'row';
+                                 container.style.display = 'flex';
+                                 
+                                 imageSection.style.width = '50%';
+                                 imageSection.style.maxWidth = '50%';
+                                 imageSection.style.flex = '0 0 50%';
+                                 imageSection.style.display = 'flex';
+                                 
+                                 infoSection.style.width = '50%';
+                                 infoSection.style.maxWidth = '50%';
+                                 infoSection.style.flex = '0 0 50%';
+                                 infoSection.style.display = 'flex';
+                                 infoSection.style.backgroundColor = 'white';
+                                 
+                                 console.log('Desktop layout applied');
+                             } else if (!isDesktop && container) {
+                                 container.style.flexDirection = 'column';
+                                 if (imageSection) {
+                                     imageSection.style.width = '100%';
+                                     imageSection.style.maxWidth = '100%';
+                                     imageSection.style.flex = '';
+                                 }
+                                 if (infoSection) {
+                                     infoSection.style.width = '100%';
+                                     infoSection.style.maxWidth = '100%';
+                                     infoSection.style.flex = '';
+                                 }
+                             }
+                         }
                         setTimeout(applyDesktopLayout, 100);
                      "
                      :style="isDesktop ? 'border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0;' : 'border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;'">
@@ -140,7 +156,7 @@
                 </div>
 
                 <!-- 右侧信息区域（桌面端）/ 下方信息区域（移动端） -->
-                <div class="info-section w-full flex flex-col overflow-hidden bg-gray-50/30 md:bg-gray-50/50">
+                <div class="info-section w-full flex flex-col overflow-hidden bg-white">
                     <div class="p-3 sm:p-4 lg:p-6 flex-grow overflow-y-auto">
                         <!-- 标题和价格 -->
                         <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4" x-text="product.name"></h2>
@@ -259,6 +275,9 @@
         width: 50% !important;
         flex: 0 0 50% !important;
         max-width: 50% !important;
+        background-color: white !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 }
 
