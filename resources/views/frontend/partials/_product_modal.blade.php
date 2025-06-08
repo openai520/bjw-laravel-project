@@ -65,27 +65,32 @@
                 </div>
             </div>
 
-            <!-- 产品内容 - 直接显示，无需等待加载完成 -->
-            <div x-show="!error" class="flex flex-col h-full">
+            <!-- 产品内容 - 响应式左图右文布局 -->
+            <div x-show="!error" class="flex flex-col md:flex-row h-full">
 
-                <!-- 产品图片区域 - 固定高度避免挤压 -->
-                <div class="flex-shrink-0 p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-100" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
-                    <div class="flex flex-col gap-3">
+                <!-- 左侧图片区域（桌面端）/ 上方图片区域（移动端） -->
+                <div class="w-full md:w-1/2 flex-shrink-0 p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-100 md:bg-gradient-to-br md:from-blue-50 md:to-indigo-100" 
+                     style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;"
+                     x-data="{ isDesktop: window.innerWidth >= 768 }"
+                     x-init="window.addEventListener('resize', () => isDesktop = window.innerWidth >= 768)"
+                     :style="isDesktop ? 'border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0;' : 'border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;'">
+                    
+                    <div class="flex flex-col gap-3 h-full">
                         <!-- 主图片 -->
-                        <div class="w-full">
-                            <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 8px;">
-                                <div class="flex items-center justify-center h-56 sm:h-64 lg:h-72">
+                        <div class="flex-grow flex items-center justify-center">
+                            <div class="relative bg-white shadow-sm w-full h-full" style="border-radius: 10px; padding: 8px;">
+                                <div class="flex items-center justify-center h-full min-h-[250px] md:min-h-[300px]">
                                     <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
                                          :alt="product ? product.name : ''"
-                                         class="object-contain"
-                                         style="border-radius: 8px; max-width: 100%; max-height: 100%; width: auto; height: auto;"
+                                         class="object-contain max-w-full max-h-full"
+                                         style="border-radius: 8px;"
                                          onerror="this.src='{{ asset('img/placeholder.svg') }}';">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 缩略图 - 水平排列，更紧凑 -->
-                        <div class="flex space-x-2 justify-center overflow-x-auto" x-show="product.images && product.images.length > 1">
+                        <!-- 缩略图 - 水平排列 -->
+                        <div class="flex space-x-2 justify-center overflow-x-auto pb-2" x-show="product.images && product.images.length > 1">
                             <template x-for="(image, index) in product.images" :key="image.id">
                                 <button @click="product.main_image_url = image.main_image_url"
                                         :class="{'border-blue-500': product.main_image_url === image.main_image_url, 'border-gray-200': product.main_image_url !== image.main_image_url}"
@@ -101,9 +106,9 @@
                     </div>
                 </div>
 
-                <!-- 产品信息区域 - 可滚动内容 -->
-                <div class="flex flex-col flex-grow overflow-hidden">
-                    <div class="p-3 sm:p-4 lg:p-5 flex-grow overflow-y-auto">
+                <!-- 右侧信息区域（桌面端）/ 下方信息区域（移动端） -->
+                <div class="w-full md:w-1/2 flex flex-col overflow-hidden bg-gray-50/30 md:bg-gray-50/50">
+                    <div class="p-3 sm:p-4 lg:p-6 flex-grow overflow-y-auto">
                         <!-- 标题和价格 -->
                         <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4" x-text="product.name"></h2>
                         
@@ -183,9 +188,37 @@
     </div>
 </div> 
 
-{{-- 移动端响应式样式 - 优化显示 --}}
+{{-- 响应式布局样式 - 左图右文布局 --}}
 <style>
-@media (max-width: 640px) {
+/* 桌面端左图右文布局样式 */
+@media (min-width: 768px) {
+    .modal-container {
+        width: 95vw !important;
+        max-width: 1200px !important;
+        margin: 2.5vh auto !important;
+        max-height: 95vh !important;
+    }
+    
+    .modal {
+        border-radius: 20px !important;
+        max-height: 95vh !important;
+        height: 100% !important;
+    }
+    
+    /* 桌面端图片区域优化 */
+    #product-modal .modal .md\\:w-1\\/2:first-child {
+        min-height: 500px;
+    }
+    
+    /* 桌面端信息区域优化 */
+    #product-modal .modal .md\\:w-1\\/2:last-child {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+}
+
+/* 移动端垂直布局样式 */
+@media (max-width: 767px) {
     .modal-container {
         width: 96vw !important;
         max-width: 96vw !important;
@@ -213,28 +246,15 @@
         -webkit-overflow-scrolling: touch;
     }
     
-    /* 移动端图片区域高度调整 - 覆盖全局设置 */
-    #product-modal .modal .h-56 {
-        height: 200px !important;
-        min-height: 200px !important;
-        max-height: 200px !important;
-    }
-    
-    #product-modal .modal .sm\\:h-64 {
-        height: 220px !important;
+    /* 移动端图片区域高度限制 */
+    #product-modal .modal .min-h-\\[250px\\] {
         min-height: 220px !important;
-        max-height: 220px !important;
-    }
-    
-    #product-modal .modal .lg\\:h-72 {
-        height: 220px !important;
-        min-height: 220px !important;
-        max-height: 220px !important;
+        max-height: 280px !important;
     }
 }
 
-/* 平板设备样式 */
-@media (min-width: 641px) and (max-width: 1024px) {
+/* 平板设备优化 */
+@media (min-width: 768px) and (max-width: 1024px) {
     .modal-container {
         max-width: 90vw !important;
         max-height: 94vh !important;
@@ -246,10 +266,10 @@
     }
 }
 
-/* 大屏幕（桌面端）样式 - 确保垂直布局 - 更高优先级 */
+/* 大屏幕（桌面端）左右分栏布局优化 */
 @media (min-width: 1025px) {
     .modal-container {
-        max-width: 700px !important;
+        max-width: 1100px !important;
         max-height: 92vh !important;
         margin: 4vh auto !important;
     }
@@ -257,6 +277,50 @@
     .modal {
         height: 100% !important;
     }
+    
+    /* 大屏幕时左右区域平衡 */
+    #product-modal .modal .md\\:w-1\\/2 {
+        flex: 1;
+    }
+}
+
+/* 响应式图片显示优化 */
+@media (min-width: 768px) {
+    /* 桌面端图片区域圆角调整 */
+    #product-modal .modal .md\\:w-1\\/2:first-child .bg-gradient-to-br {
+        border-top-left-radius: 20px !important;
+        border-bottom-left-radius: 20px !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+    
+    /* 桌面端信息区域圆角调整 */
+    #product-modal .modal .md\\:w-1\\/2:last-child {
+        border-top-right-radius: 20px !important;
+        border-bottom-right-radius: 20px !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+}
+
+/* 图片缩略图交互优化 */
+.modal .overflow-x-auto button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.modal .overflow-x-auto button:active {
+    transform: scale(0.98);
+}
+
+/* 响应式过渡动画 */
+.modal .md\\:flex-row {
+    transition: flex-direction 0.3s ease;
+}
+
+.modal .md\\:w-1\\/2 {
+    transition: width 0.3s ease, border-radius 0.3s ease;
+}
     
     /* 强制所有屏幕尺寸使用垂直布局 - 最高优先级 */
     #product-modal .modal .flex.flex-col,
