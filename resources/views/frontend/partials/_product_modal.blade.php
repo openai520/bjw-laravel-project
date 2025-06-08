@@ -135,19 +135,19 @@
 
 {{-- 优化的Grid布局样式 --}}
 <style>
-/* 基础Grid布局 */
-.modal-grid-content {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    height: 100%;
+/* 基础Grid布局 - 强制优先级 */
+#product-modal .modal-grid-content {
+    display: grid !important;
+    grid-template-columns: 1fr 350px !important;
+    height: 100% !important;
 }
 
 /* 图片区域样式 */
-.image-section {
-    padding: 2rem;
-    background: #f8f9fa;
-    display: flex;
-    flex-direction: column;
+#product-modal .image-section {
+    padding: 2rem !important;
+    background: #f8f9fa !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .main-image-container {
@@ -213,11 +213,11 @@
 }
 
 /* 信息区域样式 */
-.info-section {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    background: white;
+#product-modal .info-section {
+    padding: 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: white !important;
 }
 
 .product-title {
@@ -351,34 +351,46 @@
 
 /* 桌面端优化 */
 @media (min-width: 768px) {
-    .modal-container {
+    #product-modal .modal-container {
         width: 900px !important;
         max-width: 90vw !important;
         margin: 2.5vh auto !important;
         max-height: 90vh !important;
     }
+    
+    #product-modal .modal {
+        height: 600px !important;
+    }
+    
+    #product-modal .modal-grid-content {
+        display: grid !important;
+        grid-template-columns: 1fr 350px !important;
+        height: 100% !important;
+    }
 }
 
 /* 移动端响应式布局 */
 @media (max-width: 767px) {
-    .modal-container {
+    #product-modal .modal-container {
         width: 95vw !important;
         height: 90vh !important;
         margin: 5vh auto !important;
     }
     
-    .modal-grid-content {
+    #product-modal .modal-grid-content {
         grid-template-columns: 1fr !important;
-        grid-template-rows: 1fr auto !important;
+        grid-template-rows: auto auto !important;
+        height: auto !important;
     }
     
-    .image-section {
-        padding: 1rem;
-        min-height: 50vh;
+    #product-modal .image-section {
+        padding: 1rem !important;
+        min-height: 300px !important;
     }
     
-    .info-section {
-        padding: 1.5rem;
+    #product-modal .info-section {
+        padding: 1.5rem !important;
+        min-height: 350px !important;
     }
     
     .product-title {
@@ -400,36 +412,62 @@
 }
 
 @media (max-width: 480px) {
-    .modal-container {
+    #product-modal .modal-container {
         width: 100vw !important;
         height: 100vh !important;
         margin: 0 !important;
     }
     
-    .modal {
+    #product-modal .modal {
         border-radius: 0 !important;
+        height: 100vh !important;
     }
     
-    .image-section {
-        padding: 0.75rem;
+    #product-modal .modal-grid-content {
+        height: auto !important;
+        min-height: 100vh !important;
     }
     
-    .info-section {
-        padding: 1rem;
+    #product-modal .image-section {
+        padding: 0.75rem !important;
+        min-height: 280px !important;
     }
     
-    .quantity-controls {
-        padding: 0.75rem;
+         #product-modal .info-section {
+        padding: 1rem !important;
+        min-height: 400px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
     }
     
-    .quantity-btn {
-        width: 35px;
-        height: 35px;
+    #product-modal .product-description {
+        flex: 1 !important;
+        margin-bottom: 1rem !important;
     }
     
-    .quantity-input {
-        width: 60px;
-        height: 35px;
+    #product-modal .quantity-section {
+        margin-bottom: 1rem !important;
+    }
+    
+    #product-modal .add-to-cart {
+        margin-top: auto !important;
+        min-height: 48px !important;
+        font-size: 1rem !important;
+    }
+    
+    #product-modal .quantity-controls {
+        padding: 0.75rem !important;
+    }
+    
+    #product-modal .quantity-btn {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    
+    #product-modal .quantity-input {
+        width: 60px !important;
+        height: 35px !important;
     }
 }
 
