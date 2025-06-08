@@ -15,7 +15,7 @@
      @click.self="closeModal()">
     
     <!-- 模态框容器 - 用于相对定位关闭按钮，响应式宽度 -->
-    <div class="modal-container relative w-full max-h-[96vh] sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto my-2 sm:my-4"
+    <div class="modal-container relative w-full max-h-[96vh] sm:max-w-lg md:max-w-4xl lg:max-w-6xl mx-auto my-2 sm:my-4"
          x-transition:enter="transition ease-out duration-300 delay-100"
          x-transition:enter-start="opacity-0 transform scale-90 translate-y-5"
          x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
@@ -193,8 +193,8 @@
 /* 桌面端左图右文布局样式 */
 @media (min-width: 768px) {
     .modal-container {
-        width: 95vw !important;
-        max-width: 1200px !important;
+        width: 90vw !important;
+        max-width: 1000px !important;
         margin: 2.5vh auto !important;
         max-height: 95vh !important;
     }
@@ -205,15 +205,24 @@
         height: 100% !important;
     }
     
+    /* 桌面端强制左右布局 */
+    #product-modal .modal .md\\:flex-row {
+        flex-direction: row !important;
+    }
+    
     /* 桌面端图片区域优化 */
     #product-modal .modal .md\\:w-1\\/2:first-child {
         min-height: 500px;
+        width: 50% !important;
+        flex: 0 0 50% !important;
     }
     
     /* 桌面端信息区域优化 */
     #product-modal .modal .md\\:w-1\\/2:last-child {
         border-top-right-radius: 20px;
         border-bottom-right-radius: 20px;
+        width: 50% !important;
+        flex: 0 0 50% !important;
     }
 }
 
@@ -269,7 +278,7 @@
 /* 大屏幕（桌面端）左右分栏布局优化 */
 @media (min-width: 1025px) {
     .modal-container {
-        max-width: 1100px !important;
+        max-width: 1200px !important;
         max-height: 92vh !important;
         margin: 4vh auto !important;
     }
