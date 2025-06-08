@@ -171,6 +171,30 @@ function productModal() {
             this.updateButtonStates();
         },
 
+        // 图片放大功能
+        zoomImage() {
+            const overlay = document.getElementById('imageZoomOverlay');
+            const zoomedImage = document.getElementById('zoomedImage');
+            
+            if (overlay && zoomedImage && this.product.main_image_url) {
+                zoomedImage.src = this.product.main_image_url;
+                overlay.style.display = 'flex';
+                // 防止背景滚动
+                document.body.style.overflow = 'hidden';
+            }
+        },
+
+        closeImageZoom() {
+            const overlay = document.getElementById('imageZoomOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                // 如果模态框还在显示，保持背景不滚动，否则恢复滚动
+                if (!this.isOpen) {
+                    document.body.style.overflow = '';
+                }
+            }
+        },
+
         async addToCart() {
             if (!this.product.id || !this.cartStoreUrl) {
                 console.error('Missing product ID or cart URL');

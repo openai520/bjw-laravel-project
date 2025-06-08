@@ -36,23 +36,12 @@
             </svg>
         </button>
         
-        <!-- 模态框内容 - 响应式尺寸和圆角矩形设计 -->
-        <div class="modal bg-white shadow-2xl w-full h-full flex flex-col transition-all duration-300"
-             style="border-radius: 20px !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+        <!-- 模态框内容 - Grid布局设计 -->
+        <div class="modal bg-white shadow-2xl w-full overflow-hidden transition-all duration-300"
+             style="border-radius: 16px !important; box-shadow: 0 20px 40px rgba(0,0,0,0.15); height: 600px;">
             
-            <!-- 隐藏加载状态 - 改为永远不显示 -->
-            <div x-show="false" class="flex items-center justify-center h-32 sm:h-48">
-                <div class="flex items-center space-x-2">
-                    <svg class="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="text-sm text-gray-600">{{ __('Loading...') }}</span>
-                </div>
-            </div>
-
             <!-- 错误状态 -->
-            <div x-show="error && !loading" class="flex items-center justify-center h-32 sm:h-48">
+            <div x-show="error" class="flex items-center justify-center h-full">
                 <div class="text-center p-4">
                     <svg class="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
@@ -65,255 +54,382 @@
                 </div>
             </div>
 
-            <!-- 产品内容 - 响应式左图右文布局 -->
-            <div x-show="!error" class="flex flex-col h-full" id="modal-content-container">
+            <!-- 产品内容 - Grid布局 -->
+            <div x-show="!error" class="modal-grid-content h-full">
 
-                <!-- 左侧图片区域（桌面端）/ 上方图片区域（移动端） -->
-                <div class="image-section w-full flex-shrink-0 p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-100" 
-                     style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;"
-                     x-data="{ isDesktop: window.innerWidth >= 768 }"
-                     x-init="
-                        isDesktop = window.innerWidth >= 768;
-                        window.addEventListener('resize', () => {
-                            isDesktop = window.innerWidth >= 768;
-                            applyDesktopLayout();
-                        });
-                                                 function applyDesktopLayout() {
-                             const container = document.getElementById('modal-content-container');
-                             const imageSection = container ? container.querySelector('.image-section') : null;
-                             const infoSection = container ? container.querySelector('.info-section') : null;
-                             
-                             console.log('Layout debug:', {
-                                 isDesktop,
-                                 container: !!container,
-                                 imageSection: !!imageSection,
-                                 infoSection: !!infoSection
-                             });
-                             
-                             if (isDesktop && container && imageSection && infoSection) {
-                                 container.style.flexDirection = 'row';
-                                 container.style.display = 'flex';
-                                 
-                                 imageSection.style.width = '50%';
-                                 imageSection.style.maxWidth = '50%';
-                                 imageSection.style.flex = '0 0 50%';
-                                 imageSection.style.display = 'flex';
-                                 
-                                 infoSection.style.width = '50%';
-                                 infoSection.style.maxWidth = '50%';
-                                 infoSection.style.flex = '0 0 50%';
-                                 infoSection.style.display = 'flex';
-                                 infoSection.style.backgroundColor = 'white';
-                                 
-                                 console.log('Desktop layout applied');
-                             } else if (!isDesktop && container) {
-                                 container.style.flexDirection = 'column';
-                                 if (imageSection) {
-                                     imageSection.style.width = '100%';
-                                     imageSection.style.maxWidth = '100%';
-                                     imageSection.style.flex = '';
-                                 }
-                                 if (infoSection) {
-                                     infoSection.style.width = '100%';
-                                     infoSection.style.maxWidth = '100%';
-                                     infoSection.style.flex = '';
-                                 }
-                             }
-                         }
-                        setTimeout(applyDesktopLayout, 100);
-                     "
-                     :style="isDesktop ? 'border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0;' : 'border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;'">
+                                <!-- 左侧图片区域 -->
+                <div class="image-section">
+                    <!-- 主图片显示区域 -->
+                    <div class="main-image-container">
+                        <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
+                             :alt="product ? product.name : ''"
+                             class="main-image"
+                             @click="zoomImage"
+                             onerror="this.src='{{ asset('img/placeholder.svg') }}';">
+                    </div>
                     
-                    <div class="flex flex-col gap-3 h-full">
-                        <!-- 主图片 -->
-                        <div class="flex-grow flex items-center justify-center">
-                            <div class="relative bg-white shadow-sm w-full h-full" style="border-radius: 10px; padding: 8px;">
-                                <div class="flex items-center justify-center h-full min-h-[250px] md:min-h-[300px]">
-                                    <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
-                                         :alt="product ? product.name : ''"
-                                         class="object-contain max-w-full max-h-full"
-                                         style="border-radius: 8px;"
-                                         onerror="this.src='{{ asset('img/placeholder.svg') }}';">
-                                </div>
+                    <!-- 缩略图区域 -->
+                    <div class="thumbnails-container" x-show="product.images && product.images.length > 1">
+                        <template x-for="(image, index) in product.images" :key="image.id">
+                            <div class="thumbnail" 
+                                 :class="{'active': product.main_image_url === image.main_image_url}"
+                                 @click="product.main_image_url = image.main_image_url">
+                                <img :src="image.thumbnail_url" 
+                                     :alt="product.name"
+                                     onerror="this.src='{{ asset('img/placeholder.svg') }}';">
                             </div>
-                        </div>
-
-                        <!-- 缩略图 - 水平排列 -->
-                        <div class="flex space-x-2 justify-center overflow-x-auto pb-2" x-show="product.images && product.images.length > 1">
-                            <template x-for="(image, index) in product.images" :key="image.id">
-                                <button @click="product.main_image_url = image.main_image_url"
-                                        :class="{'border-blue-500': product.main_image_url === image.main_image_url, 'border-gray-200': product.main_image_url !== image.main_image_url}"
-                                        class="w-12 h-12 sm:w-14 sm:h-14 border-2 transition-all overflow-hidden flex-shrink-0"
-                                        style="border-radius: 8px;">
-                                    <img :src="image.thumbnail_url" 
-                                         :alt="product.name"
-                                         class="w-full h-full object-cover"
-                                         onerror="this.src='{{ asset('img/placeholder.svg') }}';">
-                                </button>
-                            </template>
-                        </div>
+                        </template>
                     </div>
                 </div>
 
-                <!-- 右侧信息区域（桌面端）/ 下方信息区域（移动端） -->
-                <div class="info-section w-full flex flex-col overflow-hidden bg-white">
-                    <div class="p-3 sm:p-4 lg:p-6 flex-grow overflow-y-auto">
-                        <!-- 标题和价格 -->
-                        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4" x-text="product.name"></h2>
-                        
-                        <p class="text-xl sm:text-2xl lg:text-3xl font-semibold text-red-600 mb-3 sm:mb-5">
-                            ¥<span x-text="product.price ? parseFloat(product.price).toFixed(2) : '0.00'"></span>
-                        </p>
-
-                        <!-- 描述 -->
-                        <div class="prose prose-sm max-w-none text-gray-600 mb-3 sm:mb-6 text-sm" x-show="product.description">
-                            <p x-html="product.description ? product.description.replace(/\n/g, '<br>') : ''"></p>
-                        </div>
-
-                        <!-- 最小订单数量 -->
-                        <p class="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-5">
-                            <span x-text="translations.minimum_order_quantity"></span>: 
-                            <span x-text="product.min_order_quantity"></span>
-                        </p>
-
-                        <!-- 购买操作 -->
-                        <div class="space-y-3 sm:space-y-4">
-                            <!-- 数量选择器 - 删除Quantity标签，优化小屏幕显示 -->
-                            <div class="mb-3 sm:mb-4">
-                                <div class="quantity-controller" style="display: flex; align-items: center; background-color: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 4px; width: fit-content; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); transition: all 0.2s ease; margin: 0 auto; max-width: 100%;">
-                                    <button type="button"
-                                            @click="quantity > (product.min_order_quantity || 1) && quantity--"
-                                            class="quantity-btn minus"
-                                            style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: transparent; border: none; border-radius: 8px; color: #6b7280; font-size: 18px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; flex-shrink: 0;"
-                                            :disabled="quantity <= (product.min_order_quantity || 1)"
-                                            onmouseover="this.style.backgroundColor='#f3f4f6'; this.style.color='#374151';"
-                                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#6b7280';"
-                                            onmousedown="this.style.backgroundColor='#e5e7eb'; this.style.transform='scale(0.95)';"
-                                            onmouseup="this.style.transform='scale(1)';">
-                                        −
-                                    </button>
-                                    <input type="text" 
-                                           x-model.number="quantity"
-                                           @change="validateQuantity()"
-                                           class="quantity-display"
-                                           style="display: flex; align-items: center; justify-content: center; min-width: 50px; width: auto; height: 40px; padding: 0 12px; font-size: 16px; font-weight: 600; color: #111827; background-color: transparent; border: none; text-align: center; outline: none; flex-shrink: 0;"
-                                           readonly>
-                                    <button type="button"
-                                            @click="quantity++"
-                                            class="quantity-btn plus"
-                                            style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: transparent; border: none; border-radius: 8px; color: #6b7280; font-size: 18px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; user-select: none; flex-shrink: 0;"
-                                            onmouseover="this.style.backgroundColor='#f3f4f6'; this.style.color='#374151';"
-                                            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#6b7280';"
-                                            onmousedown="this.style.backgroundColor='#e5e7eb'; this.style.transform='scale(0.95)';"
-                                            onmouseup="this.style.transform='scale(1)';">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- 添加到购物车按钮 -->
-                            <button type="button"
-                                    @click="addToCart()"
-                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-8 transition duration-300 flex items-center justify-center space-x-2 text-sm sm:text-base"
-                                    style="border-radius: 10px;"
-                                    :disabled="addToCartFeedback !== ''"
-                                    :class="{ 'opacity-50 cursor-not-allowed': addToCartFeedback !== '' }">
-                                <!-- 购物车图标 -->
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 8H6L5 9z"></path>
-                                </svg>
-                                <span x-show="!addToCartFeedback" x-text="translations.add_to_cart"></span>
-                                <span x-show="addToCartFeedback" x-text="addToCartFeedback"></span>
-                                <svg x-show="addToCartFeedback && addToCartFeedback === translations.processing" class="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            </button>
+                <!-- 右侧信息区域 -->
+                <div class="info-section">
+                    <!-- 产品标题 -->
+                    <h2 class="product-title" x-text="product.name"></h2>
+                    
+                    <!-- 产品价格 -->
+                    <div class="product-price">
+                        ¥<span x-text="product.price ? parseFloat(product.price).toFixed(2) : '0.00'"></span>
+                    </div>
+                    
+                    <!-- 产品描述 -->
+                    <div class="product-description" x-show="product.description">
+                        <p x-html="product.description ? product.description.replace(/\n/g, '<br>') : ''"></p>
+                    </div>
+                    
+                    <!-- 订单信息 -->
+                    <div class="order-info">
+                        <div class="order-label">
+                            <span x-text="translations.minimum_order_quantity"></span>: <span x-text="product.min_order_quantity"></span>
                         </div>
                     </div>
+                    
+                    <!-- 数量选择 -->
+                    <div class="quantity-section">
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" @click="quantity > (product.min_order_quantity || 1) && quantity--">−</button>
+                            <input type="number" class="quantity-input" x-model.number="quantity" @change="validateQuantity()" :min="product.min_order_quantity || 1">
+                            <button type="button" class="quantity-btn" @click="quantity++">+</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 添加到购物车按钮 -->
+                    <button type="button" class="add-to-cart" @click="addToCart()" :disabled="addToCartFeedback !== ''" x-data="{ clicked: false }" @click.debounce.1000ms="clicked = false" @click="clicked = true; setTimeout(() => clicked = false, 2000)">
+                        <template x-if="!addToCartFeedback && !clicked">
+                            <span>🛒 <span x-text="translations.add_to_cart"></span></span>
+                        </template>
+                        <template x-if="clicked || addToCartFeedback">
+                            <span>✅ <span x-text="addToCartFeedback || translations.added_to_cart || 'Added to Cart!'"></span></span>
+                        </template>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div> 
 
-{{-- 响应式布局样式 - 左图右文布局 --}}
+<!-- 图片放大查看 -->
+<div class="image-zoom-overlay" id="imageZoomOverlay" style="display: none;" @click="closeImageZoom()">
+    <img id="zoomedImage" src="" alt="Zoomed Image" class="zoomed-image">
+</div>
+
+{{-- 优化的Grid布局样式 --}}
 <style>
-/* 桌面端左图右文布局样式 */
+/* 基础Grid布局 */
+.modal-grid-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    height: 100%;
+}
+
+/* 图片区域样式 */
+.image-section {
+    padding: 2rem;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-image-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.main-image-container:hover .main-image {
+    transform: scale(1.05);
+}
+
+.thumbnails-container {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+.thumbnail {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thumbnail.active {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.thumbnail:hover {
+    border-color: #007bff;
+    transform: translateY(-2px);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 信息区域样式 */
+.info-section {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.product-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.product-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #e74c3c;
+    margin-bottom: 1.5rem;
+}
+
+.product-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+.order-info {
+    margin-bottom: 1.5rem;
+}
+
+.order-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.quantity-section {
+    margin-bottom: 2rem;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.quantity-btn:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.quantity-input {
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: white;
+}
+
+.add-to-cart {
+    width: 100%;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.add-to-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,123,255,0.3);
+}
+
+.add-to-cart:active {
+    transform: translateY(0);
+}
+
+/* 图片放大查看 */
+.image-zoom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    cursor: zoom-out;
+}
+
+.zoomed-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* 桌面端优化 */
 @media (min-width: 768px) {
     .modal-container {
-        width: 90vw !important;
-        max-width: 1000px !important;
+        width: 900px !important;
+        max-width: 90vw !important;
         margin: 2.5vh auto !important;
-        max-height: 95vh !important;
-    }
-    
-    .modal {
-        border-radius: 20px !important;
-        max-height: 95vh !important;
-        height: 100% !important;
-    }
-    
-    /* 强制桌面端左右布局 */
-    #modal-content-container {
-        flex-direction: row !important;
-        display: flex !important;
-    }
-    
-    /* 桌面端图片区域 */
-    #modal-content-container > div:first-child {
-        min-height: 500px !important;
-        width: 50% !important;
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
-    }
-    
-    /* 桌面端信息区域 */
-    #modal-content-container > div:last-child {
-        border-top-right-radius: 20px !important;
-        border-bottom-right-radius: 20px !important;
-        width: 50% !important;
-        flex: 0 0 50% !important;
-        max-width: 50% !important;
-        background-color: white !important;
-        display: flex !important;
-        flex-direction: column !important;
+        max-height: 90vh !important;
     }
 }
 
-/* 移动端垂直布局样式 */
+/* 移动端响应式布局 */
 @media (max-width: 767px) {
     .modal-container {
-        width: 96vw !important;
-        max-width: 96vw !important;
-        margin: 2vh auto !important;
-        max-height: 96vh !important;
+        width: 95vw !important;
+        height: 90vh !important;
+        margin: 5vh auto !important;
+    }
+    
+    .modal-grid-content {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 1fr auto !important;
+    }
+    
+    .image-section {
+        padding: 1rem;
+        min-height: 50vh;
+    }
+    
+    .info-section {
+        padding: 1.5rem;
+    }
+    
+    .product-title {
+        font-size: 1.25rem;
+    }
+    
+    .product-price {
+        font-size: 1.5rem;
+    }
+    
+    .thumbnails-container {
+        padding: 0;
+    }
+    
+    .thumbnail {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        margin: 0 !important;
     }
     
     .modal {
-        border-radius: 16px !important;
-        max-height: 96vh !important;
-        height: 100% !important;
+        border-radius: 0 !important;
     }
     
-    /* 移动端关闭按钮位置调整 */
-    .modal-container .absolute {
-        top: -15px !important;
-        right: -15px !important;
-        left: auto !important;
-        width: 36px !important;
-        height: 36px !important;
+    .image-section {
+        padding: 0.75rem;
     }
     
-    /* 移动端缩略图优化 */
-    .modal .overflow-x-auto {
-        -webkit-overflow-scrolling: touch;
+    .info-section {
+        padding: 1rem;
     }
     
-    /* 移动端图片区域高度限制 */
-    #product-modal .modal .min-h-\\[250px\\] {
-        min-height: 220px !important;
-        max-height: 280px !important;
+    .quantity-controls {
+        padding: 0.75rem;
+    }
+    
+    .quantity-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .quantity-input {
+        width: 60px;
+        height: 35px;
     }
 }
 
