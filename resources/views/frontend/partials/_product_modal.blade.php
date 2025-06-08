@@ -348,24 +348,82 @@
 @media (max-width: 767px) {
     #product-modal .modal-container {
         width: 95vw !important;
-        height: 90vh !important;
-        margin: 5vh auto !important;
+        height: 95vh !important;
+        margin: 2.5vh auto !important;
+    }
+    
+    #product-modal .modal {
+        height: 100% !important;
+        overflow-y: hidden !important;
     }
     
     #product-modal .modal-grid-content {
         grid-template-columns: 1fr !important;
-        grid-template-rows: auto auto !important;
-        height: auto !important;
+        grid-template-rows: 40vh auto !important;
+        height: 100% !important;
     }
     
     #product-modal .image-section {
-        padding: 1rem !important;
-        min-height: 300px !important;
+        padding: 0.75rem !important;
+        height: 40vh !important;
+        max-height: 40vh !important;
+    }
+    
+    #product-modal .main-image-container {
+        height: calc(40vh - 3rem) !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    #product-modal .thumbnails-container {
+        padding: 0 !important;
+        gap: 0.25rem !important;
+    }
+    
+    #product-modal .thumbnail {
+        width: 45px !important;
+        height: 45px !important;
     }
     
     #product-modal .info-section {
-        padding: 1.5rem !important;
-        min-height: 350px !important;
+        padding: 1rem !important;
+        overflow-y: auto !important;
+        height: calc(60vh - 2rem) !important;
+    }
+    
+    #product-modal .product-title {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.5rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    #product-modal .product-price {
+        font-size: 1.4rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    #product-modal .product-description {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.75rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    #product-modal .order-info {
+        margin-bottom: 0.75rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    #product-modal .quantity-section {
+        margin-bottom: 1rem !important;
+    }
+    
+    #product-modal .quantity-controls {
+        padding: 0.5rem !important;
+    }
+    
+    #product-modal .add-to-cart {
+        font-size: 0.95rem !important;
+        padding: 0.75rem !important;
+        margin-top: 0.5rem !important;
     }
     
     .product-title {
@@ -396,53 +454,153 @@
     #product-modal .modal {
         border-radius: 0 !important;
         height: 100vh !important;
+        overflow-y: hidden !important;
     }
     
     #product-modal .modal-grid-content {
-        height: auto !important;
-        min-height: 100vh !important;
+        grid-template-rows: 35vh auto !important;
+        height: 100vh !important;
     }
     
     #product-modal .image-section {
-        padding: 0.75rem !important;
-        min-height: 280px !important;
+        padding: 0.5rem !important;
+        height: 35vh !important;
+        max-height: 35vh !important;
     }
     
-         #product-modal .info-section {
-        padding: 1rem !important;
-        min-height: 400px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
+    #product-modal .main-image-container {
+        height: calc(35vh - 2.5rem) !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    #product-modal .thumbnails-container {
+        gap: 0.2rem !important;
+    }
+    
+    #product-modal .thumbnail {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    #product-modal .info-section {
+        padding: 0.75rem !important;
+        height: calc(65vh - 1.5rem) !important;
+        overflow-y: auto !important;
+    }
+    
+    #product-modal .product-title {
+        font-size: 1rem !important;
+        margin-bottom: 0.4rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    #product-modal .product-price {
+        font-size: 1.3rem !important;
+        margin-bottom: 0.6rem !important;
     }
     
     #product-modal .product-description {
-        flex: 1 !important;
-        margin-bottom: 1rem !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.6rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    #product-modal .order-info {
+        margin-bottom: 0.6rem !important;
+        font-size: 0.8rem !important;
     }
     
     #product-modal .quantity-section {
-        margin-bottom: 1rem !important;
-    }
-    
-    #product-modal .add-to-cart {
-        margin-top: auto !important;
-        min-height: 48px !important;
-        font-size: 1rem !important;
+        margin-bottom: 0.8rem !important;
     }
     
     #product-modal .quantity-controls {
-        padding: 0.75rem !important;
+        padding: 0.4rem !important;
+        gap: 0.5rem !important;
     }
     
     #product-modal .quantity-btn {
-        width: 35px !important;
-        height: 35px !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.9rem !important;
     }
     
     #product-modal .quantity-input {
-        width: 60px !important;
-        height: 35px !important;
+        width: 55px !important;
+        height: 32px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    #product-modal .add-to-cart {
+        font-size: 0.9rem !important;
+        padding: 0.6rem !important;
+        min-height: 42px !important;
+        margin-top: 0.4rem !important;
+    }
+}
+
+/* 矮屏幕设备优化（横屏手机等） */
+@media (max-height: 600px) {
+    #product-modal .modal-container {
+        height: 100vh !important;
+        margin: 0 !important;
+    }
+    
+    #product-modal .modal {
+        height: 100vh !important;
+        border-radius: 0 !important;
+    }
+    
+    #product-modal .modal-grid-content {
+        grid-template-rows: 45vh auto !important;
+        height: 100vh !important;
+    }
+    
+    #product-modal .image-section {
+        height: 45vh !important;
+        padding: 0.5rem !important;
+    }
+    
+    #product-modal .main-image-container {
+        height: calc(45vh - 2rem) !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    #product-modal .info-section {
+        height: calc(55vh - 1rem) !important;
+        padding: 0.5rem !important;
+        overflow-y: auto !important;
+    }
+    
+    #product-modal .product-title {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.3rem !important;
+    }
+    
+    #product-modal .product-price {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    #product-modal .product-description {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.5rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    #product-modal .order-info {
+        margin-bottom: 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    #product-modal .quantity-section {
+        margin-bottom: 0.6rem !important;
+    }
+    
+    #product-modal .add-to-cart {
+        font-size: 0.85rem !important;
+        padding: 0.5rem !important;
+        min-height: 38px !important;
     }
 }
 
