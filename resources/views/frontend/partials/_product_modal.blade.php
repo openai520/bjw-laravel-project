@@ -15,7 +15,7 @@
      @click.self="closeModal()">
     
     <!-- 模态框容器 - 用于相对定位关闭按钮，响应式宽度 -->
-    <div class="modal-container relative w-full max-h-[90vh] sm:max-h-[85vh] sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto my-4 sm:my-8"
+    <div class="modal-container relative w-full max-h-[96vh] sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto my-2 sm:my-4"
          x-transition:enter="transition ease-out duration-300 delay-100"
          x-transition:enter-start="opacity-0 transform scale-90 translate-y-5"
          x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
@@ -37,7 +37,7 @@
         </button>
         
         <!-- 模态框内容 - 响应式尺寸和圆角矩形设计 -->
-        <div class="modal bg-white shadow-2xl w-full overflow-y-auto transition-all duration-300"
+        <div class="modal bg-white shadow-2xl w-full h-full flex flex-col transition-all duration-300"
              style="border-radius: 20px !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
             
             <!-- 隐藏加载状态 - 改为永远不显示 -->
@@ -66,31 +66,31 @@
             </div>
 
             <!-- 产品内容 - 直接显示，无需等待加载完成 -->
-            <div x-show="!error" class="flex flex-col">
+            <div x-show="!error" class="flex flex-col h-full">
 
-                <!-- 产品图片区域 -->
-                <div class="p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-blue-50 to-indigo-100" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
-                    <div class="flex flex-col gap-4">
+                <!-- 产品图片区域 - 固定高度避免挤压 -->
+                <div class="flex-shrink-0 p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-100" style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <div class="flex flex-col gap-3">
                         <!-- 主图片 -->
                         <div class="w-full">
-                            <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 12px;">
-                                <div class="flex items-center justify-center aspect-square">
+                            <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 8px;">
+                                <div class="flex items-center justify-center h-48 sm:h-56">
                                     <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
                                          :alt="product ? product.name : ''"
-                                         class="w-full h-full object-contain"
+                                         class="max-w-full max-h-full object-contain"
                                          style="border-radius: 8px;"
                                          onerror="this.src='{{ asset('img/placeholder.svg') }}';">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 缩略图 - 水平排列 -->
+                        <!-- 缩略图 - 水平排列，更紧凑 -->
                         <div class="flex space-x-2 justify-center overflow-x-auto" x-show="product.images && product.images.length > 1">
                             <template x-for="(image, index) in product.images" :key="image.id">
                                 <button @click="product.main_image_url = image.main_image_url"
                                         :class="{'border-blue-500': product.main_image_url === image.main_image_url, 'border-gray-200': product.main_image_url !== image.main_image_url}"
-                                        class="w-16 h-16 sm:w-20 sm:h-20 border-2 transition-all overflow-hidden flex-shrink-0"
-                                        style="border-radius: 10px;">
+                                        class="w-12 h-12 sm:w-14 sm:h-14 border-2 transition-all overflow-hidden flex-shrink-0"
+                                        style="border-radius: 8px;">
                                     <img :src="image.thumbnail_url" 
                                          :alt="product.name"
                                          class="w-full h-full object-cover"
@@ -101,9 +101,9 @@
                     </div>
                 </div>
 
-                <!-- 产品信息区域 -->
-                <div class="flex flex-col">
-                    <div class="p-3 sm:p-4 lg:p-6 flex-grow">
+                <!-- 产品信息区域 - 可滚动内容 -->
+                <div class="flex flex-col flex-grow overflow-hidden">
+                    <div class="p-3 sm:p-4 lg:p-5 flex-grow overflow-y-auto">
                         <!-- 标题和价格 -->
                         <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4" x-text="product.name"></h2>
                         
@@ -187,16 +187,16 @@
 <style>
 @media (max-width: 640px) {
     .modal-container {
-        width: 95vw !important;
-        max-width: 95vw !important;
-        margin: 2.5vw auto !important;
-        max-height: 95vh !important;
+        width: 96vw !important;
+        max-width: 96vw !important;
+        margin: 2vh auto !important;
+        max-height: 96vh !important;
     }
     
     .modal {
         border-radius: 16px !important;
-        max-height: 95vh !important;
-        overflow-y: auto !important;
+        max-height: 96vh !important;
+        height: 100% !important;
     }
     
     /* 移动端关闭按钮位置调整 */
@@ -212,21 +212,40 @@
     .modal .overflow-x-auto {
         -webkit-overflow-scrolling: touch;
     }
+    
+    /* 移动端图片区域高度调整 */
+    #product-modal .modal .h-48 {
+        height: 180px !important;
+    }
+    
+    #product-modal .modal .sm\\:h-56 {
+        height: 180px !important;
+    }
 }
 
 /* 平板设备样式 */
 @media (min-width: 641px) and (max-width: 1024px) {
     .modal-container {
         max-width: 90vw !important;
-        margin: 5vh auto !important;
+        max-height: 94vh !important;
+        margin: 3vh auto !important;
+    }
+    
+    .modal {
+        height: 100% !important;
     }
 }
 
 /* 大屏幕（桌面端）样式 - 确保垂直布局 - 更高优先级 */
 @media (min-width: 1025px) {
     .modal-container {
-        max-width: 800px !important;
-        margin: 5vh auto !important;
+        max-width: 700px !important;
+        max-height: 92vh !important;
+        margin: 4vh auto !important;
+    }
+    
+    .modal {
+        height: 100% !important;
     }
     
     /* 强制所有屏幕尺寸使用垂直布局 - 最高优先级 */
@@ -238,15 +257,15 @@
     }
     
     /* 强制图片容器垂直布局 */
-    #product-modal .modal .flex.flex-col.gap-4,
-    #product-modal .modal div.flex.flex-col.gap-4 {
+    #product-modal .modal .flex.flex-col.gap-3,
+    #product-modal .modal div.flex.flex-col.gap-3 {
         flex-direction: column !important;
         display: flex !important;
     }
     
     /* 强制产品信息区域垂直布局 */
-    #product-modal .modal .flex.flex-col:not(.gap-4),
-    #product-modal .modal div.flex.flex-col:not(.gap-4) {
+    #product-modal .modal .flex.flex-col:not(.gap-3),
+    #product-modal .modal div.flex.flex-col:not(.gap-3) {
         flex-direction: column !important;
         display: flex !important;
     }
@@ -259,9 +278,9 @@
     }
     
     /* 大屏幕上的缩略图尺寸 */
-    #product-modal .modal .w-16.h-16.sm\\:w-20.sm\\:h-20 {
-        width: 80px !important;
-        height: 80px !important;
+    #product-modal .modal .w-12.h-12.sm\\:w-14.sm\\:h-14 {
+        width: 60px !important;
+        height: 60px !important;
     }
     
     /* 确保主容器也是垂直布局 */
@@ -296,5 +315,41 @@
     #product-modal .modal div.flex.lg\\:flex-row {
         flex-direction: column !important;
     }
+}
+
+/* 全局样式优化 */
+#product-modal .modal {
+    /* 确保模态框本身不会溢出 */
+    overflow: hidden !important;
+}
+
+#product-modal .modal .overflow-y-auto {
+    /* 改善滚动性能 */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+#product-modal .modal .overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+}
+
+#product-modal .modal .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#product-modal .modal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 2px;
+}
+
+#product-modal .modal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.7);
+}
+
+/* 确保按钮区域始终可见 */
+#product-modal .modal .space-y-3,
+#product-modal .modal .space-y-4 {
+    padding-bottom: 8px !important;
 }
 </style> 
