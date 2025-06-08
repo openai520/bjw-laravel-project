@@ -66,13 +66,46 @@
             </div>
 
             <!-- 产品内容 - 响应式左图右文布局 -->
-            <div x-show="!error" class="flex flex-col md:flex-row h-full">
+            <div x-show="!error" class="flex flex-col h-full" id="modal-content-container">
 
                 <!-- 左侧图片区域（桌面端）/ 上方图片区域（移动端） -->
-                <div class="w-full md:w-1/2 flex-shrink-0 p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-100 md:bg-gradient-to-br md:from-blue-50 md:to-indigo-100" 
+                <div class="image-section w-full flex-shrink-0 p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-100" 
                      style="border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;"
                      x-data="{ isDesktop: window.innerWidth >= 768 }"
-                     x-init="window.addEventListener('resize', () => isDesktop = window.innerWidth >= 768)"
+                     x-init="
+                        isDesktop = window.innerWidth >= 768;
+                        window.addEventListener('resize', () => {
+                            isDesktop = window.innerWidth >= 768;
+                            applyDesktopLayout();
+                        });
+                        function applyDesktopLayout() {
+                            const container = document.getElementById('modal-content-container');
+                            const imageSection = container.querySelector('.image-section');
+                            const infoSection = container.querySelector('.info-section');
+                            if (isDesktop && container && imageSection && infoSection) {
+                                container.style.flexDirection = 'row';
+                                imageSection.style.width = '50%';
+                                imageSection.style.maxWidth = '50%';
+                                imageSection.style.flex = '0 0 50%';
+                                infoSection.style.width = '50%';
+                                infoSection.style.maxWidth = '50%';
+                                infoSection.style.flex = '0 0 50%';
+                            } else if (!isDesktop && container) {
+                                container.style.flexDirection = 'column';
+                                if (imageSection) {
+                                    imageSection.style.width = '100%';
+                                    imageSection.style.maxWidth = '100%';
+                                    imageSection.style.flex = '';
+                                }
+                                if (infoSection) {
+                                    infoSection.style.width = '100%';
+                                    infoSection.style.maxWidth = '100%';
+                                    infoSection.style.flex = '';
+                                }
+                            }
+                        }
+                        setTimeout(applyDesktopLayout, 100);
+                     "
                      :style="isDesktop ? 'border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 0; border-bottom-right-radius: 0;' : 'border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;'">
                     
                     <div class="flex flex-col gap-3 h-full">
@@ -107,7 +140,7 @@
                 </div>
 
                 <!-- 右侧信息区域（桌面端）/ 下方信息区域（移动端） -->
-                <div class="w-full md:w-1/2 flex flex-col overflow-hidden bg-gray-50/30 md:bg-gray-50/50">
+                <div class="info-section w-full flex flex-col overflow-hidden bg-gray-50/30 md:bg-gray-50/50">
                     <div class="p-3 sm:p-4 lg:p-6 flex-grow overflow-y-auto">
                         <!-- 标题和价格 -->
                         <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-4" x-text="product.name"></h2>
@@ -205,24 +238,27 @@
         height: 100% !important;
     }
     
-    /* 桌面端强制左右布局 */
-    #product-modal .modal .md\\:flex-row {
+    /* 强制桌面端左右布局 */
+    #modal-content-container {
         flex-direction: row !important;
+        display: flex !important;
     }
     
-    /* 桌面端图片区域优化 */
-    #product-modal .modal .md\\:w-1\\/2:first-child {
-        min-height: 500px;
+    /* 桌面端图片区域 */
+    #modal-content-container > div:first-child {
+        min-height: 500px !important;
         width: 50% !important;
         flex: 0 0 50% !important;
+        max-width: 50% !important;
     }
     
-    /* 桌面端信息区域优化 */
-    #product-modal .modal .md\\:w-1\\/2:last-child {
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
+    /* 桌面端信息区域 */
+    #modal-content-container > div:last-child {
+        border-top-right-radius: 20px !important;
+        border-bottom-right-radius: 20px !important;
         width: 50% !important;
         flex: 0 0 50% !important;
+        max-width: 50% !important;
     }
 }
 
