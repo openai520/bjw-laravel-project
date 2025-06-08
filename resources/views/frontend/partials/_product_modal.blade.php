@@ -74,11 +74,11 @@
                         <!-- 主图片 -->
                         <div class="w-full">
                             <div class="relative bg-white shadow-sm" style="border-radius: 10px; padding: 8px;">
-                                <div class="flex items-center justify-center h-48 sm:h-56">
+                                <div class="flex items-center justify-center h-44 sm:h-48">
                                     <img :src="product && product.main_image_url ? product.main_image_url : '{{ asset('img/placeholder.svg') }}'" 
                                          :alt="product ? product.name : ''"
-                                         class="max-w-full max-h-full object-contain"
-                                         style="border-radius: 8px;"
+                                         class="object-contain"
+                                         style="border-radius: 8px; max-width: 100%; max-height: 100%; width: auto; height: auto;"
                                          onerror="this.src='{{ asset('img/placeholder.svg') }}';">
                                 </div>
                             </div>
@@ -213,13 +213,17 @@
         -webkit-overflow-scrolling: touch;
     }
     
-    /* 移动端图片区域高度调整 */
-    #product-modal .modal .h-48 {
-        height: 180px !important;
+    /* 移动端图片区域高度调整 - 覆盖全局设置 */
+    #product-modal .modal .h-44 {
+        height: 150px !important;
+        min-height: 150px !important;
+        max-height: 150px !important;
     }
     
-    #product-modal .modal .sm\\:h-56 {
-        height: 180px !important;
+    #product-modal .modal .sm\\:h-48 {
+        height: 150px !important;
+        min-height: 150px !important;
+        max-height: 150px !important;
     }
 }
 
@@ -351,5 +355,30 @@
 #product-modal .modal .space-y-3,
 #product-modal .modal .space-y-4 {
     padding-bottom: 8px !important;
+}
+
+/* 图片尺寸严格控制 */
+#product-modal .modal img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+}
+
+/* 图片容器严格高度控制 */
+#product-modal .modal .h-44 {
+    height: 176px !important;
+    min-height: 176px !important;
+    max-height: 176px !important;
+}
+
+#product-modal .modal .sm\\:h-48 {
+    height: 192px !important;
+    min-height: 192px !important;
+    max-height: 192px !important;
+}
+
+/* 确保图片不会溢出容器 */
+#product-modal .modal .flex.items-center.justify-center {
+    overflow: hidden !important;
 }
 </style> 
