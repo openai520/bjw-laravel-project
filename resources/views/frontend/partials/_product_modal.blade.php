@@ -64,8 +64,8 @@
             <!-- 产品内容 - 响应式布局 -->
             <div x-show="!error" class="flex flex-col md:flex-row h-full">
 
-                <!-- 图片区域：移动端限制高度，桌面端占50%宽度 -->
-                <div class="flex-none h-80 md:flex-[0_0_50%] md:h-auto bg-gray-50 p-3 md:p-6 flex flex-col">
+                <!-- 图片区域：移动端限制高度，桌面端占40%宽度 -->
+                <div class="flex-none h-64 md:flex-[0_0_40%] md:h-auto bg-gray-50 p-3 md:p-6 flex flex-col">
                     <!-- 主图片显示区域 -->
                     <div class="flex-1 bg-white rounded-lg shadow-sm mb-3 md:mb-4 flex items-center justify-center overflow-hidden">
                         <img :src="currentImageUrl || '{{ asset('img/placeholder.svg') }}'" 
@@ -90,29 +90,29 @@
                     </div>
                 </div>
 
-                <!-- 信息区域：移动端占剩余空间，桌面端占50%宽度 -->
-                <div class="flex-1 md:flex-[0_0_50%] p-4 md:p-6 flex flex-col bg-white overflow-y-auto custom-scrollbar">
+                <!-- 信息区域：移动端占剩余空间，桌面端占60%宽度 -->
+                <div class="flex-1 md:flex-[0_0_60%] p-3 md:p-6 flex flex-col bg-white overflow-y-auto custom-scrollbar">
                     <!-- 产品标题 -->
-                    <h2 class="text-lg md:text-2xl font-bold text-gray-900 mb-2 md:mb-4" x-text="product.name"></h2>
+                    <h2 class="text-base md:text-2xl font-bold text-gray-900 mb-1 md:mb-4" x-text="product.name"></h2>
                     
                     <!-- 产品价格 -->
-                    <div class="text-xl md:text-3xl font-bold text-red-600 mb-3 md:mb-6">
+                    <div class="text-lg md:text-3xl font-bold text-red-600 mb-2 md:mb-6">
                         ¥<span x-text="product.price ? parseFloat(product.price).toFixed(2) : '0.00'"></span>
                     </div>
                     
                     <!-- 产品描述 -->
-                    <div class="flex-1 text-sm md:text-base text-gray-600 leading-relaxed mb-4 md:mb-6" x-show="product.description">
+                    <div class="flex-1 text-xs md:text-base text-gray-600 leading-relaxed mb-2 md:mb-6 max-h-20 md:max-h-none overflow-y-auto" x-show="product.description">
                         <p x-html="product.description ? product.description.replace(/\n/g, '<br>') : ''"></p>
                     </div>
                     
                     <!-- 订单信息 -->
-                    <div class="text-xs md:text-sm text-gray-500 mb-3 md:mb-4">
+                    <div class="text-xs md:text-sm text-gray-500 mb-2 md:mb-4">
                         <span x-text="translations.minimum_order_quantity"></span>: <span x-text="product.min_order_quantity"></span>
                     </div>
                     
                     <!-- 数量选择 -->
-                    <div class="mb-4 md:mb-6">
-                        <div class="flex items-center justify-center gap-3 md:gap-4 bg-gray-50 p-3 md:p-4 rounded-lg">
+                    <div class="mb-3 md:mb-6">
+                        <div class="flex items-center justify-center gap-2 md:gap-4 bg-gray-50 p-2 md:p-4 rounded-lg">
                             <button type="button" 
                                     class="w-8 h-8 md:w-10 md:h-10 bg-white rounded-lg shadow-sm flex items-center justify-center text-lg md:text-xl font-semibold text-gray-700 hover:bg-gray-100 transition-colors" 
                                     @click="quantity > (product.min_order_quantity || 1) && quantity--">−</button>
