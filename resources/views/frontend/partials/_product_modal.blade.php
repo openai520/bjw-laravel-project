@@ -129,13 +129,15 @@
 
 
 
-{{-- 优化的Grid布局样式 --}}
+{{-- 响应式Grid布局样式 --}}
 <style>
-/* 基础Grid布局 - 强制优先级 */
+/* 基础Grid布局 - 移动端优先 */
 #product-modal .modal-grid-content {
     display: grid !important;
-    grid-template-columns: 1fr 350px !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto 1fr !important;
     height: 100% !important;
+    gap: 0 !important;
 }
 
 /* 图片区域样式 */
@@ -324,7 +326,7 @@
 
 
 
-/* 桌面端优化 */
+/* 桌面端响应式布局 */
 @media (min-width: 768px) {
     #product-modal .modal-container {
         width: 900px !important;
@@ -337,10 +339,13 @@
         height: 600px !important;
     }
     
+    /* 桌面端改为左右分栏布局 */
     #product-modal .modal-grid-content {
         display: grid !important;
-        grid-template-columns: 1fr 350px !important;
+        grid-template-columns: 1.2fr 0.8fr !important;
+        grid-template-rows: 1fr !important;
         height: 100% !important;
+        gap: 0 !important;
     }
 }
 
@@ -357,6 +362,7 @@
         overflow-y: hidden !important;
     }
     
+    /* 移动端保持垂直布局 */
     #product-modal .modal-grid-content {
         grid-template-columns: 1fr !important;
         grid-template-rows: auto 1fr !important;
@@ -368,7 +374,7 @@
         padding: 1rem 1rem 0.5rem 1rem !important;
         height: auto !important;
         min-height: auto !important;
-        max-height: 50vh !important;
+        max-height: 45vh !important;
         display: flex !important;
         flex-direction: column !important;
     }
@@ -646,19 +652,27 @@
 
 /* 大屏幕（桌面端）左右分栏布局优化 */
 @media (min-width: 1025px) {
-    .modal-container {
+    #product-modal .modal-container {
         max-width: 1200px !important;
         max-height: 92vh !important;
         margin: 4vh auto !important;
     }
     
-    .modal {
+    #product-modal .modal {
         height: 100% !important;
     }
     
-    /* 大屏幕时左右区域平衡 */
-    #product-modal .modal .md\\:w-1\\/2 {
-        flex: 1;
+    /* 大屏幕时图片区域更大 */
+    #product-modal .modal-grid-content {
+        grid-template-columns: 1.4fr 0.6fr !important;
+    }
+    
+    #product-modal .image-section {
+        padding: 2.5rem !important;
+    }
+    
+    #product-modal .info-section {
+        padding: 2.5rem !important;
     }
 }
 
@@ -700,72 +714,19 @@
     transition: width 0.3s ease, border-radius 0.3s ease;
 }
     
-    /* 强制所有屏幕尺寸使用垂直布局 - 最高优先级 */
-    #product-modal .modal .flex.flex-col,
-    #product-modal .modal > div[x-show]:not([x-show="false"]) > .flex.flex-col,
-    #product-modal .modal div[x-show]:not([x-show="false"]).flex.flex-col {
-        flex-direction: column !important;
-        display: flex !important;
-    }
-    
-    /* 强制图片容器垂直布局 */
-    #product-modal .modal .flex.flex-col.gap-3,
-    #product-modal .modal div.flex.flex-col.gap-3 {
-        flex-direction: column !important;
-        display: flex !important;
-    }
-    
-    /* 强制产品信息区域垂直布局 */
-    #product-modal .modal .flex.flex-col:not(.gap-3),
-    #product-modal .modal div.flex.flex-col:not(.gap-3) {
-        flex-direction: column !important;
-        display: flex !important;
-    }
-    
-    /* 缩略图在大屏幕上水平排列 */
+    /* 缩略图在所有屏幕上水平排列 */
     #product-modal .modal .flex.space-x-2.justify-center.overflow-x-auto {
         justify-content: center !important;
-        overflow-x: visible !important;
+        overflow-x: auto !important;
         flex-direction: row !important;
     }
     
-    /* 大屏幕上的缩略图尺寸 */
-    #product-modal .modal .w-12.h-12.sm\\:w-14.sm\\:h-14 {
-        width: 60px !important;
-        height: 60px !important;
-    }
-    
-    /* 确保主容器也是垂直布局 */
-    #product-modal .modal-container .modal > div > div {
-        flex-direction: column !important;
-    }
-}
-
-/* 全局强制垂直布局 - 适用于所有屏幕尺寸 - 超高优先级 */
-#product-modal .modal .flex.flex-col,
-#product-modal .modal .flex.flex-col.lg\\:flex-row,
-#product-modal .modal div.flex.flex-col,
-#product-modal .modal div.flex.flex-col.lg\\:flex-row {
-    flex-direction: column !important;
-    display: flex !important;
-}
-
-/* 强制主要内容区域垂直排列 - 超高优先级 */
-#product-modal .modal div[x-show]:not([x-show="false"]),
-#product-modal .modal div[x-show]:not([x-show="false"]).flex,
-#product-modal .modal div[x-show]:not([x-show="false"]).flex.flex-col,
-#product-modal .modal div[x-show]:not([x-show="false"]).flex.flex-col.lg\\:flex-row {
-    flex-direction: column !important;
-    display: flex !important;
-}
-
-/* 强制覆盖所有可能的Tailwind响应式类 */
-@media (min-width: 1024px) {
-    #product-modal .modal .lg\\:flex-row,
-    #product-modal .modal div.lg\\:flex-row,
-    #product-modal .modal .flex.lg\\:flex-row,
-    #product-modal .modal div.flex.lg\\:flex-row {
-        flex-direction: column !important;
+    /* 桌面端缩略图尺寸 */
+    @media (min-width: 768px) {
+        #product-modal .modal .w-12.h-12.sm\\:w-14.sm\\:h-14 {
+            width: 60px !important;
+            height: 60px !important;
+        }
     }
 }
 
