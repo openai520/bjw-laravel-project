@@ -359,71 +359,99 @@
     
     #product-modal .modal-grid-content {
         grid-template-columns: 1fr !important;
-        grid-template-rows: 40vh auto !important;
+        grid-template-rows: auto 1fr !important;
         height: 100% !important;
+        gap: 0 !important;
     }
     
     #product-modal .image-section {
-        padding: 0.75rem !important;
-        height: 40vh !important;
-        max-height: 40vh !important;
+        padding: 1rem 1rem 0.5rem 1rem !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: 50vh !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     #product-modal .main-image-container {
-        height: calc(40vh - 3rem) !important;
-        margin-bottom: 0.5rem !important;
+        height: 250px !important;
+        min-height: 250px !important;
+        max-height: 250px !important;
+        margin-bottom: 0.75rem !important;
     }
     
     #product-modal .thumbnails-container {
         padding: 0 !important;
-        gap: 0.25rem !important;
+        gap: 0.5rem !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
     }
     
     #product-modal .thumbnail {
-        width: 45px !important;
-        height: 45px !important;
+        width: 50px !important;
+        height: 50px !important;
     }
     
     #product-modal .info-section {
         padding: 1rem !important;
         overflow-y: auto !important;
-        height: calc(60vh - 2rem) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        min-height: 0 !important;
     }
     
     #product-modal .product-title {
-        font-size: 1.1rem !important;
-        margin-bottom: 0.5rem !important;
+        font-size: 1.2rem !important;
+        margin-bottom: 0.75rem !important;
         line-height: 1.3 !important;
+        font-weight: 600 !important;
     }
     
     #product-modal .product-price {
-        font-size: 1.4rem !important;
-        margin-bottom: 0.75rem !important;
+        font-size: 1.6rem !important;
+        margin-bottom: 1rem !important;
+        font-weight: 700 !important;
     }
     
     #product-modal .product-description {
         font-size: 0.9rem !important;
-        margin-bottom: 0.75rem !important;
+        margin-bottom: 1rem !important;
         line-height: 1.4 !important;
+        flex: 1 !important;
     }
     
     #product-modal .order-info {
-        margin-bottom: 0.75rem !important;
-        font-size: 0.85rem !important;
+        margin-bottom: 1rem !important;
+        font-size: 0.9rem !important;
     }
     
     #product-modal .quantity-section {
-        margin-bottom: 1rem !important;
+        margin-bottom: 1.5rem !important;
     }
     
     #product-modal .quantity-controls {
-        padding: 0.5rem !important;
+        padding: 0.75rem !important;
+        gap: 1rem !important;
+    }
+    
+    #product-modal .quantity-btn {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.1rem !important;
+    }
+    
+    #product-modal .quantity-input {
+        width: 70px !important;
+        height: 40px !important;
+        font-size: 1rem !important;
     }
     
     #product-modal .add-to-cart {
-        font-size: 0.95rem !important;
-        padding: 0.75rem !important;
-        margin-top: 0.5rem !important;
+        font-size: 1rem !important;
+        padding: 1rem !important;
+        margin-top: auto !important;
+        min-height: 50px !important;
     }
     
     .product-title {
@@ -458,89 +486,98 @@
     }
     
     #product-modal .modal-grid-content {
-        grid-template-rows: 35vh auto !important;
+        grid-template-rows: auto 1fr !important;
         height: 100vh !important;
+        gap: 0 !important;
     }
     
     #product-modal .image-section {
-        padding: 0.5rem !important;
-        height: 35vh !important;
-        max-height: 35vh !important;
+        padding: 0.75rem 0.75rem 0.5rem 0.75rem !important;
+        height: auto !important;
+        max-height: 45vh !important;
     }
     
     #product-modal .main-image-container {
-        height: calc(35vh - 2.5rem) !important;
-        margin-bottom: 0.25rem !important;
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
+        margin-bottom: 0.5rem !important;
     }
     
     #product-modal .thumbnails-container {
-        gap: 0.2rem !important;
+        gap: 0.4rem !important;
     }
     
     #product-modal .thumbnail {
-        width: 40px !important;
-        height: 40px !important;
+        width: 45px !important;
+        height: 45px !important;
     }
     
     #product-modal .info-section {
         padding: 0.75rem !important;
-        height: calc(65vh - 1.5rem) !important;
         overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        min-height: 0 !important;
     }
     
     #product-modal .product-title {
-        font-size: 1rem !important;
-        margin-bottom: 0.4rem !important;
+        font-size: 1.1rem !important;
+        margin-bottom: 0.6rem !important;
         line-height: 1.2 !important;
+        font-weight: 600 !important;
     }
     
     #product-modal .product-price {
-        font-size: 1.3rem !important;
-        margin-bottom: 0.6rem !important;
+        font-size: 1.4rem !important;
+        margin-bottom: 0.8rem !important;
+        font-weight: 700 !important;
     }
     
     #product-modal .product-description {
         font-size: 0.85rem !important;
-        margin-bottom: 0.6rem !important;
+        margin-bottom: 0.8rem !important;
         line-height: 1.3 !important;
+        flex: 1 !important;
     }
     
     #product-modal .order-info {
-        margin-bottom: 0.6rem !important;
-        font-size: 0.8rem !important;
+        margin-bottom: 0.8rem !important;
+        font-size: 0.85rem !important;
     }
     
     #product-modal .quantity-section {
-        margin-bottom: 0.8rem !important;
+        margin-bottom: 1rem !important;
     }
     
     #product-modal .quantity-controls {
-        padding: 0.4rem !important;
-        gap: 0.5rem !important;
+        padding: 0.6rem !important;
+        gap: 0.8rem !important;
     }
     
     #product-modal .quantity-btn {
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 0.9rem !important;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1rem !important;
     }
     
     #product-modal .quantity-input {
-        width: 55px !important;
-        height: 32px !important;
-        font-size: 0.9rem !important;
+        width: 60px !important;
+        height: 36px !important;
+        font-size: 0.95rem !important;
     }
     
     #product-modal .add-to-cart {
-        font-size: 0.9rem !important;
-        padding: 0.6rem !important;
-        min-height: 42px !important;
-        margin-top: 0.4rem !important;
+        font-size: 0.95rem !important;
+        padding: 0.8rem !important;
+        min-height: 46px !important;
+        margin-top: auto !important;
     }
 }
 
 /* 矮屏幕设备优化（横屏手机等） */
-@media (max-height: 600px) {
+@media (max-height: 600px) and (max-width: 767px) {
     #product-modal .modal-container {
         height: 100vh !important;
         margin: 0 !important;
@@ -551,56 +588,46 @@
         border-radius: 0 !important;
     }
     
-    #product-modal .modal-grid-content {
-        grid-template-rows: 45vh auto !important;
-        height: 100vh !important;
+    #product-modal .main-image-container {
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
     }
     
     #product-modal .image-section {
-        height: 45vh !important;
         padding: 0.5rem !important;
-    }
-    
-    #product-modal .main-image-container {
-        height: calc(45vh - 2rem) !important;
-        margin-bottom: 0.25rem !important;
-    }
-    
-    #product-modal .info-section {
-        height: calc(55vh - 1rem) !important;
-        padding: 0.5rem !important;
-        overflow-y: auto !important;
+        max-height: 40vh !important;
     }
     
     #product-modal .product-title {
-        font-size: 0.95rem !important;
-        margin-bottom: 0.3rem !important;
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
     }
     
     #product-modal .product-price {
-        font-size: 1.2rem !important;
-        margin-bottom: 0.5rem !important;
+        font-size: 1.3rem !important;
+        margin-bottom: 0.7rem !important;
     }
     
     #product-modal .product-description {
         font-size: 0.8rem !important;
-        margin-bottom: 0.5rem !important;
+        margin-bottom: 0.7rem !important;
         line-height: 1.2 !important;
     }
     
     #product-modal .order-info {
-        margin-bottom: 0.5rem !important;
-        font-size: 0.75rem !important;
+        margin-bottom: 0.7rem !important;
+        font-size: 0.8rem !important;
     }
     
     #product-modal .quantity-section {
-        margin-bottom: 0.6rem !important;
+        margin-bottom: 0.8rem !important;
     }
     
     #product-modal .add-to-cart {
-        font-size: 0.85rem !important;
-        padding: 0.5rem !important;
-        min-height: 38px !important;
+        font-size: 0.9rem !important;
+        padding: 0.7rem !important;
+        min-height: 44px !important;
     }
 }
 
