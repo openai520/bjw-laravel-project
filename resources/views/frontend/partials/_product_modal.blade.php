@@ -31,12 +31,12 @@
         <!-- 响应式关闭按钮 -->
         <button @click="closeModal()" 
                 class="absolute z-50
-                       top-4 right-4 w-8 h-8 bg-black/50 text-white rounded-full flex items-center justify-center
-                       md:top-[-20px] md:left-[-20px] md:w-10 md:h-10 md:bg-red-500 md:border-3 md:border-white
-                       hover:bg-black/70 md:hover:bg-red-600 md:hover:scale-110
-                       transition-all duration-300"
+                       top-4 right-4 w-10 h-10 bg-black/60 text-white rounded-full flex items-center justify-center
+                       md:top-[-20px] md:left-[-20px] md:bg-red-500 md:border-3 md:border-white
+                       hover:bg-black/80 md:hover:bg-red-600 md:hover:scale-110
+                       transition-all duration-300 shadow-lg"
                 style="backdrop-filter: blur(4px);">
-            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
@@ -64,8 +64,8 @@
             <!-- 产品内容 - 响应式布局 -->
             <div x-show="!error" class="flex flex-col md:flex-row h-full">
 
-                <!-- 图片区域：移动端占50%高度，桌面端占60%宽度 -->
-                <div class="flex-1 md:flex-[0_0_60%] bg-gray-50 p-3 md:p-6 flex flex-col">
+                <!-- 图片区域：移动端限制高度，桌面端占50%宽度 -->
+                <div class="flex-none h-80 md:flex-[0_0_50%] md:h-auto bg-gray-50 p-3 md:p-6 flex flex-col">
                     <!-- 主图片显示区域 -->
                     <div class="flex-1 bg-white rounded-lg shadow-sm mb-3 md:mb-4 flex items-center justify-center overflow-hidden">
                         <img :src="currentImageUrl || '{{ asset('img/placeholder.svg') }}'" 
@@ -90,8 +90,8 @@
                     </div>
                 </div>
 
-                <!-- 信息区域：移动端占50%高度，桌面端占40%宽度 -->
-                <div class="flex-1 md:flex-[0_0_40%] p-4 md:p-6 flex flex-col bg-white overflow-y-auto custom-scrollbar">
+                <!-- 信息区域：移动端占剩余空间，桌面端占50%宽度 -->
+                <div class="flex-1 md:flex-[0_0_50%] p-4 md:p-6 flex flex-col bg-white overflow-y-auto custom-scrollbar">
                     <!-- 产品标题 -->
                     <h2 class="text-lg md:text-2xl font-bold text-gray-900 mb-2 md:mb-4" x-text="product.name"></h2>
                     
