@@ -34,6 +34,7 @@ function productModal() {
         currentImageUrl: '', // 当前显示的主图URL
         quantity: 1,
         addToCartFeedback: '',
+        isAddingToCart: false, // 新增：控制按钮状态
         cartStoreUrl: '',
         csrfToken: '',
         translations: {},
@@ -106,6 +107,7 @@ function productModal() {
             this.currentImageUrl = '';
             this.quantity = 1;
             this.addToCartFeedback = '';
+            this.isAddingToCart = false;
         },
 
         async fetchProductData(productId) {
@@ -183,7 +185,20 @@ function productModal() {
             console.log('Main image changed to:', imageUrl);
         },
 
-
+        // 处理添加到购物车按钮点击
+        async handleAddToCart() {
+            if (this.isAddingToCart) return; // 防止重复点击
+            
+            this.isAddingToCart = true;
+            try {
+                await this.addToCart();
+            } finally {
+                // 1秒后恢复按钮状态，即使出错也要恢复
+                setTimeout(() => {
+                    this.isAddingToCart = false;
+                }, 1000);
+            }
+        },
 
         async addToCart() {
             if (!this.product.id || !this.cartStoreUrl) {
