@@ -33,7 +33,7 @@
     <!-- 模态框内容容器 -->
     <div 
         class="relative w-full h-full overflow-y-auto bg-white
-               md:h-auto md:max-h-[90vh] md:w-full md:max-w-4xl md:rounded-2xl md:shadow-2xl
+               md:h-auto md:max-h-[90vh] md:w-auto md:max-w-4xl md:rounded-2xl md:shadow-2xl md:m-4
                flex flex-col md:flex-row"
         x-show="isOpen"
         x-transition:enter="transition-all ease-out duration-300"
