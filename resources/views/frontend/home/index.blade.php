@@ -202,6 +202,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('主页已加载，检查模态框功能...');
     
+    // 强制定义全局函数，确保其可用
+    window.openProductModal = function(productId) {
+        console.log('🎯 主页：openProductModal 被调用，产品ID:', productId);
+        
+        // 触发自定义事件
+        const event = new CustomEvent('open-product-modal', {
+            detail: { productId: productId }
+        });
+        window.dispatchEvent(event);
+        console.log('🔥 主页：事件已触发');
+    };
+    
     // 检查全局函数是否存在
     if (typeof window.openProductModal === 'function') {
         console.log('✅ window.openProductModal 函数已定义');
@@ -212,17 +224,41 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检查Alpine.js数据是否存在
     setTimeout(() => {
         const modalElement = document.getElementById('product-modal');
-        if (modalElement && modalElement._x_dataStack) {
-            console.log('✅ 产品模态框 Alpine.js 数据已初始化');
+        if (modalElement) {
+            console.log('✅ 产品模态框元素已找到');
+            if (modalElement._x_dataStack) {
+                console.log('✅ 产品模态框 Alpine.js 数据已初始化');
+            } else {
+                console.log('❌ 产品模态框 Alpine.js 数据未初始化');
+            }
         } else {
-            console.log('❌ 产品模态框 Alpine.js 数据未初始化');
+            console.log('❌ 产品模态框元素未找到');
         }
     }, 1000);
     
     // 监听模态框打开事件
     window.addEventListener('open-product-modal', function(event) {
         console.log('🔥 主页：接收到打开模态框事件，产品ID:', event.detail.productId);
+        
+        // 查找模态框元素并触发Alpine.js事件
+        const modalElement = document.getElementById('product-modal');
+        if (modalElement && modalElement.__x) {
+            console.log('📱 通过Alpine.js打开模态框');
+            modalElement.__x.$data.openModal(event.detail.productId);
+        } else {
+            console.log('❌ 无法通过Alpine.js打开模态框');
+        }
     });
 });
+
+// 立即定义函数，不等待DOM加载
+if (typeof window.openProductModal !== 'function') {
+    window.openProductModal = function(productId) {
+        console.log('🎯 立即执行：openProductModal 被调用，产品ID:', productId);
+        window.dispatchEvent(new CustomEvent('open-product-modal', {
+            detail: { productId: productId }
+        }));
+    };
+}
 </script>
 @endsection
