@@ -124,7 +124,9 @@
                             :src="currentImageUrl || '{{ asset('img/placeholder.svg') }}'" 
                             :alt="product.name" 
                             class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                            onerror="this.src='{{ asset('img/placeholder.svg') }}'">
+                            onerror="console.error('Image failed to load:', this.src); this.src='{{ asset('img/placeholder.svg') }}'; console.log('Fallback to placeholder');"
+                            onload="console.log('Image loaded successfully:', this.src);"
+                            style="border: 2px solid red; background: yellow;">
                         <!-- 放大镜图标提示 - 修复遮挡问题 -->
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center pointer-events-none">
                             <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
