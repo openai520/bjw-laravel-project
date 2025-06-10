@@ -69,7 +69,10 @@ class ProductController extends Controller
             'status' => 'published'
         ]);
 
-        $query = Product::with(['category']);
+        // 修复N+1查询问题 - 预加载所有需要的关系
+        $query = Product::with(['category', 'mainImage', 'images' => function($query) {
+            $query->where('is_main', true);
+        }]);
 
         if ($categoryId) {
             $query->where('category_id', $categoryId);

@@ -28,8 +28,13 @@ class CartController extends Controller
         // 如果有需要更新的产品，批量查询数据库
         if ($needsUpdate) {
             try {
-                // 批量获取所有需要的产品
-                $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
+                // 批量获取所有需要的产品 - 修复N+1查询问题
+                $products = Product::with(['mainImage', 'images' => function($query) {
+                    $query->where('is_main', true);
+                }])
+                ->whereIn('id', $productIds)
+                ->get()
+                ->keyBy('id');
                 
                 // 更新购物车数据
                 foreach ($cart as $productId => &$item) {
