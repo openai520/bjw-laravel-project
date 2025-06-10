@@ -131,23 +131,25 @@ class CartController extends Controller
         try {
             // 如果已经预加载了mainImage关联
             if ($product->relationLoaded('mainImage') && $product->mainImage) {
-                return Storage::url($product->mainImage->image_path);
+                $cleanPath = ltrim($product->mainImage->image_path, '/');
+                return asset('storage/' . $cleanPath);
             }
 
             // 如果没有主图，尝试获取第一个图片（也通过预加载优化）
             if ($product->relationLoaded('images')) {
                 $firstImage = $product->images->first();
                 if ($firstImage) {
-                    return Storage::url($firstImage->image_path);
+                    $cleanPath = ltrim($firstImage->image_path, '/');
+                    return asset('storage/' . $cleanPath);
                 }
             }
 
             // 返回默认图片
-            return $this->getDefaultImageSvg();
+            return asset('img/placeholder.svg');
 
         } catch (\Exception $e) {
             \Log::error("Error getting optimized image URL for product {$product->id}: " . $e->getMessage());
-            return $this->getDefaultImageSvg();
+            return asset('img/placeholder.svg');
         }
     }
 

@@ -71,9 +71,9 @@ class Product extends Model
             $mainImg = $this->relationLoaded('mainImage') ? $this->mainImage : $this->mainImage()->first();
 
             if ($mainImg && $mainImg->image_path) {
-                // 直接返回URL，避免昂贵的文件存在性检查
-                // 如果文件不存在，前端会通过onerror处理显示占位符
-                return Storage::url($mainImg->image_path);
+                // 使用 asset() 确保生成完整的URL
+                $cleanPath = ltrim($mainImg->image_path, '/');
+                return asset('storage/' . $cleanPath);
             }
 
             // 如果没有主图，尝试获取第一个图片
@@ -86,16 +86,17 @@ class Product extends Model
             }
 
             if ($firstImg && $firstImg->image_path) {
-                // 同样避免文件存在性检查
-                return Storage::url($firstImg->image_path);
+                // 同样使用 asset() 生成完整的URL
+                $cleanPath = ltrim($firstImg->image_path, '/');
+                return asset('storage/' . $cleanPath);
             }
             
             // 没有找到任何图片，返回默认SVG
-            return $this->getDefaultImageSvg();
+            return asset('img/placeholder.svg');
 
         } catch (\Exception $e) {
             \Log::error("Error in getMainImageUrlAttribute for product {$this->id}: " . $e->getMessage(), ['exception' => $e]);
-            return $this->getDefaultImageSvg(); // Fallback to default SVG on any error
+            return asset('img/placeholder.svg'); // Fallback to default SVG on any error
         }
     }
 
@@ -109,7 +110,8 @@ class Product extends Model
             $mainImg = $this->relationLoaded('mainImage') ? $this->mainImage : $this->mainImage()->first();
 
             if ($mainImg && $mainImg->thumbnail_path) {
-                return Storage::url($mainImg->thumbnail_path);
+                $cleanPath = ltrim($mainImg->thumbnail_path, '/');
+                return asset('storage/' . $cleanPath);
             }
 
             // 如果主图没有缩略图，尝试获取第一个图片的缩略图
@@ -121,7 +123,8 @@ class Product extends Model
             }
 
             if ($firstImg && $firstImg->thumbnail_path) {
-                return Storage::url($firstImg->thumbnail_path);
+                $cleanPath = ltrim($firstImg->thumbnail_path, '/');
+                return asset('storage/' . $cleanPath);
             }
 
             // 如果没有缩略图，回退到主图
@@ -129,7 +132,7 @@ class Product extends Model
 
         } catch (\Exception $e) {
             \Log::error("Error in getThumbnailUrlAttribute for product {$this->id}: " . $e->getMessage());
-            return $this->getDefaultImageSvg();
+            return asset('img/placeholder.svg');
         }
     }
 

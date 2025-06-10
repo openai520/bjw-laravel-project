@@ -250,7 +250,12 @@ class ProductController extends Controller
             ? $image->thumbnail_path 
             : $image->image_path;
 
-        return $path ? Storage::url($path) : asset('img/placeholder.svg');
+        if ($path) {
+            $cleanPath = ltrim($path, '/');
+            return asset('storage/' . $cleanPath);
+        }
+        
+        return asset('img/placeholder.svg');
     }
 
     /**
@@ -260,14 +265,16 @@ class ProductController extends Controller
     {
         // 如果已经预加载了mainImage关联
         if ($product->relationLoaded('mainImage') && $product->mainImage) {
-            return Storage::url($product->mainImage->image_path);
+            $cleanPath = ltrim($product->mainImage->image_path, '/');
+            return asset('storage/' . $cleanPath);
         }
 
         // 如果没有主图，尝试获取第一个图片
         if ($product->relationLoaded('images')) {
             $firstImage = $product->images->first();
             if ($firstImage) {
-                return Storage::url($firstImage->image_path);
+                $cleanPath = ltrim($firstImage->image_path, '/');
+                return asset('storage/' . $cleanPath);
             }
         }
 
