@@ -1,6 +1,6 @@
 @php
-    // 优先使用主图的URL，然后是缩略图，最后是占位符
-    $imageUrl = $product->main_image_url ?? ($product->thumbnail_url ?? asset('img/placeholder.svg'));
+    // 优先使用缩略图，然后是主图，最后是占位符
+    $imageUrl = $product->thumbnail_url ?? ($product->main_image_url ?? asset('img/placeholder.svg'));
     $productName = $product->getTranslation('name', app()->getLocale()) ?? ($product->name ?? __('N/A'));
     $productPrice = $product->price ?? '0.00';
 @endphp
