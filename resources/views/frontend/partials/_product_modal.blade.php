@@ -13,44 +13,57 @@
     3. 使用 cubic-bezier(0.4, 0, 0.2, 1) 缓动函数
     4. 0.4秒的平滑过渡时间
     5. 响应式图片高度适配
+    6. 增强的黑色半透明遮罩效果
 --}}
 <div 
     id="product-modal"
     x-data="productModal()"
     x-show="isOpen"
     x-cloak
+    class="modal-overlay fixed inset-0 z-50 flex items-center justify-center"
+    :class="{ 'active': isOpen }"
     x-transition:enter="transition ease-out duration-400"
     x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
     @open-product-modal.window="openModal($event.detail.productId)"
     @keydown.escape.window="closeModal()"
-    class="fixed inset-0 z-50 flex items-center justify-center"
     role="dialog"
     aria-modal="true"
     aria-labelledby="modal-title"
     style="display: none;"
 >
-    <!-- 背景遮罩 -->
-    <div @click="closeModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm" x-show="isOpen" x-transition.opacity></div>
+    <!-- 增强的背景遮罩层 -->
+    <div 
+        @click="closeModal()" 
+        class="modal-backdrop absolute inset-0 bg-black transition-opacity"
+        :class="{ 'opacity-60': isOpen, 'opacity-0': !isOpen }"
+        x-transition:enter="transition-opacity ease-out duration-400"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-60"
+        x-transition:leave="transition-opacity ease-in duration-300"
+        x-transition:leave-start="opacity-60"
+        x-transition:leave-end="opacity-0"
+        aria-hidden="true">
+    </div>
 
     <!-- 模态框内容容器 -->
     <div 
-        class="modal-container relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden
+        class="modal-container relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden z-10
                max-sm:w-full max-sm:h-full max-sm:max-w-none max-sm:mx-0 max-sm:rounded-none max-sm:shadow-none"
         x-show="isOpen"
         x-transition:enter="transition-all duration-400"
-        x-transition:enter-start="opacity-0 transform scale-95 max-sm:translate-y-full"
+        x-transition:enter-start="opacity-0 transform scale-90 max-sm:translate-y-full"
         x-transition:enter-end="opacity-100 transform scale-100 max-sm:translate-y-0"
-        x-transition:leave="transition-all duration-200"
+        x-transition:leave="transition-all duration-300"
         x-transition:leave-start="opacity-100 transform scale-100 max-sm:translate-y-0"
-        x-transition:leave-end="opacity-0 transform scale-95 max-sm:translate-y-full"
-        style="transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);"
+        x-transition:leave-end="opacity-0 transform scale-90 max-sm:translate-y-full"
+        @click.stop
     >
         <!-- 关闭按钮 -->
-        <button @click="closeModal()" class="absolute top-4 right-4 z-20 text-gray-500 hover:text-red-500 transition-colors">
+        <button @click="closeModal()" class="absolute top-4 right-4 z-20 text-gray-500 hover:text-red-500 transition-colors duration-200">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -175,7 +188,7 @@
                                 </span>
                                 <!-- 默认状态显示 -->
                                 <span x-show="!isAddingToCart" class="flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l.218-.219.133-.133.942-.941 1.058-1.058a1 1 0 00.028-.03l.21-.209L17.6 4.575A.996.996 0 0018 4H4.76L4.23.85A.997.997 0 003.25.137H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
+                                    <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l.218-.219.133-.133.942-.941 1.058-1.058a1 1 0 00.028-.30l.21-.209L17.6 4.575A.996.996 0 0018 4H4.76L4.23.85A.997.997 0 003.25.137H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                                     <span x-text="translations.add_to_cart || 'Add to Cart'"></span>
                                 </span>
                             </button>
@@ -188,18 +201,41 @@
 </div>
 
 <style>
-/* 自定义CSS样式 - 响应式模态框 */
+/* 增强的模态框遮罩样式 */
+.modal-overlay {
+    background: rgba(0, 0, 0, 0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 背景遮罩层 */
+.modal-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+/* 模态框容器基础样式 */
 .modal-container {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     max-width: 500px;
+    transform: scale(0.9);
+    z-index: 1001;
+}
+
+/* 当模态框激活时的样式 */
+.modal-overlay.active .modal-container {
+    transform: scale(1);
 }
 
 /* 大屏幕样式 */
 @media (min-width: 640px) {
-    .modal-container {
-        transform: scale(1);
-    }
-    
     .main-image {
         height: 320px;
     }
@@ -214,14 +250,15 @@
         margin: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        transform: translateY(100%);
     }
     
-    .modal-container[x-show="isOpen"] {
+    .modal-overlay.active .modal-container {
         transform: translateY(0);
     }
     
-    .modal-container:not([x-show="isOpen"]) {
-        transform: translateY(100%);
+    .modal-backdrop {
+        background: rgba(0, 0, 0, 0.8);
     }
 }
 
@@ -230,6 +267,12 @@
     .main-image {
         height: 200px !important;
     }
+}
+
+/* 防止背景滚动 */
+body.modal-open {
+    overflow: hidden;
+    height: 100vh;
 }
 
 /* 滚动条样式优化 */
@@ -249,5 +292,60 @@
 
 .modal-container::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+/* 模态框打开时的动画效果 */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* 模态框关闭时的动画效果 */
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes modalSlideDown {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
+/* 增强的层级管理 */
+.modal-overlay {
+    z-index: 1000;
+}
+
+.modal-backdrop {
+    z-index: 1000;
+}
+
+.modal-container {
+    z-index: 1001;
 }
 </style> 

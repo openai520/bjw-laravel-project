@@ -75,8 +75,10 @@ function productModal() {
             this.isOpen = true;
             this.error = null;
             
-            // 防止背景滚动
+            // 增强的背景滚动锁定
+            document.body.classList.add('modal-open');
             document.body.style.overflow = 'hidden';
+            document.body.style.height = '100vh';
             
             // 在后台获取产品数据，但不显示加载状态
             this.fetchProductData(productId);
@@ -89,7 +91,9 @@ function productModal() {
             this.resetProduct();
             
             // 恢复背景滚动
+            document.body.classList.remove('modal-open');
             document.body.style.overflow = '';
+            document.body.style.height = '';
         },
 
         resetProduct() {
