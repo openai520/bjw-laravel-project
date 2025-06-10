@@ -1,24 +1,24 @@
 import './bootstrap';
 
-// 导入 FilePond CSS
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+// // 导入 FilePond CSS
+// import 'filepond/dist/filepond.min.css';
+// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-// 导入 FilePond JS 和插件
-import * as FilePond from 'filepond';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+// // 导入 FilePond JS 和插件
+// import * as FilePond from 'filepond';
+// import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+// import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+// import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
-// 注册 FilePond 插件
-FilePond.registerPlugin(
-    FilePondPluginImagePreview,
-    FilePondPluginFileValidateType,
-    FilePondPluginFileValidateSize
-);
+// // 注册 FilePond 插件
+// FilePond.registerPlugin(
+//     FilePondPluginImagePreview,
+//     FilePondPluginFileValidateType,
+//     FilePondPluginFileValidateSize
+// );
 
-// 将 FilePond 赋值给 window 对象，使其在 Blade 视图中的 <script> 标签内可用
-window.FilePond = FilePond;
+// // 将 FilePond 赋值给 window 对象，使其在 Blade 视图中的 <script> 标签内可用
+// window.FilePond = FilePond;
 
 // 注册 Alpine.js 插件
 import Alpine from 'alpinejs';
