@@ -67,14 +67,16 @@ class Product extends Model
     public function getMainImageUrlAttribute()
     {
         try {
-            // 优先使用预加载的 mainImage 关系
+            // 优先使用预加载的 mainImage 关系，避免重复查询
             $mainImg = $this->relationLoaded('mainImage') ? $this->mainImage : $this->mainImage()->first();
 
-            if ($mainImg && $mainImg->image_path && Storage::disk('public')->exists($mainImg->image_path)) {
+            if ($mainImg && $mainImg->image_path) {
+                // 直接返回URL，避免昂贵的文件存在性检查
+                // 如果文件不存在，前端会通过onerror处理显示占位符
                 return Storage::url($mainImg->image_path);
             }
 
-            // 如果没有主图或主图无效，尝试获取第一个图片
+            // 如果没有主图，尝试获取第一个图片
             // 优先使用预加载的 images 关系
             $firstImg = null;
             if ($this->relationLoaded('images')) {
@@ -83,11 +85,12 @@ class Product extends Model
                 $firstImg = $this->images()->first(); // Query if not loaded
             }
 
-            if ($firstImg && $firstImg->image_path && Storage::disk('public')->exists($firstImg->image_path)) {
+            if ($firstImg && $firstImg->image_path) {
+                // 同样避免文件存在性检查
                 return Storage::url($firstImg->image_path);
             }
             
-            // \Log::debug("Product {$this->id}: No valid image found, returning default SVG.");
+            // 没有找到任何图片，返回默认SVG
             return $this->getDefaultImageSvg();
 
         } catch (\Exception $e) {

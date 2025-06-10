@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -169,28 +170,32 @@ class ProductController extends Controller
                 ], 404);
             }
 
-            // 预加载所需关联
+            // 预加载所需关联，优化性能
             $product->load('mainImage', 'images', 'category');
 
-            // 准备图片数据
+            // 高效准备图片数据，避免重复的文件系统检查
             $images = $product->images->map(function ($image) {
                 return [
                     'id' => $image->id,
-                    'thumbnail_url' => $image->thumbnail_url,
-                    'main_image_url' => $image->main_image_url,
+                    'thumbnail_url' => $this->getOptimizedImageUrl($image, 'thumbnail'),
+                    'main_image_url' => $this->getOptimizedImageUrl($image, 'main'),
                     'is_main' => $image->is_main
                 ];
             });
 
             // 如果没有图片，提供占位符
             if ($images->isEmpty()) {
+                $placeholderUrl = asset('img/placeholder.svg');
                 $images = collect([[
                     'id' => 0,
-                    'thumbnail_url' => asset('img/placeholder.svg'),
-                    'main_image_url' => asset('img/placeholder.svg'),
+                    'thumbnail_url' => $placeholderUrl,
+                    'main_image_url' => $placeholderUrl,
                     'is_main' => true
                 ]]);
             }
+
+            // 获取主图URL，避免重复的文件系统检查
+            $mainImageUrl = $this->getProductMainImageUrl($product);
 
             // 返回产品数据
             return response()->json([
@@ -206,8 +211,8 @@ class ProductController extends Controller
                         'name' => $product->category ? ($product->category->getTranslation('name', $lang) ?? $product->category->name_en) : null,
                     ],
                     'images' => $images,
-                    'main_image_url' => $product->main_image_url ?? asset('img/placeholder.svg'),
-                    'thumbnail_url' => $product->thumbnail_url ?? asset('img/placeholder.svg'),
+                    'main_image_url' => $mainImageUrl,
+                    'thumbnail_url' => $mainImageUrl, // 使用相同的主图作为缩略图
                 ],
                 'cart_store_url' => route('frontend.cart.store', ['lang' => $lang]),
                 'csrf_token' => csrf_token(),
@@ -230,5 +235,43 @@ class ProductController extends Controller
                 'message' => 'An error occurred while loading product data.'
             ], 500);
         }
+    }
+
+    /**
+     * 高效获取图片URL，避免重复的文件系统检查
+     */
+    protected function getOptimizedImageUrl($image, $type = 'main')
+    {
+        if (!$image) {
+            return asset('img/placeholder.svg');
+        }
+
+        $path = $type === 'thumbnail' && $image->thumbnail_path 
+            ? $image->thumbnail_path 
+            : $image->image_path;
+
+        return $path ? Storage::url($path) : asset('img/placeholder.svg');
+    }
+
+    /**
+     * 高效获取产品主图URL
+     */
+    protected function getProductMainImageUrl($product)
+    {
+        // 如果已经预加载了mainImage关联
+        if ($product->relationLoaded('mainImage') && $product->mainImage) {
+            return Storage::url($product->mainImage->image_path);
+        }
+
+        // 如果没有主图，尝试获取第一个图片
+        if ($product->relationLoaded('images')) {
+            $firstImage = $product->images->first();
+            if ($firstImage) {
+                return Storage::url($firstImage->image_path);
+            }
+        }
+
+        // 返回默认图片
+        return asset('img/placeholder.svg');
     }
 } 

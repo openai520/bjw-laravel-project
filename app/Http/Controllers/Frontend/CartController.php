@@ -86,16 +86,13 @@ class CartController extends Controller
         ]);
 
         try {
-            $product = Product::findOrFail($request->product_id);
+            // 预加载mainImage关联以避免N+1查询和重复文件系统检查
+            $product = Product::with('mainImage')->findOrFail($request->product_id);
             $cart = session()->get('cart', []);
             $quantity = max($request->quantity, $product->min_order_quantity);
 
-            // 获取主图URL并记录日志
-            $mainImageUrl = $product->main_image_url;
-            \Log::debug("Adding product to cart", [
-                'product_id' => $product->id,
-                'main_image_url' => $mainImageUrl
-            ]);
+            // 高效获取主图URL，避免重复的文件系统检查
+            $mainImageUrl = $this->getOptimizedImageUrl($product);
 
             if (isset($cart[$product->id])) {
                 $cart[$product->id]['quantity'] += $quantity;
@@ -123,6 +120,34 @@ class CartController extends Controller
                 'success' => false,
                 'message' => __('cart.error_occurred')
             ], 500);
+        }
+    }
+
+    /**
+     * 高效获取产品主图URL，避免重复的文件系统检查
+     */
+    protected function getOptimizedImageUrl($product)
+    {
+        try {
+            // 如果已经预加载了mainImage关联
+            if ($product->relationLoaded('mainImage') && $product->mainImage) {
+                return Storage::url($product->mainImage->image_path);
+            }
+
+            // 如果没有主图，尝试获取第一个图片（也通过预加载优化）
+            if ($product->relationLoaded('images')) {
+                $firstImage = $product->images->first();
+                if ($firstImage) {
+                    return Storage::url($firstImage->image_path);
+                }
+            }
+
+            // 返回默认图片
+            return $this->getDefaultImageSvg();
+
+        } catch (\Exception $e) {
+            \Log::error("Error getting optimized image URL for product {$product->id}: " . $e->getMessage());
+            return $this->getDefaultImageSvg();
         }
     }
 
