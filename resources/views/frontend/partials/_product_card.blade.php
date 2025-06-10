@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div class="info-wrapper mt-2 sm:mt-4 md:mt-6 flex flex-col justify-end flex-grow">
+    <div class="info-wrapper mt-2 flex flex-col justify-start flex-grow">
         <div>
             <h2 class="text-base font-bold text-neutral-700 truncate max-w-full mb-1">
                 {{ $productName }}

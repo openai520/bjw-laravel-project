@@ -92,7 +92,8 @@
     cursor: pointer;
     text-decoration: none;
     height: 100%;
-    border: 1px solid var(--md-sys-color-outline-variant);
+    /* 移除边框 */
+    border: none;
 }
 
 .product-card:hover {

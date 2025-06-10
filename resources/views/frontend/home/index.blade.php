@@ -148,15 +148,15 @@
     margin-top: 0.5rem !important; /* mt-2, Increased from 0.125rem */
     width: 100% !important;
     flex-grow: 1;
-    overflow: hidden;
+    overflow: visible !important; /* 改为visible防止文字被遮挡 */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end !important; /* Changed from center to push content to the bottom */
+    justify-content: flex-start !important; /* 改为flex-start防止文字被推到下面 */
     align-items: flex-start !important; /* Ensure text content aligns to the start of the cross-axis */
 }
 
 .home-horizontal-scroll-products .product-card .image-container {
-    height: 286px !important; /* New image container height: (350/500)*400 = 280px + 6px */
+    height: 260px !important; /* 减少图片高度，留出更多空间给文字 */
     border-radius: 8px !important; /* Inner radius: 20px card - 12px padding = 8px */
     width: 100% !important; 
     flex-shrink: 0; 

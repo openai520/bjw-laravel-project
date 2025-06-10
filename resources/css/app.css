@@ -214,7 +214,8 @@ input[type="number"]::-webkit-spin-button {
         background-color: var(--md-sys-color-surface);
         border-radius: var(--card-border-radius);
         box-shadow: var(--md-sys-elevation-level1);
-        border: 1px solid var(--md-sys-color-outline-variant);
+        /* 移除边框 */
+        border: none;
         /* 简化动画 - 只保留基本的transform和box-shadow */
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
