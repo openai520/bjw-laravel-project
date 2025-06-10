@@ -12,23 +12,20 @@
      @click="clicked = true; setTimeout(() => clicked = false, 200)"
      :class="{ 'scale-95': clicked }"
      class="transition-transform duration-200">
-    {{-- 用 x-data 初始化一个 'loaded' 状态 --}}
-    <div class="image-container flex justify-center h-[260px] rounded-3xl overflow-hidden" 
-         x-data="{ loaded: false }"
+    <div class="image-container flex items-center justify-center h-[260px] rounded-3xl overflow-hidden bg-gray-50" 
          style="border-radius: 10px !important;">
-        <div class="flex items-center justify-center w-full h-full">
-            <img 
-                src="{{ $imageUrl }}" 
-                alt="{{ $productName }}"
-                class="object-cover rounded-3xl max-h-full max-w-full transition-opacity duration-300 ease-in-out" 
-                :class="{ 'opacity-100': loaded, 'opacity-0': !loaded }" 
-                style="border-radius: 10px !important; object-fit: cover;"
-                onerror="this.onerror=null; this.src='{{ asset('img/placeholder.svg') }}';"
-                loading="lazy"
-                x-init="if ($el.complete) loaded = true"
-                @load.once="loaded = true" 
-            />
-        </div>
+        <img 
+            x-data="{ loaded: false }"
+            x-init="$nextTick(() => { if ($el.complete) loaded = true })"
+            @load.once="loaded = true"
+            src="{{ $imageUrl }}" 
+            alt="{{ $productName }}"
+            class="object-cover rounded-3xl max-h-full max-w-full transition-opacity duration-300 ease-in-out" 
+            :class="{ 'opacity-100': loaded, 'opacity-0': !loaded }" 
+            style="border-radius: 10px !important; object-fit: cover;"
+            onerror="this.onerror=null; this.src='{{ asset('img/placeholder.svg') }}';"
+            loading="lazy"
+        />
     </div>
 
     <div class="info-wrapper mt-2 flex flex-col justify-start flex-grow">
