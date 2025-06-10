@@ -25,7 +25,8 @@
                 style="border-radius: 10px !important; object-fit: cover;"
                 onerror="this.onerror=null; this.src='{{ asset('img/placeholder.svg') }}';"
                 loading="lazy"
-                @load="loaded = true" 
+                x-init="if ($el.complete) loaded = true"
+                @load.once="loaded = true" 
             />
         </div>
     </div>
