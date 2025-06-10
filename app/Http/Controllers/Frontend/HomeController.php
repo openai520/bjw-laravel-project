@@ -12,9 +12,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         // 获取最新的12个已发布的产品 - 修复N+1查询问题
-        $latestProducts = Product::with(['mainImage', 'images' => function($query) {
-                                $query->where('is_main', true);
-                            }])
+        $latestProducts = Product::with(['mainImage', 'images'])
                                ->where('status', 'published')
                                ->latest()
                                ->take(12)
@@ -29,9 +27,7 @@ class HomeController extends Controller
                                 }, 
                                 'homeFeaturedProducts.product' => function ($query) {
                                     $query->where('status', 'published')
-                                          ->with(['mainImage', 'images' => function($subQuery) {
-                                              $subQuery->where('is_main', true);
-                                          }]);
+                                          ->with(['mainImage', 'images']);
                                 }
                             ])
                             ->get();
