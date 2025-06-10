@@ -77,7 +77,7 @@
     
     /* Material Design 3 图片样式 */
     .product-image {
-        @apply w-full h-full object-cover;
+        @apply w-full h-full object-contain;
         transition: opacity 0.3s ease-in-out;
     }
     
