@@ -41,17 +41,25 @@
                 @endforelse
             </div>
 
-            <!-- 加载更多指示器 - 增强版 -->
+            <!-- 加载更多指示器 - 只有在有下一页且不是正在加载时才显示 -->
             <div class="loading-indicator"
-                 :class="{ 'opacity-100 h-auto py-4': loading, 'opacity-0 h-px overflow-hidden pointer-events-none': !loading }"
-                 style="transition: opacity 0.3s, height 0.3s;">
-                <div class="flex justify-center items-center">
-                    <svg class="animate-spin h-5 w-5 text-blue-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="text-gray-600 font-medium">{{ __('Loading more products...') }}</span>
-                </div>
+                 x-show="!noMorePages && !loading && nextPageUrl"
+                 class="flex justify-center items-center py-8">
+                <div class="text-gray-500 text-sm">{{ __('Scroll to load more products...') }}</div>
+            </div>
+            
+            <!-- 正在加载指示器 -->
+            <div x-show="loading" class="flex justify-center items-center py-8">
+                <svg class="animate-spin h-5 w-5 text-blue-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="text-gray-600 font-medium">{{ __('Loading more products...') }}</span>
+            </div>
+            
+            <!-- 没有更多产品指示器 -->
+            <div x-show="noMorePages" class="flex justify-center items-center py-8">
+                <div class="text-gray-500 text-sm">{{ __('No more products to load.') }}</div>
             </div>
             
             <!-- 骨架屏占位符（在没有更多内容时显示） -->
@@ -80,6 +88,7 @@
                 if (!this.nextPageUrl) {
                     this.noMorePages = true;
                     console.log("InfiniteScroll: Initial nextPageUrl is empty. No more pages from the start.");
+                    return; // 如果没有下一页，不需要设置滚动监听
                 }
                 this.setupInfiniteScroll();
             },
@@ -93,8 +102,8 @@
 
                 this.observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            console.log("Loading indicator is intersecting!");
+                        if (entry.isIntersecting && !this.loading && !this.noMorePages && this.nextPageUrl) {
+                            console.log("Loading indicator is intersecting! Triggering loadMore");
                             this.loadMore();
                         }
                     });

@@ -35,7 +35,7 @@ class Product extends Model
         'deleted_at' => 'datetime',
     ];
 
-    protected $appends = ['main_image_url'];
+    protected $appends = ['main_image_url', 'thumbnail_url'];
 
     /**
      * 获取产品所属的分类
@@ -96,6 +96,40 @@ class Product extends Model
         } catch (\Exception $e) {
             \Log::error("Error in getMainImageUrlAttribute for product {$this->id}: " . $e->getMessage(), ['exception' => $e]);
             return $this->getDefaultImageSvg(); // Fallback to default SVG on any error
+        }
+    }
+
+    /**
+     * 获取产品的缩略图URL
+     */
+    public function getThumbnailUrlAttribute()
+    {
+        try {
+            // 优先使用预加载的 mainImage 关系，获取缩略图
+            $mainImg = $this->relationLoaded('mainImage') ? $this->mainImage : $this->mainImage()->first();
+
+            if ($mainImg && $mainImg->thumbnail_path) {
+                return Storage::url($mainImg->thumbnail_path);
+            }
+
+            // 如果主图没有缩略图，尝试获取第一个图片的缩略图
+            $firstImg = null;
+            if ($this->relationLoaded('images')) {
+                $firstImg = $this->images->first();
+            } else {
+                $firstImg = $this->images()->first();
+            }
+
+            if ($firstImg && $firstImg->thumbnail_path) {
+                return Storage::url($firstImg->thumbnail_path);
+            }
+
+            // 如果没有缩略图，回退到主图
+            return $this->main_image_url;
+
+        } catch (\Exception $e) {
+            \Log::error("Error in getThumbnailUrlAttribute for product {$this->id}: " . $e->getMessage());
+            return $this->getDefaultImageSvg();
         }
     }
 
