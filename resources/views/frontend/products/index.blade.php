@@ -72,6 +72,9 @@
             loading: false,
             noMorePages: false,
             observer: null,
+            // 节流相关属性
+            lastRequestTime: 0,
+            throttleDelay: 300, // 300ms节流延迟
 
             init() {
                 if (!this.nextPageUrl) {
@@ -111,6 +114,14 @@
 
             loadMore() {
                 console.log("loadMore called. Current nextPageUrl:", this.nextPageUrl, "Loading:", this.loading, "NoMorePages:", this.noMorePages);
+                
+                // 检查节流条件
+                const currentTime = Date.now();
+                if (currentTime - this.lastRequestTime < this.throttleDelay) {
+                    console.log("loadMore: Request throttled. Last request was", currentTime - this.lastRequestTime, "ms ago");
+                    return;
+                }
+                
                 if (this.loading || this.noMorePages || !this.nextPageUrl) {
                     console.log("loadMore returned early. Loading:", this.loading, "NoMorePages:", this.noMorePages, "Has nextPageUrl:", !!this.nextPageUrl);
                     if (!this.nextPageUrl && !this.noMorePages) { // Ensure noMorePages is set if URL is missing
@@ -119,6 +130,8 @@
                     return;
                 }
 
+                // 更新最后请求时间
+                this.lastRequestTime = currentTime;
                 this.loading = true;
                 console.log("loadMore: Set loading to true. Fetching URL:", this.nextPageUrl);
 

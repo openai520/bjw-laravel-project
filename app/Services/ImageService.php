@@ -26,10 +26,10 @@ class ImageService
     
     /**
      * 图片质量（0-100）
-     * 提高质量以改善清晰度
+     * 优化压缩以提升性能和节省流量
      */
-    const JPEG_QUALITY = 95;
-    const WEBP_QUALITY = 92;
+    const JPEG_QUALITY = 75;
+    const WEBP_QUALITY = 68;
     
     /**
      * 图片管理器
