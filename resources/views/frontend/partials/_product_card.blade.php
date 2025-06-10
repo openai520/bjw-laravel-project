@@ -7,7 +7,11 @@
 
 <div class="product-card w-full bg-white rounded-3xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md p-3 sm:p-4 flex flex-col cursor-pointer" 
      style="height: 350px; border-radius: 20px !important;"
-     onclick="console.log('🎯 产品卡片被点击！产品ID: {{ $product->id }}'); console.log('🔍 检查openProductModal函数:', typeof window.openProductModal); if(typeof window.openProductModal === 'function') { console.log('📞 调用openProductModal函数...'); window.openProductModal({{ $product->id }}); } else { console.error('❌ openProductModal函数未找到!'); }">
+     @click.prevent="$dispatch('open-product-modal', { productId: {{ $product->id }} })"
+     x-data="{ clicked: false }"
+     @click="clicked = true; setTimeout(() => clicked = false, 200)"
+     :class="{ 'scale-95': clicked }"
+     class="transition-transform duration-200">
     {{-- 用 x-data 初始化一个 'loaded' 状态 --}}
     <div class="image-container flex justify-center h-[260px] rounded-3xl overflow-hidden" 
          x-data="{ loaded: false }"

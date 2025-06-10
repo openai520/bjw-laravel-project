@@ -2,42 +2,8 @@
 <script>
 // 等待Alpine.js初始化完成
 document.addEventListener('alpine:init', function() {
-    console.log('🎯 Alpine.js 已初始化，注册产品模态框功能');
-    
-    // 确保全局函数可用
-    if (typeof window.openProductModal !== 'function') {
-        window.openProductModal = function(productId) {
-            console.log('🚀 开启产品模态框，产品ID:', productId);
-            window.dispatchEvent(new CustomEvent('open-product-modal', {
-                detail: { productId: productId }
-            }));
-        };
-    }
-});
-
-// 立即定义函数作为备用方案
-if (typeof window.openProductModal !== 'function') {
-    window.openProductModal = function(productId) {
-        console.log('🚀 备用方案：开启产品模态框，产品ID:', productId);
-        window.dispatchEvent(new CustomEvent('open-product-modal', {
-            detail: { productId: productId }
-        }));
-    };
-}
-
-// 确保在DOM加载完成后也初始化
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Product modal script loaded');
-    
-    // 确保全局函数可用
-    if (typeof window.openProductModal !== 'function') {
-        window.openProductModal = function(productId) {
-            console.log('Opening product modal for product ID:', productId);
-            window.dispatchEvent(new CustomEvent('open-product-modal', {
-                detail: { productId: productId }
-            }));
-        };
-    }
+    console.log('🎯 Alpine.js 已初始化，产品模态框功能使用事件总线');
+    console.log('✅ 旧的openProductModal全局函数已清理，现在使用Alpine.js事件分发机制');
 });
 
 function productModal() {

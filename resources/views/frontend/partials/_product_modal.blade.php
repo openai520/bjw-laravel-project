@@ -28,7 +28,7 @@
     x-transition:leave="transition ease-in duration-300"
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
-    @open-product-modal.window="openModal($event.detail.productId)"
+    @open-product-modal.window="console.log('🎉 接收到open-product-modal事件:', $event.detail); openModal($event.detail.productId)"
     @keydown.escape.window="closeModal()"
     role="dialog"
     aria-modal="true"
