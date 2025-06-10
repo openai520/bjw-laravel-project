@@ -51,7 +51,8 @@
 
     <!-- 模态框内容容器 -->
     <div 
-        class="modal-container relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden z-10
+        class="modal-container relative w-full max-w-md mx-4 bg-white shadow-2xl overflow-hidden z-10
+               sm:rounded-2xl
                max-sm:w-full max-sm:h-full max-sm:max-w-none max-sm:mx-0 max-sm:rounded-none max-sm:shadow-none"
         x-show="isOpen"
         x-transition:enter="transition-all duration-400"
@@ -229,6 +230,13 @@
     z-index: 1001;
 }
 
+/* 大屏幕圆角样式 */
+@media (min-width: 640px) {
+    .modal-container {
+        border-radius: 1rem; /* 16px 圆角 */
+    }
+}
+
 /* 当模态框激活时的样式 */
 .modal-overlay.active .modal-container {
     transform: scale(1);
@@ -252,6 +260,14 @@
         box-shadow: none !important;
         transform: translateY(100%);
     }
+}
+
+/* 明确小屏幕直角设置 */
+@media (max-width: 639px) {
+    .modal-container {
+        border-radius: 0 !important;
+    }
+}
     
     .modal-overlay.active .modal-container {
         transform: translateY(0);
