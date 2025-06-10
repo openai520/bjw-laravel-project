@@ -171,8 +171,22 @@ function productModal() {
                     this.translations = data.translations || {};
                     this.quantity = this.product.min_order_quantity || 1;
                     
-                    // 设置当前显示的主图
-                    this.currentImageUrl = this.product.main_image_url;
+                    // 设置当前显示的主图 - 添加更多调试和回退逻辑
+                    let imageUrl = this.product.main_image_url;
+                    
+                    // 如果主图URL无效，尝试使用第一个图片
+                    if (!imageUrl || imageUrl === '{{ asset('img/placeholder.svg') }}') {
+                        if (this.product.images && this.product.images.length > 0) {
+                            imageUrl = this.product.images[0].main_image_url || this.product.images[0].thumbnail_url;
+                        }
+                    }
+                    
+                    // 最终回退到占位符
+                    if (!imageUrl) {
+                        imageUrl = '{{ asset('img/placeholder.svg') }}';
+                    }
+                    
+                    this.currentImageUrl = imageUrl;
                     
                     // 更新按钮状态
                     this.updateButtonStates();
@@ -180,12 +194,20 @@ function productModal() {
                     console.log('Product set:', this.product);
                     console.log('Main image URL:', this.product.main_image_url);
                     console.log('Current image URL:', this.currentImageUrl);
+                    console.log('Product images:', this.product.images);
+                    
+                    // 强制触发界面更新
+                    this.$nextTick(() => {
+                        console.log('UI updated, currentImageUrl in DOM should be:', this.currentImageUrl);
+                    });
                 } else {
                     throw new Error(data.message || 'Failed to load product data');
                 }
             } catch (error) {
                 console.error('Error fetching product data:', error);
                 this.error = error.message || 'An error occurred while loading product data';
+                // 即使出错也设置一个默认图片
+                this.currentImageUrl = '{{ asset('img/placeholder.svg') }}';
             }
         },
 
