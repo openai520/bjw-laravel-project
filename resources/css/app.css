@@ -60,6 +60,30 @@ input[type="search"]::-moz-clear { /* Older Firefox */
     display: none;
 }
 
+/* 隐藏数字输入框的上下箭头控制器 */
+/* Chrome, Safari, Edge (WebKit) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    display: none;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* 确保在所有浏览器中都隐藏 */
+input[type="number"]::-webkit-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    display: none;
+}
+
 /* 硬件加速优化 */
 @layer utilities {
     /* 模态框硬件加速 */
