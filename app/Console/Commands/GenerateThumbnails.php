@@ -18,14 +18,14 @@ class GenerateThumbnails extends Command
      *
      * @var string
      */
-    protected $signature = 'app:generate-thumbnails {--format=original : 输出格式 (webp, original)} {--force : 强制重新生成所有缩略图}';
+    protected $signature = 'app:generate-thumbnails {--format=webp : 输出格式 (webp, original)} {--force : 强制重新生成所有缩略图}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '为所有没有缩略图的产品图片生成缩略图';
+    protected $description = '为所有没有缩略图的产品图片生成缩略图，默认使用WebP格式';
 
     /**
      * 图片服务
@@ -64,7 +64,7 @@ class GenerateThumbnails extends Command
         
         $totalCount = $images->count();
         
-        $format = $this->option('format') ?: 'original';
+        $format = $this->option('format') ?: 'webp';
         $this->info("使用格式: {$format}");
         
         if ($totalCount === 0) {
