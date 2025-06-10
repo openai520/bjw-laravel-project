@@ -39,9 +39,6 @@ function productModal() {
         csrfToken: '',
         translations: {},
         
-        // 图片查看器相关状态
-        showImageViewer: false,
-
         // 监听数量变化并更新按钮状态
         init() {
             this.$watch('quantity', () => {
@@ -49,19 +46,6 @@ function productModal() {
             });
             this.$watch('product.min_order_quantity', () => {
                 this.updateButtonStates();
-            });
-            
-            // 监听键盘事件
-            document.addEventListener('keydown', (e) => {
-                if (this.showImageViewer) {
-                    if (e.key === 'Escape') {
-                        this.closeImageViewer();
-                    } else if (e.key === 'ArrowLeft') {
-                        this.previousImage();
-                    } else if (e.key === 'ArrowRight') {
-                        this.nextImage();
-                    }
-                }
             });
         },
 
@@ -225,56 +209,6 @@ function productModal() {
         changeMainImage(imageUrl) {
             this.currentImageUrl = imageUrl;
             console.log('Main image changed to:', imageUrl);
-        },
-
-        // 打开图片查看器
-        openImageViewer() {
-            this.showImageViewer = true;
-            // 防止背景滚动
-            document.body.style.overflow = 'hidden';
-            console.log('Image viewer opened');
-        },
-
-        // 关闭图片查看器
-        closeImageViewer() {
-            this.showImageViewer = false;
-            // 恢复背景滚动
-            document.body.style.overflow = '';
-            console.log('Image viewer closed');
-        },
-
-        // 上一张图片
-        previousImage() {
-            if (!this.product.images || this.product.images.length <= 1) return;
-            
-            const currentIndex = this.product.images.findIndex(
-                image => image.main_image_url === this.currentImageUrl
-            );
-            
-            if (currentIndex > 0) {
-                this.currentImageUrl = this.product.images[currentIndex - 1].main_image_url;
-            } else {
-                // 循环到最后一张
-                this.currentImageUrl = this.product.images[this.product.images.length - 1].main_image_url;
-            }
-            console.log('Previous image:', this.currentImageUrl);
-        },
-
-        // 下一张图片
-        nextImage() {
-            if (!this.product.images || this.product.images.length <= 1) return;
-            
-            const currentIndex = this.product.images.findIndex(
-                image => image.main_image_url === this.currentImageUrl
-            );
-            
-            if (currentIndex < this.product.images.length - 1) {
-                this.currentImageUrl = this.product.images[currentIndex + 1].main_image_url;
-            } else {
-                // 循环到第一张
-                this.currentImageUrl = this.product.images[0].main_image_url;
-            }
-            console.log('Next image:', this.currentImageUrl);
         },
 
         // 处理添加到购物车按钮点击

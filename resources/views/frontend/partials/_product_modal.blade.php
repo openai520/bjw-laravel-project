@@ -118,21 +118,12 @@
             <div class="w-full flex flex-col">
                 <!-- 图片区域 -->
                 <div class="w-full p-4 bg-gray-50">
-                    <div class="w-full main-image h-80 max-sm:h-48 flex items-center justify-center mb-4 rounded-lg overflow-hidden bg-white cursor-pointer relative group"
-                         @click="openImageViewer()">
+                    <div class="w-full main-image h-80 max-sm:h-48 flex items-center justify-center mb-4 rounded-lg overflow-hidden bg-white">
                         <img 
                             :src="currentImageUrl || '{{ asset('img/placeholder.svg') }}'" 
                             :alt="product.name" 
-                            class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                            onerror="console.error('Image failed to load:', this.src); this.src='{{ asset('img/placeholder.svg') }}'; console.log('Fallback to placeholder');"
-                            onload="console.log('Image loaded successfully:', this.src);"
-                            style="border: 2px solid red; background: yellow;">
-                        <!-- 放大镜图标提示 - 修复遮挡问题 -->
-                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center pointer-events-none">
-                            <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                            </svg>
-                        </div>
+                            class="max-w-full max-h-full object-contain"
+                            onerror="this.src='{{ asset('img/placeholder.svg') }}'">
                     </div>
                     <!-- 缩略图 -->
                     <div class="flex justify-center space-x-2" x-show="product.images && product.images.length > 1">
@@ -210,72 +201,6 @@
             </div>
         </template>
     </div>
-</div>
-
-<!-- 图片全屏查看器 -->
-<div x-show="showImageViewer" 
-     x-transition:enter="transition ease-out duration-300"
-     x-transition:enter-start="opacity-0"
-     x-transition:enter-end="opacity-100"
-     x-transition:leave="transition ease-in duration-200"
-     x-transition:leave-start="opacity-100"
-     x-transition:leave-end="opacity-0"
-     class="fixed inset-0 z-[9999] bg-black bg-opacity-90 flex items-center justify-center p-4"
-     @click="closeImageViewer()"
-     @keydown.escape="closeImageViewer()"
-     style="display: none;">
-    
-    <!-- 关闭按钮 -->
-    <button @click="closeImageViewer()" 
-            class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-    </button>
-    
-    <!-- 放大的图片 -->
-    <div class="max-w-full max-h-full flex items-center justify-center"
-         @click.stop="">
-        <img :src="currentImageUrl || '{{ asset('img/placeholder.svg') }}'" 
-             :alt="product?.name || ''" 
-             class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300"
-             @click="closeImageViewer()"
-             onerror="this.src='{{ asset('img/placeholder.svg') }}'">
-    </div>
-    
-    <!-- 图片导航按钮 (如果有多张图片) -->
-    <template x-if="product && product.images && product.images.length > 1">
-        <div class="absolute inset-y-0 left-4 flex items-center">
-            <button @click.stop="previousImage()" 
-                    class="text-white hover:text-gray-300 transition-colors bg-black bg-opacity-50 rounded-full p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-            </button>
-        </div>
-    </template>
-    
-    <template x-if="product && product.images && product.images.length > 1">
-        <div class="absolute inset-y-0 right-4 flex items-center">
-            <button @click.stop="nextImage()" 
-                    class="text-white hover:text-gray-300 transition-colors bg-black bg-opacity-50 rounded-full p-2">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </button>
-        </div>
-    </template>
-    
-    <!-- 图片指示器 -->
-    <template x-if="product && product.images && product.images.length > 1">
-        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            <template x-for="(image, index) in product.images" :key="image.id">
-                <button @click.stop="changeMainImage(image.main_image_url)"
-                        :class="currentImageUrl === image.main_image_url ? 'bg-white' : 'bg-white bg-opacity-50'"
-                        class="w-3 h-3 rounded-full transition-all duration-200"></button>
-            </template>
-        </div>
-    </template>
 </div>
 
 <style>
