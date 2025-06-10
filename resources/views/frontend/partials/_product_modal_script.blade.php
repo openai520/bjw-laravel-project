@@ -39,6 +39,10 @@ function productModal() {
         csrfToken: '',
         translations: {},
         
+        // 焦点管理相关属性
+        previousActiveElement: null,
+        focusableElements: [],
+        
         // 监听数量变化并更新按钮状态
         init() {
             this.$watch('quantity', () => {
@@ -46,6 +50,15 @@ function productModal() {
             });
             this.$watch('product.min_order_quantity', () => {
                 this.updateButtonStates();
+            });
+            
+            // 监听模态框开启和关闭事件
+            this.$watch('isOpen', (isOpen) => {
+                if (isOpen) {
+                    this.trapFocus();
+                } else {
+                    this.restoreFocus();
+                }
             });
         },
 
@@ -209,6 +222,76 @@ function productModal() {
         changeMainImage(imageUrl) {
             this.currentImageUrl = imageUrl;
             console.log('Main image changed to:', imageUrl);
+        },
+
+        // 焦点管理：捕获焦点
+        trapFocus() {
+            this.$nextTick(() => {
+                // 保存当前焦点元素
+                this.previousActiveElement = document.activeElement;
+                
+                // 获取模态框内所有可聚焦元素
+                const modal = this.$el;
+                this.focusableElements = modal.querySelectorAll(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                
+                // 聚焦到第一个可聚焦元素
+                if (this.focusableElements.length > 0) {
+                    this.focusableElements[0].focus();
+                }
+                
+                // 添加键盘事件监听
+                document.addEventListener('keydown', this.handleKeyDown);
+            });
+        },
+        
+        // 焦点管理：恢复焦点
+        restoreFocus() {
+            // 移除键盘事件监听
+            document.removeEventListener('keydown', this.handleKeyDown);
+            
+            // 恢复之前的焦点
+            if (this.previousActiveElement) {
+                this.previousActiveElement.focus();
+                this.previousActiveElement = null;
+            }
+        },
+        
+        // 处理键盘事件
+        handleKeyDown(e) {
+            // ESC键关闭模态框
+            if (e.key === 'Escape') {
+                this.closeModal();
+                return;
+            }
+            
+            // Tab键循环聚焦
+            if (e.key === 'Tab') {
+                this.handleTabKey(e);
+            }
+        },
+        
+        // 处理Tab键循环
+        handleTabKey(e) {
+            if (this.focusableElements.length === 0) return;
+            
+            const firstElement = this.focusableElements[0];
+            const lastElement = this.focusableElements[this.focusableElements.length - 1];
+            
+            if (e.shiftKey) {
+                // Shift + Tab：向前循环
+                if (document.activeElement === firstElement) {
+                    lastElement.focus();
+                    e.preventDefault();
+                }
+            } else {
+                // Tab：向后循环
+                if (document.activeElement === lastElement) {
+                    firstElement.focus();
+                    e.preventDefault();
+                }
+            }
         },
 
         // 处理添加到购物车按钮点击
