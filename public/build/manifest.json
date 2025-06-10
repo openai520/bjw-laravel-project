@@ -1,13 +1,29 @@
 {
+  "_module.esm-DTYEwWdP.js": {
+    "file": "assets/module.esm-DTYEwWdP.js",
+    "name": "module.esm"
+  },
   "resources/css/app.css": {
     "file": "assets/app-CiikkfM2.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-Dcl8jjLG.js",
+    "file": "assets/app-BJh7Rt4H.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_module.esm-DTYEwWdP.js"
+    ]
+  },
+  "resources/js/frontend.js": {
+    "file": "assets/frontend-BJh7Rt4H.js",
+    "name": "frontend",
+    "src": "resources/js/frontend.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-DTYEwWdP.js"
+    ]
   }
 }
