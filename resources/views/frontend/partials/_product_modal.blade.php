@@ -52,7 +52,7 @@
     <!-- 模态框内容容器 -->
     <div 
         class="modal-container relative w-full max-w-md mx-4 bg-white shadow-2xl overflow-hidden z-10
-               sm:rounded-2xl
+               sm:rounded-3xl
                max-sm:w-full max-sm:h-full max-sm:max-w-none max-sm:mx-0 max-sm:rounded-none max-sm:shadow-none"
         x-show="isOpen"
         x-transition:enter="transition-all duration-400"
@@ -155,21 +155,23 @@
                         <p class="text-xs sm:text-sm text-gray-500 mb-3" x-text="`${translations.minimum_order_quantity}: ${product.min_order_quantity}`"></p>
                         
                         <!-- 数量选择和按钮 -->
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center justify-center gap-4">
                             <!-- 数量选择器 -->
                             <div class="flex items-center border border-gray-300 rounded-lg">
                                 <button @click="quantity > (product.min_order_quantity || 1) && quantity--" 
-                                        class="w-8 h-8 sm:w-10 sm:h-10 text-lg sm:text-xl text-gray-600 hover:bg-gray-100 rounded-l-lg transition">
+                                        class="w-10 h-10 text-xl text-gray-600 hover:bg-gray-100 rounded-l-lg transition flex items-center justify-center">
                                     -
                                 </button>
-                                <input 
-                                    type="number" 
-                                    x-model.number="quantity" 
-                                    @change="validateQuantity()"
-                                    :min="product.min_order_quantity || 1"
-                                    class="w-12 sm:w-16 h-8 sm:h-10 text-center font-semibold border-x text-sm sm:text-lg">
+                                <div class="w-16 h-10 flex items-center justify-center border-x">
+                                    <input 
+                                        type="number" 
+                                        x-model.number="quantity" 
+                                        @change="validateQuantity()"
+                                        :min="product.min_order_quantity || 1"
+                                        class="w-full h-full text-center font-semibold text-lg border-0 outline-none bg-transparent">
+                                </div>
                                 <button @click="quantity++" 
-                                        class="w-8 h-8 sm:w-10 sm:h-10 text-lg sm:text-xl text-gray-600 hover:bg-gray-100 rounded-r-lg transition">
+                                        class="w-10 h-10 text-xl text-gray-600 hover:bg-gray-100 rounded-r-lg transition flex items-center justify-center">
                                     +
                                 </button>
                             </div>
@@ -178,10 +180,10 @@
                             <button 
                                 @click="handleAddToCart()"
                                 :disabled="isAddingToCart"
-                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 px-3 sm:px-5 rounded-lg text-sm sm:text-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-wait">
+                                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-base transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-wait min-w-[140px]">
                                 <!-- 点击状态显示 -->
                                 <span x-show="isAddingToCart" class="flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
@@ -189,7 +191,7 @@
                                 </span>
                                 <!-- 默认状态显示 -->
                                 <span x-show="!isAddingToCart" class="flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l.218-.219.133-.133.942-.941 1.058-1.058a1 1 0 00.028-.30l.21-.209L17.6 4.575A.996.996 0 0018 4H4.76L4.23.85A.997.997 0 003.25.137H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l.218-.219.133-.133.942-.941 1.058-1.058a1 1 0 00.028-.30l.21-.209L17.6 4.575A.996.996 0 0018 4H4.76L4.23.85A.997.997 0 003.25.137H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                                     <span x-text="translations.add_to_cart || 'Add to Cart'"></span>
                                 </span>
                             </button>
@@ -233,7 +235,7 @@
 /* 大屏幕圆角样式 */
 @media (min-width: 640px) {
     .modal-container {
-        border-radius: 1rem; /* 16px 圆角 */
+        border-radius: 1.5rem; /* 24px 圆角 - 增加弧度 */
     }
 }
 
