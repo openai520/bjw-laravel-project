@@ -1,1 +1,98 @@
- 
+---
+title: '项目规则文档 [2025全量最新]'
+description: 'BJW Laravel项目全范围权威规则与协作说明（2025年6月）'
+status: 'LATEST_FULL_SCOPE'
+---
+
+# BJW Laravel 项目全范围规则文档（2025年6月）
+
+> 本文档为项目唯一权威规则入口，涵盖开发、部署、图片管理、数据库、前端适配、自动化运维、AI Agent Protocol等全部合作内容。请所有团队成员、交接方、AI助手严格以本文件为准。
+
+---
+
+## 1. 项目基本信息与技术栈
+- **项目类型**：B2B电商平台，产品展示与询价系统
+- **后端**：Laravel 10.x，PHP 8.2
+- **前端**：Blade模板、Alpine.js、Tailwind CSS、Vite
+- **数据库**：MariaDB 10.11.4（云数据库，主库地址见.env）
+- **服务器**：OpenCloudOS，Nginx，PHP-FPM
+- **多语言**：支持中文、英文、法文
+- **主域名**：https://kalala.me
+
+## 2. 系统架构与核心功能
+- 前台产品展示、无限滚动、响应式适配
+- 购物车与询价单系统（会话存储）
+- 后台管理（产品、分类、图片、询价、IP管理、首页推荐）
+- 图片上传、WebP自动转换、缩略图批量生成
+- 访客日志、IP封禁、队列任务、缓存
+
+## 3. 数据库结构与数据流
+- 主要表：users, categories, products, product_images, inquiries, inquiry_items, blocked_ips, visitor_logs, home_category_featured_products, jobs, sessions等
+- 关系：分类-产品-图片-询价单-询价明细，详见Docs/comprehensive-technical-documentation.md
+- 图片字段：所有主图、缩略图均为WebP格式，路径如products/uuid.webp、products/uuid_thumb.webp
+- 数据流：后台上传→ImageService处理→WebP存储→数据库写入→前端展示
+
+## 4. 图片管理与WebP统一
+- 所有产品图片（主图、缩略图）统一为WebP格式，JPEG/PNG仅作兼容备选
+- 已完成历史缩略图批量转换，缺失缩略图已补齐，空间节省约20%
+- 相关代码（上传控制器、ImageService、批量命令）全部默认WebP
+- 数据库字段（image_path、thumbnail_path、main_image_url等）已批量修正为WebP路径
+- 前端模板引用字段不得写死后缀，必须动态适配WebP
+- 详细部署与测试流程见《WebP图片转换部署说明.md》
+
+## 5. 前端适配与UI规范
+- 移动端模态框适配：顶部安全区、viewport-fit=cover、关闭按钮动态定位、圆角优化、手势关闭
+- 产品卡片、模态框图片均用WebP，异常时降级为占位图
+- 无限滚动IntersectionObserver逻辑已修正，防止死循环
+- 所有UI组件遵循Tailwind CSS响应式规范，支持多语言
+- 购物车、询价、分类、产品详情等页面均有详细UI/JS规范，见Docs/FeatureMap.md、Docs/Feature/shopping-cart_rules.md
+
+## 6. 开发环境与依赖配置
+- PHP >= 8.1，Composer，Node.js >= 16.x，NPM/Yarn，Git
+- 本地开发直接连接云数据库，配置见Docs/DevEnvConfig.md
+- 依赖包管理：composer.json、package.json，推荐使用VS Code/PhpStorm
+- 存储目录、缓存、日志权限：storage/、bootstrap/cache/ 775，其他目录755/文件644
+- 常用开发命令、数据库迁移、前端构建、缓存清理等见Docs/DevEnvConfig.md
+
+## 7. 自动化部署与回滚流程
+- 推荐使用deploy.sh（全量）和quick-deploy.sh（快速）自动化脚本
+- 服务器部署路径：/www/wwwroot/kalala.me，SSH密钥：~/Desktop/sursor.pem
+- Git一键部署，支持回滚、备份、权限自动设置，详见Git部署使用指南.md
+- 数据库结构变更需手动migrate，环境变量需手动同步
+- 回滚流程：git reset --hard + git_deploy.sh，支持紧急恢复
+- 详细流程、常见问题、调试方法见部署脚本使用说明.md
+
+## 8. 云数据库与安全规范
+- 云数据库连接信息仅存储于.env，生产环境APP_DEBUG=false
+- 本地IP需加入数据库白名单，强密码、专用账号
+- 数据库结构变更统一用迁移管理，重要操作前先备份
+- 文件上传严格校验类型、大小，重命名为UUID，存储于public/storage/products
+- 所有表单、AJAX请求均含CSRF令牌，XSS防护、输入验证、权限控制
+- 管理员后台路由auth+admin中间件保护，密码bcrypt加密
+
+## 9. 常见问题与应急处理
+- 图片不显示：检查数据库路径、物理文件、前端模板字段、WebP兼容性
+- 无限滚动异常：检查IntersectionObserver逻辑、加载指示器显示条件
+- 数据库连接失败：检查.env、白名单、凭证、网络、防火墙
+- 权限/缓存/500错误：见常见问题与解决方案章节
+- 数据库崩溃/权限丢失：见数据库恢复应急流程
+
+## 10. 团队协作与文档维护机制
+- 本文件为唯一权威规则，所有说明文档、rules、mdc文件须定期同步至此
+- 重大变更须在Docs/AskLog、DevLog、FeatureMap等留痕，便于追溯
+- 新成员/交接须优先阅读本文件和RULES_SUMMARY.md
+
+## 11. AI Agent Protocol与最终审查流程
+- 严格执行AI Agent Protocol：所有AI任务须经final_review_gate.py交互终审，用户输入TASK_COMPLETE方可结束
+- 终审脚本内容、执行方式、异常处理详见review-gate.mdc
+- AI助手与人工协作均须遵守本规则，任何自动化操作须留有人工复核环节
+
+## 12. 其它重要约定与历史变更说明
+- 2025年6月：完成WebP图片批量转换、数据库路径统一、前端适配、云数据库切换、自动化部署升级、AI Agent Protocol全流程落地
+- 2024-2025所有合作历史、回退、修复、优化均已纳入本规则
+- 其它详细技术细节、表结构、API、UI组件、业务流程见Docs/comprehensive-technical-documentation.md、Docs/FeatureMap.md等
+
+---
+
+> 本文档每次重大变更后须立即同步至RULES_SUMMARY.md，并在Docs/AskLog/DevLog中留痕。
+> 如有疑问或发现规则与实际不符，请立即反馈并修订本文件。 

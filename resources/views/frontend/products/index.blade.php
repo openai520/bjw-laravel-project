@@ -171,9 +171,8 @@
                             return;
                         }
 
-                        newProducts.forEach(product => {
-                            container.appendChild(product.cloneNode(true));
-                        });
+                        // 直接添加HTML，让Alpine.js重新扫描绑定
+                        container.insertAdjacentHTML('beforeend', data.html);
                         console.log("loadMore: Appended new products to container.");
 
                         this.nextPageUrl = data.next_page_url ? data.next_page_url : null;

@@ -71,8 +71,9 @@
     /* 图片容器 */
     .image-container {
         /* 固定高度，并使用 flexbox 实现完美的水平垂直居中 */
-        @apply w-full overflow-hidden rounded-lg flex justify-center items-center;
+        @apply w-full overflow-hidden flex justify-center items-center;
         height: 260px;
+        border-radius: 16px; /* 与产品卡片的20px圆角形成同心圆效果 */
     }
     
     /* Material Design 3 图片样式 */
@@ -80,6 +81,7 @@
         /* 只限制最大宽高，不强制拉伸。大图会缩小，小图保持原样。 */
         @apply max-w-full max-h-full object-contain;
         transition: opacity 0.3s ease-in-out;
+        border-radius: 12px; /* 图片本身的圆角，与容器形成层次感 */
     }
     
     /* 产品信息区域 */
@@ -405,7 +407,7 @@ input[type="number"]::-webkit-spin-button {
 
 .modal-min-order-notice {
     font-size: clamp(0.75rem, 1.2vw, 0.875rem);
-    @apply text-gray-500 mb-3 text-center;
+    @apply text-gray-500 mb-3 text-left;
 }
 
 /* 5. 操作区 */
@@ -458,8 +460,36 @@ input[type="number"]::-webkit-spin-button {
 
     .modal-content-wrapper { @apply flex-col; }
     .modal-image-column, .modal-details-column { @apply w-full; }
-    .modal-image-column { height: 45vh; }
-    .modal-details-column { height: 55vh; }
+    
+    /* 图片区域 - 修复居中问题 */
+    .modal-image-column { 
+        height: 55vh; /* 增加图片区域高度，手机上显示更大 */
+        @apply p-4 justify-center items-center; /* 确保图片居中显示 */
+    }
+    
+    /* 详情区域 - 统一内边距 */
+    .modal-details-column { 
+        height: 45vh; /* 相应调整详情区域高度 */
+        padding: 1.5rem; /* 统一小屏幕内边距 */
+    }
+    
+    /* 小屏幕专用间距调整 */
+    .modal-min-order-notice {
+        @apply mb-4; /* 增加MOQ文本的底部边距 */
+    }
+    
+    /* 操作区域 - 统一边距 */
+    .modal-actions {
+        @apply gap-3; /* 减少操作区域内部间距 */
+        margin: 0; /* 重置外边距 */
+        padding: 0; /* 重置内边距，使用父容器的统一内边距 */
+    }
+    
+    /* 确保缩略图也居中 */
+    .modal-thumbnails {
+        @apply justify-center; /* 缩略图居中显示 */
+        padding: 0 1rem; /* 统一缩略图区域内边距 */
+    }
 }
 
 /* Utility for body scroll lock */

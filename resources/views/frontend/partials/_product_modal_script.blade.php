@@ -62,6 +62,10 @@ function productModal() {
         closeModal() {
             this.isOpen = false;
             document.body.classList.remove('modal-open');
+            // 延迟清理状态，让关闭动画完成
+            setTimeout(() => {
+                this.onModalClose();
+            }, 250);
         },
         
         onModalClose() {
@@ -123,12 +127,4 @@ function productModal() {
         }
     };
 }
-
-// 立即定义全局函数（不等待DOM加载）
-window.openProductModal = function(productId) {
-    console.log('Opening product modal for product ID:', productId);
-    window.dispatchEvent(new CustomEvent('open-product-modal', {
-        detail: { productId: productId }
-    }));
-};
 </script> 

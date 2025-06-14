@@ -1,5 +1,119 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
+# Git部署工作流程规则
+
+> 本规则文档与《PROJECT_RULES_UPDATED_2025.mdx》全局规则同步，须严格遵守WebP图片统一、云数据库直连、自动化部署、AI Agent Protocol终审等2025年最新规范。发现不符须立即修订。
+
+## 🚀 项目Git部署配置
+
+### GitHub仓库信息
+- **仓库地址**: https://github.com/openai520/bjw-laravel-project.git
+- **主分支**: main
+- **访问令牌**: 已配置Personal Access Token用于服务器拉取
+
+### 服务器配置
+- **服务器地址**: 43.165.63.73
+- **SSH密钥**: ~/Desktop/sursor.pem
+- **项目路径**: /www/wwwroot/kalala.me
+- **部署脚本**: [git_deploy.sh](mdc:git_deploy.sh)
+- **连接命令**: `ssh -i ~/Desktop/sursor.pem root@43.165.63.73`
+
+## 📋 标准部署流程
+
+### 1. 本地开发提交
+```bash
+# 在项目根目录执行
+git add .
+git commit -m "描述更改内容"
+git push origin main
+```
+
+### 2. 服务器部署
+```bash
+# 一键部署命令
+ssh -i ~/Desktop/sursor.pem root@43.165.63.73 "/www/wwwroot/git_deploy.sh"
+```
+
+## 🔧 部署脚本功能
+
+Git部署脚本自动执行：
+1. 备份环境配置文件(.env)
+2. 拉取GitHub最新代码
+3. 恢复服务器环境配置
+4. 更新Composer依赖
+5. 运行数据库迁移
+6. 清除并重建缓存
+7. 设置文件权限
+8. 重启PHP服务
+
+## 📂 重要文件保护
+
+### 环境配置保护
+- `.env.server_backup` - 服务器环境配置备份
+- `.env` - 每次部署自动恢复服务器配置
+- 部署时会自动备份当前环境配置
+
+### 忽略的服务器文件
+服务器上存在但不在Git版本控制中的文件：
+- 各种备份文件 (.env.backup, .env.bak)
+- 部署相关脚本 (deploy.sh, fix_*.sh)
+- 服务器配置文件 (nginx.conf, php.ini)
+- 上传的静态文件
+
+## 🔄 版本控制操作
+
+### 查看部署历史
+```bash
+ssh -i ~/Desktop/sursor.pem root@43.165.63.73 "cd /www/wwwroot/kalala.me && git log --oneline -10"
+```
+
+### 回滚操作
+```bash
+# 回滚到指定版本
+ssh -i ~/Desktop/sursor.pem root@43.165.63.73 "cd /www/wwwroot/kalala.me && git reset --hard <commit-hash> && /www/wwwroot/git_deploy.sh"
+```
+
+### 检查当前状态
+```bash
+ssh -i ~/Desktop/sursor.pem root@43.165.63.73 "cd /www/wwwroot/kalala.me && git status"
+```
+
+## ⚠️ 注意事项
+
+### 开发规范
+1. 始终在本地完成开发和测试
+2. 提交前确保代码质量
+3. 使用清晰的提交信息
+4. 重要更改前在本地充分测试
+
+### 安全考虑
+1. 不要将敏感信息提交到Git
+2. 服务器环境配置自动保护
+3. Personal Access Token已安全配置
+4. 每次部署前自动备份
+
+### 故障处理
+1. 如果部署失败，检查网络连接和权限
+2. 可以查看 [Git部署使用指南.md](mdc:Git部署使用指南.md) 获取详细排障步骤
+3. 紧急情况下可使用备份恢复
+
+## 📈 从SCP到Git的改进
+
+| 功能 | 旧方式(SCP) | 新方式(Git) |
+|------|-------------|-------------|
+| 版本控制 | ❌ | ✅ 完整历史 |
+| 一键部署 | ❌ | ✅ 自动化脚本 |
+| 回滚能力 | ❌ | ✅ 快速回滚 |
+| 冲突处理 | ❌ | ✅ 自动合并 |
+| 增量更新 | ❌ | ✅ 只传输变更 |
+
+## 🔗 相关文件
+
+- [git_deploy.sh](mdc:git_deploy.sh) - 服务器部署脚本
+- [Git部署使用指南.md](mdc:Git部署使用指南.md) - 详细使用说明
+- [README_GITHUB.md](mdc:README_GITHUB.md) - GitHub项目说明
+
+当涉及Git部署相关的问题时，请参考此规则进行操作和指导。

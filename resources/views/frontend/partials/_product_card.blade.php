@@ -8,7 +8,7 @@
 <div class="product-card w-full bg-white rounded-3xl overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md p-3 sm:p-4 flex flex-col cursor-pointer transition-transform duration-200"
      style="height: 350px; border-radius: 20px !important;"
      x-data="{}"
-     @click.prevent="$dispatch('open-product-modal', { productId: {{ $product->id }} })">
+     @click.prevent="$dispatch('open-product-modal', { productId: {{ $product->id }} })"
     <div class="image-container">
         <img 
             x-data="{ loaded: false }"

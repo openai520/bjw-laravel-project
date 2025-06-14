@@ -23,13 +23,13 @@
     @open-product-modal.window="openModal($event.detail.productId)"
     @keydown.escape.window="closeModal()"
     class="modal-overlay"
+    :class="{ 'active': isOpen }"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    @transitionend.leave="onModalClose()" 
+    x-transition:leave-end="opacity-0" 
     role="dialog" 
     aria-modal="true" 
     aria-labelledby="modal-title"
@@ -115,39 +115,49 @@
 </div>
 
 <style>
-/* 增强的模态框遮罩样式 */
+/* 模态框遮罩样式 */
 .modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
     background: rgba(0, 0, 0, 0);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     visibility: hidden;
+    z-index: 1000;
 }
 
 .modal-overlay.active {
+    background: rgba(0, 0, 0, 0.4); /* 减少不透明度，增加透明度 */
     opacity: 1;
     visibility: visible;
 }
 
 /* 背景遮罩层 */
 .modal-backdrop {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    position: absolute;
+    inset: 0;
+    background: transparent; /* 让overlay本身处理遮罩 */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
 }
 
 /* 模态框容器基础样式 */
 .modal-container {
+    position: relative;
+    background: white;
+    border-radius: 24px; /* 同心圆圆角效果 */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 500px;
     transform: scale(0.9);
     z-index: 1001;
-}
-
-/* 大屏幕圆角样式 */
-@media (min-width: 640px) {
-    .modal-container {
-        border-radius: 1.5rem; /* 24px 圆角 - 增加弧度 */
-    }
+    width: 100%;
+    max-width: 1000px; /* 大屏幕进一步增加宽度，为缩略图留更多空间 */
+    max-height: 90vh;
+    overflow: hidden; /* 禁止滚动 */
 }
 
 /* 当模态框激活时的样式 */
@@ -155,40 +165,50 @@
     transform: scale(1);
 }
 
-/* 大屏幕样式 */
-@media (min-width: 640px) {
-    .main-image {
-        height: 320px;
-    }
-}
-
-/* 小屏幕样式 - 768px及以下 */
+/* 响应式设计 */
 @media (max-width: 768px) {
+    .modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+    
     .modal-container {
         width: 100% !important;
-        height: 100vh !important;
         max-width: none !important;
-        margin: 0 !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
+        max-height: 95vh !important;
+        border-radius: 24px 24px 0 0 !important; /* 小屏幕只保留上方圆角 */
         transform: translateY(100%);
     }
-}
-
-/* 明确小屏幕直角设置 */
-@media (max-width: 639px) {
-    .modal-container {
-        border-radius: 0 !important;
-    }
-}
     
     .modal-overlay.active .modal-container {
         transform: translateY(0);
     }
     
-    .modal-backdrop {
-        background: rgba(0, 0, 0, 0.8);
+    .modal-overlay.active {
+        background: rgba(0, 0, 0, 0.5); /* 小屏幕也减少不透明度 */
     }
+}
+
+/* 内部元素圆角 - 同心圆效果 */
+.modal-content-wrapper {
+    border-radius: 20px; /* 内容区域圆角 */
+    overflow: hidden;
+    margin: 16px;
+    background: white;
+}
+
+.modal-main-image {
+    border-radius: 16px; /* 图片区域圆角 */
+    overflow: hidden;
+}
+
+.modal-thumbnails {
+    gap: 8px;
+}
+
+.modal-thumbnail-button {
+    border-radius: 12px; /* 缩略图圆角 */
+    overflow: hidden;
 }
 
 /* 小屏幕图片高度调整 */
@@ -202,25 +222,6 @@
 body.modal-open {
     overflow: hidden;
     height: 100vh;
-}
-
-/* 滚动条样式优化 */
-.modal-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.modal-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-.modal-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-}
-
-.modal-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
 }
 
 /* 模态框打开时的动画效果 */
@@ -276,5 +277,37 @@ body.modal-open {
 
 .modal-container {
     z-index: 1001;
+}
+
+/* 关闭按钮样式 */
+.modal-close-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    z-index: 10;
+}
+
+.modal-close-button:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* 隐藏滚动条，禁止滚动 */
+.modal-container::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style> 
