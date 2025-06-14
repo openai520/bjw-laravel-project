@@ -1,0 +1,721 @@
+./app/Http/Middleware/SetLocale.php:25:        Log::debug('SetLocale 中间件开始', [
+./app/Http/Middleware/SetLocale.php:60:        Log::debug('最终设置的语言', [
+./app/Http/Controllers/Frontend/ProductController.php:65:        \Log::debug('[DIRECT_QUERY] ProductController@index: Querying products directly (cache bypassed).', [
+./app/Http/Controllers/Frontend/ProductController.php:87:        \Log::debug('[DIRECT_QUERY] ProductController@index: Products query result.', [
+./app/Http/Controllers/Frontend/ProductController.php:90:            // 'items_on_current_page' => $products->items() // Potentially large, uncomment if needed for specific item debug
+./app/Http/Controllers/Frontend/LanguageController.php:27:        Log::debug('语言切换请求', [
+./app/Http/Controllers/Frontend/LanguageController.php:49:        Log::debug('语言已存入会话', [
+./app/Http/Controllers/Frontend/LanguageController.php:58:        Log::debug('重定向到首页', ['lang' => $lang, 'previous' => $previousUrl]);
+./app/Http/Controllers/Admin/AdminProductController.php:79:        \Log::debug('Categories query result:', ['count' => $categories->count(), 'data' => $categories->toArray()]);
+./app/Http/Controllers/Admin/AdminProductController.php:90:        \Log::debug('Product creation request:', [
+./app/Http/Controllers/Admin/AdminProductController.php:98:                \Log::debug("Image file {$index} info:", [
+./app/Http/Controllers/Admin/AdminProductController.php:119:        \Log::debug('Validation passed');
+./app/Http/Controllers/Admin/AdminProductController.php:134:            \Log::debug('Product base info created', ['product_id' => $product->id]);
+./app/Http/Controllers/Admin/AdminProductController.php:152:                        \Log::debug("WebP image processed {$index}", [
+./app/Http/Controllers/Admin/AdminProductController.php:164:                        \Log::debug("WebP image {$index} saved to database", [
+./app/Http/Controllers/Admin/AdminProductController.php:180:            \Log::debug('Product creation completed successfully');
+./app/Http/Controllers/Admin/AdminProductController.php:260:        \Log::debug('Product edit data:', [
+./app/Http/Controllers/Admin/AdminProductController.php:276:        Log::debug('Starting product update process', ['product_id' => $product->id]);
+./app/Http/Controllers/Admin/AdminProductController.php:290:        Log::debug('Validation passed', $validated);
+./app/Http/Controllers/Admin/AdminProductController.php:305:            Log::debug('Product basic info updated');
+./app/Http/Controllers/Admin/AdminProductController.php:310:                Log::debug('Processing image removal', ['image_ids' => $removeImageIds]);
+./app/Http/Controllers/Admin/AdminProductController.php:318:                            Log::debug('Deleted physical file', ['path' => $image->image_path]);
+./app/Http/Controllers/Admin/AdminProductController.php:325:                        Log::debug('Deleted image record', ['image_id' => $image->id]);
+./app/Http/Controllers/Admin/AdminProductController.php:337:                Log::debug('Processing new image uploads for WebP conversion');
+./app/Http/Controllers/Admin/AdminProductController.php:342:                    Log::debug("Processing image {$index} for WebP conversion", [
+./app/Http/Controllers/Admin/AdminProductController.php:370:                        Log::debug('New WebP image saved', [
+./app/Http/Controllers/Admin/AdminProductController.php:389:                Log::debug('Updating main image', ['image_id' => $mainImageId]);
+./app/Http/Controllers/Admin/AdminProductController.php:396:                Log::debug('Main image updated');
+./app/Http/Controllers/Admin/AdminProductController.php:400:            Log::debug('Product update completed successfully');
+./app/Jobs/RecordProductView.php:44:                Log::debug("重复访问被过滤", [
+./app/Jobs/RecordProductView.php:60:            Log::debug("产品访问记录成功", [
+./app/Services/ImageService.php:97:                Log::debug('图片已调整尺寸', [
+./app/Services/ImageService.php:104:                Log::debug('图片保持原始尺寸', [
+./app/Services/ImageService.php:114:            Log::debug('保存了优化的图片', [
+./app/Services/ImageService.php:148:                Log::debug('创建了缩略图', [
+./config/app.php:39:    | When your application is in debug mode, detailed error messages with
+./config/app.php:45:    'debug' => (bool) env('APP_DEBUG', true),
+./config/app.php:188:    'log_level' => env('LOG_LEVEL', 'debug'),
+./config/logging.php:64:            'level' => env('LOG_LEVEL', 'debug'),
+./config/logging.php:71:            'level' => env('LOG_LEVEL', 'debug'),
+./config/logging.php:87:            'level' => env('LOG_LEVEL', 'debug'),
+./config/logging.php:99:            'level' => env('LOG_LEVEL', 'debug'),
+./config/logging.php:110:            'level' => env('LOG_LEVEL', 'debug'),
+./config/logging.php:117:            'level' => env('LOG_LEVEL', 'debug'),
+./vendor/intervention/image/src/Drivers/AbstractFrame.php:12:     * Show debug info for the current image
+./vendor/intervention/image/src/Drivers/AbstractFrame.php:16:    public function __debugInfo(): array
+./vendor/intervention/image/src/Origin.php:91:     * Show debug info for the current image
+./vendor/intervention/image/src/Origin.php:95:    public function __debugInfo(): array
+./vendor/intervention/image/src/Colors/AbstractColor.php:94:     * Show debug info for the current color
+./vendor/intervention/image/src/Colors/AbstractColor.php:98:    public function __debugInfo(): array
+./vendor/intervention/image/src/Geometry/Rectangle.php:369:     * Show debug info for the current rectangle
+./vendor/intervention/image/src/Geometry/Rectangle.php:373:    public function __debugInfo(): array
+./vendor/intervention/image/src/EncodedImage.php:55:     * Show debug info for the current image
+./vendor/intervention/image/src/EncodedImage.php:59:    public function __debugInfo(): array
+./vendor/intervention/image/src/Image.php:1069:     * Show debug info for the current image
+./vendor/intervention/image/src/Image.php:1073:    public function __debugInfo(): array
+./vendor/nikic/php-parser/lib/PhpParser/ParserAbstract.php:78:    /** @var array<int, string> Names of the production rules (only necessary for debugging) */
+./vendor/nikic/php-parser/lib/PhpParser/ParserAbstract.php:516:     * Tracing functions used for debugging the parser.
+./vendor/nikic/php-parser/lib/PhpParser/Lexer.php:29:        $scream = ini_set('xdebug.scream', '0');
+./vendor/nikic/php-parser/lib/PhpParser/Lexer.php:35:            ini_set('xdebug.scream', $scream);
+./vendor/nikic/php-parser/lib/PhpParser/Node/Stmt/ClassMethod.php:41:        '__debuginfo'   => true,
+./vendor/guzzlehttp/guzzle/src/functions.php:35: * Returns a debug stream based on the provided variable.
+./vendor/guzzlehttp/guzzle/src/functions.php:41: * @deprecated debug_resource will be removed in guzzlehttp/guzzle:8.0. Use Utils::debugResource instead.
+./vendor/guzzlehttp/guzzle/src/functions.php:43:function debug_resource($value = null)
+./vendor/guzzlehttp/guzzle/src/functions.php:45:    return Utils::debugResource($value);
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:627:        if (!empty($options['debug'])) {
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:628:            $conf[\CURLOPT_STDERR] = Utils::debugResource($options['debug']);
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:669:                .'the debug option to see what went wrong. See '
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:572:    private function add_debug(RequestInterface $request, array &$options, $value, array &$params): void
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:592:        $value = Utils::debugResource($value);
+./vendor/guzzlehttp/guzzle/src/HandlerStack.php:89:            $stack[] = '0) Handler: '.$this->debugCallable($this->handler);
+./vendor/guzzlehttp/guzzle/src/HandlerStack.php:96:            $str .= 'Function: '.$this->debugCallable($tuple[0]);
+./vendor/guzzlehttp/guzzle/src/HandlerStack.php:256:     * Provides a debug string for a given callable.
+./vendor/guzzlehttp/guzzle/src/HandlerStack.php:260:    private function debugCallable($fn): string
+./vendor/guzzlehttp/guzzle/src/RequestOptions.php:88:     * debug: (bool|resource) Set to true or set to a PHP stream returned by
+./vendor/guzzlehttp/guzzle/src/RequestOptions.php:89:     * fopen()  enable debug output with the HTTP handler used to send a
+./vendor/guzzlehttp/guzzle/src/RequestOptions.php:92:    public const DEBUG = 'debug';
+./vendor/guzzlehttp/guzzle/src/Utils.php:59:     * Returns a debug stream based on the provided variable.
+./vendor/guzzlehttp/guzzle/src/Utils.php:65:    public static function debugResource($value = null)
+./vendor/guzzlehttp/guzzle/src/Exception/ConnectException.php:49:     * couple you to a specific handler, but can give more debug information
+./vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:143:     * couple you to a specific handler, but can give more debug information
+./vendor/nunomaduro/collision/src/Adapters/Laravel/Commands/TestCommand.php:89:                Coverage::usingXdebug()
+./vendor/nunomaduro/collision/src/Adapters/Laravel/Commands/TestCommand.php:90:                    ? " Did you set <href=https://xdebug.org/docs/code_coverage#mode>Xdebug's coverage mode</>?"
+./vendor/nunomaduro/collision/src/Adapters/Laravel/Commands/TestCommand.php:91:                    : ' Did you install <href=https://xdebug.org/>Xdebug</> or <href=https://github.com/krakjoe/pcov>PCOV</>?'
+./vendor/nunomaduro/collision/src/Coverage.php:49:        if (self::usingXdebug()) {
+./vendor/nunomaduro/collision/src/Coverage.php:50:            $mode = getenv('XDEBUG_MODE') ?: ini_get('xdebug.mode');
+./vendor/nunomaduro/collision/src/Coverage.php:59:     * If the user is using Xdebug.
+./vendor/nunomaduro/collision/src/Coverage.php:61:    public static function usingXdebug(): bool
+./vendor/nunomaduro/collision/src/Coverage.php:63:        return (new Runtime)->hasXdebug();
+./vendor/nunomaduro/collision/src/Coverage.php:73:            if (self::usingXdebug()) {
+./vendor/nunomaduro/collision/src/Coverage.php:75:                    "  <fg=black;bg=yellow;options=bold> WARN </> Unable to get coverage using Xdebug. Did you set <href=https://xdebug.org/docs/code_coverage#mode>Xdebug's coverage mode</>?</>",
+./vendor/nunomaduro/collision/src/Coverage.php:82:                '  <fg=black;bg=yellow;options=bold> WARN </> No coverage driver detected.</> Did you install <href=https://xdebug.org/>Xdebug</> or <href=https://github.com/krakjoe/pcov>PCOV</>?',
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:29:    const EDITOR_XDEBUG = "xdebug";
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:141:        if (ini_get('xdebug.file_link_format') || get_cfg_var('xdebug.file_link_format')) {
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:142:            // Register editor using xdebug's file_link_format option.
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:143:            $this->editors['xdebug'] = function ($file, $line) {
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:144:                return str_replace(['%f', '%l'], [$file, $line], ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format'));
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:147:            // If xdebug is available, use it as default editor.
+./vendor/filp/whoops/src/Whoops/Handler/PrettyPageHandler.php:148:            $this->setEditor('xdebug');
+./vendor/filp/whoops/src/Whoops/Exception/Inspector.php:255:     * If xdebug is installed
+./vendor/filp/whoops/src/Whoops/Exception/Inspector.php:264:        // Get trace from xdebug if enabled, failure exceptions only trace to the shutdown handler by default
+./vendor/filp/whoops/src/Whoops/Exception/Inspector.php:273:        if (!extension_loaded('xdebug') || !function_exists('xdebug_is_enabled') || !xdebug_is_enabled()) {
+./vendor/filp/whoops/src/Whoops/Exception/Inspector.php:277:        // Use xdebug to get the full stack trace and remove the shutdown handler stack trace
+./vendor/filp/whoops/src/Whoops/Exception/Inspector.php:278:        $stack = array_reverse(xdebug_get_function_stack());
+./vendor/filp/whoops/src/Whoops/Exception/Inspector.php:279:        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+./vendor/mockery/mockery/library/Mockery/Generator/StringManipulation/Pass/MagicMethodTypeHintsPass.php:48:        '__debugInfo',
+./vendor/mockery/mockery/library/Mockery/Generator/MockConfigurationBuilder.php:30:        '__debugInfo', ## mocking this makes it difficult to debug with xdebug
+./vendor/mockery/mockery/library/Mockery/Reflector.php:26:use function get_debug_type;
+./vendor/mockery/mockery/library/Mockery/Reflector.php:248:        throw new InvalidArgumentException('Unknown ReflectionType: ' . get_debug_type($type));
+./vendor/composer/ca-bundle/src/CaBundle.php:180:            $logger->debug('Checked CA file '.realpath($filename).': '.($isValid ? 'valid' : 'invalid'));
+./vendor/composer/ca-bundle/src/CaBundle.php:261:            $logger->debug(sprintf('Checked CA file %s does not exist or it is not a file.', $certFile));
+./vendor/composer/ca-bundle/src/CaBundle.php:276:            $logger->debug(sprintf('Checked directory %s does not exist or it is not a directory.', $certDir));
+./vendor/composer/ca-bundle/src/CaBundle.php:291:            $logger->debug(sprintf('Checked file or directory %s is not readable.', $certFileOrDir));
+./vendor/composer/ca-bundle/src/CaBundle.php:307:                $logger->debug(sprintf("An error occurred while trying to find certificates for pattern: %s", $pattern));
+./vendor/composer/ca-bundle/src/CaBundle.php:314:                $logger->debug(sprintf("No CA files found for pattern: %s", $pattern));
+./vendor/composer/autoload_classmap.php:5517:    'SebastianBergmann\\CodeCoverage\\Driver\\XdebugDriver' => $vendorDir . '/phpunit/php-code-coverage/src/Driver/XdebugDriver.php',
+./vendor/composer/autoload_classmap.php:5518:    'SebastianBergmann\\CodeCoverage\\Driver\\XdebugNotAvailableException' => $vendorDir . '/phpunit/php-code-coverage/src/Exception/XdebugNotAvailableException.php',
+./vendor/composer/autoload_classmap.php:5519:    'SebastianBergmann\\CodeCoverage\\Driver\\XdebugNotEnabledException' => $vendorDir . '/phpunit/php-code-coverage/src/Exception/XdebugNotEnabledException.php',
+./vendor/composer/autoload_static.php:6107:        'SebastianBergmann\\CodeCoverage\\Driver\\XdebugDriver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/XdebugDriver.php',
+./vendor/composer/autoload_static.php:6108:        'SebastianBergmann\\CodeCoverage\\Driver\\XdebugNotAvailableException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/XdebugNotAvailableException.php',
+./vendor/composer/autoload_static.php:6109:        'SebastianBergmann\\CodeCoverage\\Driver\\XdebugNotEnabledException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/XdebugNotEnabledException.php',
+./vendor/psy/psysh/src/functions.php:32:            return '\extract(\Psy\debug(\get_defined_vars(), isset($this) ? $this : @\get_called_class()));';
+./vendor/psy/psysh/src/functions.php:37:    \extract(\Psy\debug(\get_defined_vars(), $this));
+./vendor/psy/psysh/src/functions.php:41:        \extract(\Psy\debug(\get_defined_vars(), static::class));
+./vendor/psy/psysh/src/functions.php:43:        \extract(\Psy\debug(\get_defined_vars()));
+./vendor/psy/psysh/src/functions.php:50:if (!\function_exists('Psy\\debug')) {
+./vendor/psy/psysh/src/functions.php:57:     *         \Psy\debug(get_defined_vars());
+./vendor/psy/psysh/src/functions.php:64:     *         extract(\Psy\debug(get_defined_vars()));
+./vendor/psy/psysh/src/functions.php:74:     *             \Psy\debug(get_defined_vars(), $this);
+./vendor/psy/psysh/src/functions.php:84:     *             \Psy\debug(get_defined_vars(), get_called_class());
+./vendor/psy/psysh/src/functions.php:91:     * @return array Scope variables from the debugger session
+./vendor/psy/psysh/src/functions.php:93:    function debug(array $vars = [], $bindTo = null): array
+./vendor/psy/psysh/src/functions.php:100:        // Show a couple of lines of call context for the debug session.
+./vendor/psy/psysh/src/functions.php:121:     * Get a bunch of debugging info about the current PsySH environment and
+./vendor/psy/psysh/src/functions.php:125:     * used for the current shell session, and no debugging info is returned.
+./vendor/psy/psysh/src/Shell.php:139:     * @see Psy\debug
+./vendor/psy/psysh/src/Shell.php:140:     * @deprecated will be removed in 1.0. Use \Psy\debug instead
+./vendor/psy/psysh/src/Shell.php:145:     * @return array Scope variables from the debugger session
+./vendor/psy/psysh/src/Shell.php:147:    public static function debug(array $vars = [], $bindTo = null): array
+./vendor/psy/psysh/src/Shell.php:149:        @\trigger_error('`Psy\\Shell::debug` is deprecated; call `Psy\\debug` instead.', \E_USER_DEPRECATED);
+./vendor/psy/psysh/src/Shell.php:151:        return \Psy\debug($vars, $bindTo);
+./vendor/psy/psysh/src/Configuration.php:48:    const VERBOSITY_DEBUG = 'debug';
+./vendor/psy/psysh/src/Configuration.php:919:            // Unless pcntl is explicitly *enabled*, don't use it while XDebug is debugging.
+./vendor/psy/psysh/src/Configuration.php:921:            if (\function_exists('xdebug_is_debugger_active') && \xdebug_is_debugger_active()) {
+./vendor/psy/psysh/src/CodeCleaner.php:101:        // based on the file in which the `debug` call was made.
+./vendor/psy/psysh/src/CodeCleaner.php:151:     * "Warm up" code cleaner passes when we're coming from a debug call.
+./vendor/psy/psysh/src/CodeCleaner.php:191:     * Search the stack trace for a file in which the user called Psy\debug.
+./vendor/psy/psysh/src/CodeCleaner.php:197:        $trace = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+./vendor/psy/psysh/src/CodeCleaner.php:215:     * Check whether a given backtrace frame is a call to Psy\debug.
+./vendor/psy/psysh/src/CodeCleaner.php:224:        return ($class === null && $function === 'Psy\\debug') ||
+./vendor/psy/psysh/src/CodeCleaner.php:225:            ($class === Shell::class && $function === 'debug');
+./vendor/psy/psysh/src/Command/WhereamiCommand.php:22: * Show the context of where you opened the debugger.
+./vendor/psy/psysh/src/Command/WhereamiCommand.php:30:        $this->backtrace = \debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+./vendor/psy/psysh/src/Command/WhereamiCommand.php:83:        return ($class === null && $function === 'Psy\\debug') ||
+./vendor/psy/psysh/src/Command/WhereamiCommand.php:84:            ($class === Shell::class && \in_array($function, ['__construct', 'debug']));
+./vendor/psy/psysh/src/Command/DocCommand.php:53:<return>>>> doc Psy\Shell::debug</return>
+./vendor/psy/psysh/src/Command/ShowCommand.php:55:<return>>>> show Psy\Shell::debug</return>
+./vendor/nette/utils/src/Utils/ArrayHash.php:69:			throw new Nette\InvalidArgumentException(sprintf('Key must be either a string or an integer, %s given.', get_debug_type($key)));
+./vendor/nette/utils/src/Utils/ObjectHelpers.php:60:		$trace = debug_backtrace(0, 3); // suppose this method is called from __call()
+./vendor/nette/utils/src/Utils/ObjectHelpers.php:93:		$trace = debug_backtrace(0, 3); // suppose this method is called from __callStatic()
+./vendor/nette/utils/src/SmartObject.php:39:				throw new UnexpectedValueException("Property $class::$$name must be iterable or null, " . get_debug_type($handlers) . ' given.');
+./vendor/nette/utils/src/SmartObject.php:73:				$trace = debug_backtrace(0, 1)[0]; // suppose this method is called from __call()
+./vendor/nette/utils/src/SmartObject.php:109:				$trace = debug_backtrace(0, 1)[0]; // suppose this method is called from __call()
+./vendor/nette/schema/src/Schema/Helpers.php:104:			return get_debug_type($value);
+./vendor/nesbot/carbon/src/Carbon/Traits/Options.php:438:    public function __debugInfo()
+./vendor/nesbot/carbon/src/Carbon/CarbonInterface.php:683:    public function __debugInfo();
+./vendor/nesbot/carbon/src/Carbon/TranslatorImmutable.php:23:    public function __construct($locale, ?MessageFormatterInterface $formatter = null, $cacheDir = null, $debug = false)
+./vendor/nesbot/carbon/src/Carbon/TranslatorImmutable.php:25:        parent::__construct($locale, $formatter, $cacheDir, $debug);
+./vendor/nesbot/carbon/src/Carbon/AbstractTranslator.php:81:    public function __construct($locale, ?MessageFormatterInterface $formatter = null, $cacheDir = null, $debug = false)
+./vendor/nesbot/carbon/src/Carbon/AbstractTranslator.php:87:        parent::__construct($locale, new MessageFormatterMapper($formatter), $cacheDir, $debug);
+./vendor/nesbot/carbon/src/Carbon/AbstractTranslator.php:375:    public function __debugInfo()
+./vendor/spatie/flare-client-php/src/Enums/MessageLevels.php:8:    const DEBUG = 'debug';
+./vendor/spatie/backtrace/src/Backtrace.php:168:        return debug_backtrace($options, $limit);
+./vendor/spatie/backtrace/src/Arguments/ReduceArgumentPayloadAction.php:31:                get_debug_type($argument),
+./vendor/spatie/backtrace/src/Arguments/ReduceArgumentPayloadAction.php:36:            return new ReducedArgument('object', get_debug_type($argument), );
+./vendor/spatie/backtrace/src/Arguments/ReduceArgumentPayloadAction.php:41:            get_debug_type($argument),
+./vendor/spatie/backtrace/src/Arguments/ProvidedArgument.php:100:        $this->originalType = get_debug_type($this->defaultValue);
+./vendor/spatie/backtrace/src/Arguments/Reducers/SensitiveParameterArrayReducer.php:19:            'SensitiveParameterValue('.get_debug_type($argument->getValue()).')',
+./vendor/spatie/backtrace/src/Arguments/Reducers/BaseTypeArgumentReducer.php:19:            return new ReducedArgument($argument, get_debug_type($argument));
+./vendor/spatie/ignition/src/Config/IgnitionConfig.php:222:                'xdebug' => [
+./vendor/spatie/ignition/src/Config/IgnitionConfig.php:223:                    'label' => 'Xdebug',
+./vendor/spatie/ignition/src/Config/IgnitionConfig.php:224:                    'url' => 'xdebug://%path@%line',
+./vendor/spatie/laravel-ignition/config/ignition.php:41:    |            "xdebug", "phpstorm-remote"
+./vendor/spatie/laravel-ignition/config/ignition.php:149:    | app has debug mode enabled and the environment is `local` or
+./vendor/spatie/laravel-ignition/src/Recorders/DumpRecorder/DumpRecorder.php:49:        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 11);
+./vendor/spatie/laravel-ignition/src/Support/RunnableSolutionsGuard.php:15:        if (! config('app.debug')) {
+./vendor/spatie/laravel-ignition/src/Support/RunnableSolutionsGuard.php:16:            // Never run solutions in when debug mode is not enabled.
+./vendor/spatie/laravel-ignition/src/Support/RunnableSolutionsGuard.php:35:        return config('app.debug');
+./vendor/spatie/laravel-ignition/src/FlareMiddleware/AddEnvironmentInformation.php:19:            'app_debug' => config('app.debug'),
+./vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/TypedCacheItem.php:11:use function get_debug_type;
+./vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/TypedCacheItem.php:64:                get_debug_type($expiration)
+./vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/TypedCacheItem.php:85:                get_debug_type($time)
+./vendor/doctrine/dbal/src/Logging/Connection.php:41:        $this->logger->debug('Executing query: {sql}', ['sql' => $sql]);
+./vendor/doctrine/dbal/src/Logging/Connection.php:48:        $this->logger->debug('Executing statement: {sql}', ['sql' => $sql]);
+./vendor/doctrine/dbal/src/Logging/Connection.php:58:        $this->logger->debug('Beginning transaction');
+./vendor/doctrine/dbal/src/Logging/Connection.php:68:        $this->logger->debug('Committing transaction');
+./vendor/doctrine/dbal/src/Logging/Connection.php:78:        $this->logger->debug('Rolling back transaction');
+./vendor/doctrine/dbal/src/Logging/Statement.php:92:        $this->logger->debug('Executing statement: {sql} (parameters: {params}, types: {types})', [
+./vendor/doctrine/deprecations/src/Deprecation.php:12:use function debug_backtrace;
+./vendor/doctrine/deprecations/src/Deprecation.php:104:        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+./vendor/doctrine/deprecations/src/Deprecation.php:126:     * needs to call {@link debug_backtrace()}
+./vendor/doctrine/deprecations/src/Deprecation.php:138:        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+./vendor/phpunit/phpunit/src/TextUI/Application.php:162:            if (!$configuration->debug() && !$extensionReplacesOutput) {
+./vendor/phpunit/phpunit/src/TextUI/Application.php:170:            if ($configuration->debug()) {
+./vendor/phpunit/phpunit/src/TextUI/Application.php:253:            if (!$extensionReplacesResultOutput && !$configuration->debug()) {
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Configuration.php:143:    private readonly bool $debug;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Configuration.php:151:    public function __construct(array $cliArguments, ?string $configurationFile, ?string $bootstrap, bool $cacheResult, ?string $cacheDirectory, ?string $coverageCacheDirectory, Source $source, string $testResultCacheFile, ?string $coverageClover, ?string $coverageCobertura, ?string $coverageCrap4j, int $coverageCrap4jThreshold, ?string $coverageHtml, int $coverageHtmlLowUpperBound, int $coverageHtmlHighLowerBound, string $coverageHtmlColorSuccessLow, string $coverageHtmlColorSuccessMedium, string $coverageHtmlColorSuccessHigh, string $coverageHtmlColorWarning, string $coverageHtmlColorDanger, ?string $coverageHtmlCustomCssFile, ?string $coveragePhp, ?string $coverageText, bool $coverageTextShowUncoveredFiles, bool $coverageTextShowOnlySummary, ?string $coverageXml, bool $pathCoverage, bool $ignoreDeprecatedCodeUnitsFromCodeCoverage, bool $disableCodeCoverageIgnore, bool $failOnDeprecation, bool $failOnPhpunitDeprecation, bool $failOnEmptyTestSuite, bool $failOnIncomplete, bool $failOnNotice, bool $failOnRisky, bool $failOnSkipped, bool $failOnWarning, bool $stopOnDefect, bool $stopOnDeprecation, bool $stopOnError, bool $stopOnFailure, bool $stopOnIncomplete, bool $stopOnNotice, bool $stopOnRisky, bool $stopOnSkipped, bool $stopOnWarning, bool $outputToStandardErrorStream, int|string $columns, bool $noExtensions, ?string $pharExtensionDirectory, array $extensionBootstrappers, bool $backupGlobals, bool $backupStaticProperties, bool $beStrictAboutChangesToGlobalState, bool $colors, bool $processIsolation, bool $enforceTimeLimit, int $defaultTimeLimit, int $timeoutForSmallTests, int $timeoutForMediumTests, int $timeoutForLargeTests, bool $reportUselessTests, bool $strictCoverage, bool $disallowTestOutput, bool $displayDetailsOnIncompleteTests, bool $displayDetailsOnSkippedTests, bool $displayDetailsOnTestsThatTriggerDeprecations, bool $displayDetailsOnPhpunitDeprecations, bool $displayDetailsOnTestsThatTriggerErrors, bool $displayDetailsOnTestsThatTriggerNotices, bool $displayDetailsOnTestsThatTriggerWarnings, bool $reverseDefectList, bool $requireCoverageMetadata, bool $registerMockObjectsFromTestArgumentsRecursively, bool $noProgress, bool $noResults, bool $noOutput, int $executionOrder, int $executionOrderDefects, bool $resolveDependencies, ?string $logfileTeamcity, ?string $logfileJunit, ?string $logfileTestdoxHtml, ?string $logfileTestdoxText, ?string $logEventsText, ?string $logEventsVerboseText, bool $teamCityOutput, bool $testDoxOutput, ?array $testsCovering, ?array $testsUsing, ?string $filter, ?array $groups, ?array $excludeGroups, int $randomOrderSeed, bool $includeUncoveredFiles, TestSuiteCollection $testSuite, string $includeTestSuite, string $excludeTestSuite, ?string $defaultTestSuite, array $testSuffixes, Php $php, bool $controlGarbageCollector, int $numberOfTestsBeforeGarbageCollection, ?string $generateBaseline, bool $debug)
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Configuration.php:257:        $this->debug                                           = $debug;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Configuration.php:1305:    public function debug(): bool
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Configuration.php:1307:        return $this->debug;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php:134:        'debug',
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php:260:        $debug                             = false;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php:875:                case '--debug':
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php:876:                    $debug = true;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php:994:            $debug,
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Configuration.php:127:    private readonly bool $debug;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Configuration.php:133:    public function __construct(array $arguments, ?string $atLeastVersion, ?bool $backupGlobals, ?bool $backupStaticProperties, ?bool $beStrictAboutChangesToGlobalState, ?string $bootstrap, ?string $cacheDirectory, ?bool $cacheResult, ?string $cacheResultFile, bool $checkVersion, ?string $colors, null|int|string $columns, ?string $configurationFile, ?string $coverageClover, ?string $coverageCobertura, ?string $coverageCrap4J, ?string $coverageHtml, ?string $coveragePhp, ?string $coverageText, ?bool $coverageTextShowUncoveredFiles, ?bool $coverageTextShowOnlySummary, ?string $coverageXml, ?bool $pathCoverage, ?string $coverageCacheDirectory, bool $warmCoverageCache, ?int $defaultTimeLimit, ?bool $disableCodeCoverageIgnore, ?bool $disallowTestOutput, ?bool $enforceTimeLimit, ?array $excludeGroups, ?int $executionOrder, ?int $executionOrderDefects, ?bool $failOnDeprecation, ?bool $failOnPhpunitDeprecation, ?bool $failOnEmptyTestSuite, ?bool $failOnIncomplete, ?bool $failOnNotice, ?bool $failOnRisky, ?bool $failOnSkipped, ?bool $failOnWarning, ?bool $stopOnDefect, ?bool $stopOnDeprecation, ?bool $stopOnError, ?bool $stopOnFailure, ?bool $stopOnIncomplete, ?bool $stopOnNotice, ?bool $stopOnRisky, ?bool $stopOnSkipped, ?bool $stopOnWarning, ?string $filter, ?string $generateBaseline, ?string $useBaseline, bool $ignoreBaseline, bool $generateConfiguration, bool $migrateConfiguration, ?array $groups, ?array $testsCovering, ?array $testsUsing, bool $help, ?string $includePath, ?array $iniSettings, ?string $junitLogfile, bool $listGroups, bool $listSuites, bool $listTests, ?string $listTestsXml, ?bool $noCoverage, ?bool $noExtensions, ?bool $noOutput, ?bool $noProgress, ?bool $noResults, ?bool $noLogging, ?bool $processIsolation, ?int $randomOrderSeed, ?bool $reportUselessTests, ?bool $resolveDependencies, ?bool $reverseList, ?bool $stderr, ?bool $strictCoverage, ?string $teamcityLogfile, ?string $testdoxHtmlFile, ?string $testdoxTextFile, ?array $testSuffixes, ?string $testSuite, ?string $excludeTestSuite, bool $useDefaultConfiguration, ?bool $displayDetailsOnIncompleteTests, ?bool $displayDetailsOnSkippedTests, ?bool $displayDetailsOnTestsThatTriggerDeprecations, ?bool $displayDetailsOnPhpunitDeprecations, ?bool $displayDetailsOnTestsThatTriggerErrors, ?bool $displayDetailsOnTestsThatTriggerNotices, ?bool $displayDetailsOnTestsThatTriggerWarnings, bool $version, ?array $coverageFilter, ?string $logEventsText, ?string $logEventsVerboseText, ?bool $printerTeamCity, ?bool $printerTestDox, bool $debug)
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Configuration.php:234:        $this->debug                                        = $debug;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Configuration.php:2050:    public function debug(): bool
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Configuration.php:2052:        return $this->debug;
+./vendor/phpunit/phpunit/src/TextUI/Configuration/Merger.php:876:            $cliConfiguration->debug(),
+./vendor/phpunit/phpunit/src/TextUI/Output/Facade.php:54:        if ($configuration->debug()) {
+./vendor/phpunit/phpunit/src/TextUI/Output/Facade.php:129:        if ($configuration->debug()) {
+./vendor/phpunit/phpunit/src/TextUI/Help.php:255:                ['arg' => '--debug', 'desc' => 'Replace default progress and result output with debugging information'],
+./vendor/phpunit/phpunit/src/Util/PHP/AbstractPhpProcess.php:175:        } elseif ($runtime->hasXdebug()) {
+./vendor/phpunit/phpunit/src/Util/PHP/AbstractPhpProcess.php:179:                    array_keys(ini_get_all('xdebug')),
+./vendor/phpunit/phpunit/src/Framework/TestRunner.php:403:        if (extension_loaded('xdebug') && xdebug_is_debugger_active()) {
+./vendor/phpunit/phpunit/src/Framework/MockObject/Exception/IncompatibleReturnValueException.php:12:use function get_debug_type;
+./vendor/phpunit/phpunit/src/Framework/MockObject/Exception/IncompatibleReturnValueException.php:28:                get_debug_type($value),
+./vendor/phpunit/phpunit/src/Runner/CodeCoverage.php:319:                if (!$configuration->noOutput() && !$configuration->debug()) {
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:16:use function debug_backtrace;
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:218:                $trace   = array_merge($hint, debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:647:        $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage([]);
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:660:                $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage([]);
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:823:            'report_zend_debug=0',
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:834:        if (extension_loaded('xdebug')) {
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:836:                $settings[] = 'xdebug.mode=coverage';
+./vendor/phpunit/phpunit/src/Runner/PhptTestCase.php:838:                $settings[] = 'xdebug.mode=off';
+./vendor/phpunit/phpunit/src/Event/Value/Test/TestMethodBuilder.php:15:use function debug_backtrace;
+./vendor/phpunit/phpunit/src/Event/Value/Test/TestMethodBuilder.php:61:        foreach (debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {
+./vendor/phpunit/phpunit/src/Metadata/Api/DataProvider.php:17:use function get_debug_type;
+./vendor/phpunit/phpunit/src/Metadata/Api/DataProvider.php:206:                            get_debug_type($key),
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:22:     * @throws XdebugNotAvailableException
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:23:     * @throws XdebugNotEnabledException
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:33:        if ($runtime->hasXdebug()) {
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:34:            $driver = new XdebugDriver($filter);
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:46:     * @throws XdebugNotAvailableException
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:47:     * @throws XdebugNotEnabledException
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:51:        if ((new Runtime)->hasXdebug()) {
+./vendor/phpunit/php-code-coverage/src/Driver/Selector.php:52:            $driver = new XdebugDriver($filter);
+./vendor/phpunit/php-code-coverage/src/Driver/PcovDriver.php:63:        return RawCodeCoverageData::fromXdebugWithoutPathCoverage($collected);
+./vendor/phpunit/php-code-coverage/src/Driver/Driver.php:25:     * @see http://xdebug.org/docs/code_coverage
+./vendor/phpunit/php-code-coverage/src/Driver/Driver.php:32:     * @see http://xdebug.org/docs/code_coverage
+./vendor/phpunit/php-code-coverage/src/Driver/Driver.php:39:     * @see http://xdebug.org/docs/code_coverage
+./vendor/phpunit/php-code-coverage/src/Driver/Driver.php:46:     * @see http://xdebug.org/docs/code_coverage
+./vendor/phpunit/php-code-coverage/src/Driver/Driver.php:53:     * @see http://xdebug.org/docs/code_coverage
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:24:use function xdebug_get_code_coverage;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:25:use function xdebug_info;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:26:use function xdebug_set_filter;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:27:use function xdebug_start_code_coverage;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:28:use function xdebug_stop_code_coverage;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:35: * @see https://xdebug.org/docs/code_coverage#xdebug_get_code_coverage
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:37: * @psalm-type XdebugLinesCoverageType = array<int, int>
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:38: * @psalm-type XdebugBranchCoverageType = array{
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:47: * @psalm-type XdebugPathCoverageType = array{
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:51: * @psalm-type XdebugFunctionCoverageType = array{
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:52: *     branches: array<int, XdebugBranchCoverageType>,
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:53: *     paths: array<int, XdebugPathCoverageType>,
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:55: * @psalm-type XdebugFunctionsCoverageType = array<string, XdebugFunctionCoverageType>
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:56: * @psalm-type XdebugPathAndBranchesCoverageType = array{
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:57: *     lines: XdebugLinesCoverageType,
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:58: *     functions: XdebugFunctionsCoverageType,
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:60: * @psalm-type XdebugCodeCoverageWithoutPathCoverageType = array<string, XdebugLinesCoverageType>
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:61: * @psalm-type XdebugCodeCoverageWithPathCoverageType = array<string, XdebugPathAndBranchesCoverageType>
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:63:final class XdebugDriver extends Driver
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:66:     * @throws XdebugNotAvailableException
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:67:     * @throws XdebugNotEnabledException
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:71:        $this->ensureXdebugIsAvailable();
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:72:        $this->ensureXdebugCodeCoverageFeatureIsEnabled();
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:75:            xdebug_set_filter(
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:105:        xdebug_start_code_coverage($flags);
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:110:        $data = xdebug_get_code_coverage();
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:112:        xdebug_stop_code_coverage();
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:115:            /* @var XdebugCodeCoverageWithPathCoverageType $data */
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:116:            return RawCodeCoverageData::fromXdebugWithPathCoverage($data);
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:119:        /* @var XdebugCodeCoverageWithoutPathCoverageType $data */
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:120:        return RawCodeCoverageData::fromXdebugWithoutPathCoverage($data);
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:125:        return 'Xdebug ' . phpversion('xdebug');
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:129:     * @throws XdebugNotAvailableException
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:131:    private function ensureXdebugIsAvailable(): void
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:133:        if (!extension_loaded('xdebug')) {
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:134:            throw new XdebugNotAvailableException;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:139:     * @throws XdebugNotEnabledException
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:141:    private function ensureXdebugCodeCoverageFeatureIsEnabled(): void
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:143:        if (version_compare(phpversion('xdebug'), '3.1', '>=')) {
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:144:            if (!in_array('coverage', xdebug_info('mode'), true)) {
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:145:                throw new XdebugNotEnabledException;
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:154:            $mode = ini_get('xdebug.mode');
+./vendor/phpunit/php-code-coverage/src/Driver/XdebugDriver.php:159:            throw new XdebugNotEnabledException;
+./vendor/phpunit/php-code-coverage/src/Filter.php:94:            str_contains($filename, 'xdebug://debug-eval') ||
+./vendor/phpunit/php-code-coverage/src/Report/Xml/BuildInformation.php:39:        if ($runtime->hasXdebug()) {
+./vendor/phpunit/php-code-coverage/src/Report/Xml/BuildInformation.php:40:            $driverNode->setAttribute('name', 'xdebug');
+./vendor/phpunit/php-code-coverage/src/Report/Xml/BuildInformation.php:41:            $driverNode->setAttribute('version', phpversion('xdebug'));
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:33: * @psalm-import-type XdebugFunctionsCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:34: * @psalm-import-type XdebugCodeCoverageWithoutPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:35: * @psalm-import-type XdebugCodeCoverageWithPathCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:45:     * @psalm-var XdebugCodeCoverageWithoutPathCoverageType
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:50:     * @psalm-var array<string, XdebugFunctionsCoverageType>
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:55:     * @psalm-param XdebugCodeCoverageWithoutPathCoverageType $rawCoverage
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:57:    public static function fromXdebugWithoutPathCoverage(array $rawCoverage): self
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:63:     * @psalm-param XdebugCodeCoverageWithPathCoverageType $rawCoverage
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:65:    public static function fromXdebugWithPathCoverage(array $rawCoverage): self
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:71:            // Xdebug annotates the function name of traits, strip that off
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:99:     * @psalm-param XdebugCodeCoverageWithoutPathCoverageType $lineCoverage
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:100:     * @psalm-param array<string, XdebugFunctionsCoverageType> $functionCoverage
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:116:     * @psalm-return XdebugCodeCoverageWithoutPathCoverageType
+./vendor/phpunit/php-code-coverage/src/Data/RawCodeCoverageData.php:124:     * @psalm-return array<string, XdebugFunctionsCoverageType>
+./vendor/phpunit/php-code-coverage/src/Data/ProcessedCodeCoverageData.php:24: * @psalm-import-type XdebugFunctionCoverageType from \SebastianBergmann\CodeCoverage\Driver\XdebugDriver
+./vendor/phpunit/php-code-coverage/src/Data/ProcessedCodeCoverageData.php:40:     * Maintains base format of raw data (@see https://xdebug.org/docs/code_coverage), but each 'hit' entry is an array
+./vendor/phpunit/php-code-coverage/src/Data/ProcessedCodeCoverageData.php:240:     * @psalm-param XdebugFunctionCoverageType $functionData
+./vendor/phpunit/php-code-coverage/src/Data/ProcessedCodeCoverageData.php:260:     * @psalm-param XdebugFunctionCoverageType $functionData
+./vendor/phpunit/php-code-coverage/src/Exception/XdebugNotAvailableException.php:15:final class XdebugNotAvailableException extends RuntimeException implements Exception
+./vendor/phpunit/php-code-coverage/src/Exception/XdebugNotAvailableException.php:19:        parent::__construct('The Xdebug extension is not available');
+./vendor/phpunit/php-code-coverage/src/Exception/XdebugNotEnabledException.php:15:final class XdebugNotEnabledException extends RuntimeException implements Exception
+./vendor/phpunit/php-code-coverage/src/Exception/XdebugNotEnabledException.php:19:        parent::__construct('XDEBUG_MODE=coverage (environment variable) or xdebug.mode=coverage (PHP configuration setting) has to be set');
+./vendor/fakerphp/faker/src/Faker/ORM/Doctrine/EntityPopulator.php:200:                // Add some extended debugging information to any errors thrown by the formatter
+./vendor/psr/log/src/LogLevel.php:17:    const DEBUG     = 'debug';
+./vendor/psr/log/src/LoggerInterface.php:83:     * Detailed debug information.
+./vendor/psr/log/src/LoggerInterface.php:87:    public function debug(string|\Stringable $message, array $context = []): void;
+./vendor/psr/log/src/LoggerTrait.php:83:     * Detailed debug information.
+./vendor/psr/log/src/LoggerTrait.php:85:    public function debug(string|\Stringable $message, array $context = []): void
+./vendor/monolog/monolog/src/Monolog/Handler/RollbarHandler.php:59:     * @return 'debug'|'info'|'warning'|'error'|'critical'
+./vendor/monolog/monolog/src/Monolog/Handler/RollbarHandler.php:64:            Level::Debug     => 'debug',
+./vendor/monolog/monolog/src/Monolog/Handler/BrowserConsoleHandler.php:194:            Level::Debug => 'debug',
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:27: * Display PHP error/debug log messages in Google Chrome console and notification popups, executes PHP code remotely
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:38: *      $logger->debug('SELECT * FROM users', array('db', 'time' => 0.012));
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:39: *      PC::debug($_SERVER); // PHP Console debugger for any type of vars
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:45: *     debugTagsKeysInContext: array<int|string>,
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:67: *     debugTagsKeysInContext?: array<int|string>,
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:97:        'debugTagsKeysInContext' => [0, 'tag'], // bool Is PHP Console server enabled
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:101:        'registerHelper' => true, // bool Register PhpConsole\Helper that allows short debug calls like PC::debug($var, 'ta.g.s')
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:113:        'detectDumpTraceAndSource' => false, // bool Autodetect and append trace data to debug
+./vendor/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php:280:            foreach ($this->options['debugTagsKeysInContext'] as $key) {
+./vendor/monolog/monolog/src/Monolog/Logger.php:38:     * Detailed debug information
+./vendor/monolog/monolog/src/Monolog/Logger.php:592:    public function debug(string|\Stringable $message, array $context = []): void
+./vendor/monolog/monolog/src/Monolog/Test/MonologTestCase.php:52:            $this->getRecord(Level::Debug, 'debug message 1'),
+./vendor/monolog/monolog/src/Monolog/Test/MonologTestCase.php:53:            $this->getRecord(Level::Debug, 'debug message 2'),
+./vendor/monolog/monolog/src/Monolog/Processor/ClosureContextProcessor.php:20: * It helps reduce the performance impact of debug logs if they do
+./vendor/monolog/monolog/src/Monolog/Processor/IntrospectionProcessor.php:71:        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+./vendor/monolog/monolog/src/Monolog/Level.php:25: * - Use ->toPsrLogLevel() to get the standard PSR-3 name which is full lowercased (e.g. "debug")
+./vendor/monolog/monolog/src/Monolog/Level.php:26: * - Use ->toRFC5424Level() to get the standard RFC 5424 value (e.g. 7 for debug, 0 for emergency)
+./vendor/monolog/monolog/src/Monolog/Level.php:35:     * Detailed debug information
+./vendor/monolog/monolog/src/Monolog/Level.php:91:            'debug' => self::Debug,
+./vendor/monolog/monolog/src/Monolog/ErrorHandler.php:215:            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+./vendor/voku/portable-ascii/src/voku/helper/ASCII.php:1244:                // keep for debugging
+./vendor/voku/portable-ascii/src/voku/helper/ASCII.php:1270:                // keep for debugging missing chars
+./vendor/symfony/polyfill-php80/bootstrap.php:37:if (!function_exists('get_debug_type')) {
+./vendor/symfony/polyfill-php80/bootstrap.php:38:    function get_debug_type($value): string { return p\Php80::get_debug_type($value); }
+./vendor/symfony/polyfill-php80/Php80.php:28:    public static function get_debug_type($value): string
+./vendor/symfony/polyfill-php80/Php80.php:63:            throw new \TypeError(sprintf('Argument 1 passed to get_resource_id() must be of the type resource, %s given', get_debug_type($res)));
+./vendor/symfony/translation/DataCollectorTranslator.php:37:            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface, TranslatorBagInterface and LocaleAwareInterface.', get_debug_type($translator)));
+./vendor/symfony/translation/Translator.php:59:    private bool $debug;
+./vendor/symfony/translation/Translator.php:72:    public function __construct(string $locale, ?MessageFormatterInterface $formatter = null, ?string $cacheDir = null, bool $debug = false, array $cacheVary = [])
+./vendor/symfony/translation/Translator.php:78:        $this->debug = $debug;
+./vendor/symfony/translation/Translator.php:451:        $this->configCacheFactory ??= new ConfigCacheFactory($this->debug);
+./vendor/symfony/translation/DependencyInjection/TranslatorPass.php:77:        if ($container->hasDefinition('console.command.translation_debug')) {
+./vendor/symfony/translation/DependencyInjection/TranslatorPass.php:78:            $definition = $container->getDefinition('console.command.translation_debug');
+./vendor/symfony/translation/DependencyInjection/TranslatorPathsPass.php:75:                if ($container->hasDefinition('console.command.translation_debug')) {
+./vendor/symfony/translation/DependencyInjection/TranslatorPathsPass.php:76:                    $definition = $container->getDefinition('console.command.translation_debug');
+./vendor/symfony/translation/Exception/ProviderException.php:22:    private string $debug;
+./vendor/symfony/translation/Exception/ProviderException.php:27:        $this->debug = $response->getInfo('debug') ?? '';
+./vendor/symfony/translation/Exception/ProviderException.php:39:        return $this->debug;
+./vendor/symfony/translation/Exception/ProviderExceptionInterface.php:20:     * Returns debug info coming from the Symfony\Contracts\HttpClient\ResponseInterface
+./vendor/symfony/translation/LoggingTranslator.php:33:            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface, TranslatorBagInterface and LocaleAwareInterface.', get_debug_type($translator)));
+./vendor/symfony/translation/LoggingTranslator.php:59:        $this->logger->debug(sprintf('The locale of the translator has changed from "%s" to "%s".', $prev, $locale));
+./vendor/symfony/translation/LoggingTranslator.php:110:            $this->logger->debug('Translation use fallback catalogue.', ['id' => $id, 'domain' => $domain, 'locale' => $catalogue->getLocale()]);
+./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:113:            $this->logger->debug(\sprintf('The "%s" event is already stopped. No listeners have been called.', $eventName));
+./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:280:                $this->logger?->debug('Notified event "{event}" to listener "{listener}".', $context);
+./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:286:                $this->logger->debug('Listener "{listener}" was not called for event "{event}".', $context);
+./vendor/symfony/event-dispatcher/Debug/TraceableEventDispatcher.php:290:                $this->logger?->debug('Listener "{listener}" stopped propagation of the event "{event}".', $context);
+./vendor/symfony/event-dispatcher/Debug/WrappedListener.php:61:            $this->name = get_debug_type($listener);
+./vendor/symfony/event-dispatcher/Debug/WrappedListener.php:138:            return [get_debug_type($listener[0]), $listener[0]::class];
+./vendor/symfony/var-dumper/Cloner/AbstractCloner.php:328:            $stub->class = get_debug_type($obj);
+./vendor/symfony/var-dumper/Cloner/AbstractCloner.php:335:            $hasDebugInfo = method_exists($class, '__debugInfo');
+./vendor/symfony/var-dumper/Cloner/Data.php:118:            throw new \LogicException(sprintf('"%s" object holds non-iterable type "%s".', self::class, get_debug_type($value)));
+./vendor/symfony/var-dumper/Caster/ReflectionCaster.php:441:                    $signature .= 'new '.substr(strrchr('\\'.get_debug_type($v), '\\'), 1);
+./vendor/symfony/var-dumper/Caster/FrameStub.php:15: * Represents a single backtrace frame as returned by debug_backtrace() or Exception->getTrace().
+./vendor/symfony/var-dumper/Caster/ExceptionCaster.php:89:            $class = get_debug_type($a[$xPrefix.'previous']);
+./vendor/symfony/var-dumper/Caster/ExceptionCaster.php:323:        unset($a[$xPrefix.'string'], $a[Caster::PREFIX_DYNAMIC.'xdebug_message']);
+./vendor/symfony/var-dumper/Caster/TraceStub.php:17: * Represents a backtrace as returned by debug_backtrace() or Exception->getTrace().
+./vendor/symfony/var-dumper/Caster/Caster.php:48:     * @param bool $hasDebugInfo Whether the __debugInfo method exists on $obj or not
+./vendor/symfony/var-dumper/Caster/Caster.php:50:    public static function castObject(object $obj, string $class, bool $hasDebugInfo = false, ?string $debugClass = null): array
+./vendor/symfony/var-dumper/Caster/Caster.php:54:                $debugInfo = $obj->__debugInfo();
+./vendor/symfony/var-dumper/Caster/Caster.php:56:                // ignore failing __debugInfo()
+./vendor/symfony/var-dumper/Caster/Caster.php:71:            $debugClass ??= get_debug_type($obj);
+./vendor/symfony/var-dumper/Caster/Caster.php:80:                } elseif ($debugClass !== $class && 1 === strpos($k, $class)) {
+./vendor/symfony/var-dumper/Caster/Caster.php:81:                    $prefixedKeys[$i] = "\0".$debugClass.strrchr($k, "\0");
+./vendor/symfony/var-dumper/Caster/Caster.php:94:        if ($hasDebugInfo && \is_array($debugInfo)) {
+./vendor/symfony/var-dumper/Caster/Caster.php:95:            foreach ($debugInfo as $k => $v) {
+./vendor/symfony/var-dumper/Caster/SplCaster.php:269:            $a = Caster::castObject($c, $c::class, method_exists($c, '__debugInfo'), $stub->class);
+./vendor/symfony/var-dumper/Caster/CutStub.php:30:                $this->class = get_debug_type($value);
+./vendor/symfony/var-dumper/Command/ServerDumpCommand.php:63:dumps in a single place for debugging you application:
+./vendor/symfony/var-dumper/Dumper/ContextProvider/SourceContextProvider.php:44:        $trace = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT | \DEBUG_BACKTRACE_IGNORE_ARGS, $this->limit);
+./vendor/symfony/var-dumper/Dumper/CliDumper.php:86:        $this->displayOptions['fileLinkFormat'] = class_exists(FileLinkFormatter::class) ? new FileLinkFormatter() : (\ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format') ?: 'file://%f#L%l');
+./vendor/symfony/var-dumper/Dumper/CliDumper.php:614:     * Reference: Composer\XdebugHandler\Process::supportsColor
+./vendor/symfony/var-dumper/Dumper/CliDumper.php:615:     * https://github.com/composer/xdebug-handler
+./vendor/symfony/var-dumper/Dumper/HtmlDumper.php:82:        $this->displayOptions['fileLinkFormat'] = \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+./vendor/symfony/mailer/Transport/AbstractHttpTransport.php:71:            $message->appendDebug($response->getInfo('debug') ?? '');
+./vendor/symfony/mailer/Transport/AbstractHttpTransport.php:73:            $e->appendDebug($e->getResponse()->getInfo('debug') ?? '');
+./vendor/symfony/mailer/Transport/SendmailTransport.php:92:        $this->getLogger()->debug(sprintf('Email transport "%s" starting', __CLASS__));
+./vendor/symfony/mailer/Transport/SendmailTransport.php:122:        $this->getLogger()->debug(sprintf('Email transport "%s" stopped', __CLASS__));
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:35:    private string $debug = '';
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:37:    public function write(string $bytes, bool $debug = true): void
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:39:        if ($debug) {
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:41:                $this->debug .= sprintf("> %s\n", $line);
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:94:        $this->debug .= sprintf('< %s', $line);
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:101:        $debug = $this->debug;
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:102:        $this->debug = '';
+./vendor/symfony/mailer/Transport/Smtp/Stream/AbstractStream.php:104:        return $debug;
+./vendor/symfony/mailer/Transport/Smtp/SmtpTransport.php:230:                $this->getLogger()->debug(sprintf('Email transport "%s" stopped', __CLASS__));
+./vendor/symfony/mailer/Transport/Smtp/SmtpTransport.php:273:        $this->getLogger()->debug(sprintf('Email transport "%s" starting', __CLASS__));
+./vendor/symfony/mailer/Transport/Smtp/SmtpTransport.php:281:        $this->getLogger()->debug(sprintf('Email transport "%s" started', __CLASS__));
+./vendor/symfony/mailer/Transport/Smtp/SmtpTransport.php:297:        $this->getLogger()->debug(sprintf('Email transport "%s" stopping', __CLASS__));
+./vendor/symfony/mailer/Transport/Smtp/SmtpTransport.php:305:            $this->getLogger()->debug(sprintf('Email transport "%s" stopped', __CLASS__));
+./vendor/symfony/mailer/Transport/Smtp/SmtpTransport.php:367:            $this->getLogger()->debug(sprintf('Email transport "%s" sleeps for %d seconds after stopping', __CLASS__, $sleep));
+./vendor/symfony/mailer/Transport/AbstractTransport.php:84:                throw new LogicException(sprintf('You must configure a "%s" when a "%s" instance has a text or HTML template set.', BodyRendererInterface::class, get_debug_type($message)));
+./vendor/symfony/mailer/Transport/AbstractTransport.php:131:            $this->logger->debug(sprintf('Email transport "%s" sleeps for %.2f seconds', __CLASS__, $sleep));
+./vendor/symfony/mailer/SentMessage.php:26:    private string $debug = '';
+./vendor/symfony/mailer/SentMessage.php:78:        return $this->debug;
+./vendor/symfony/mailer/SentMessage.php:81:    public function appendDebug(string $debug): void
+./vendor/symfony/mailer/SentMessage.php:83:        $this->debug .= $debug;
+./vendor/symfony/mailer/Envelope.php:75:                throw new InvalidArgumentException(sprintf('A recipient must be an instance of "%s" (got "%s").', Address::class, get_debug_type($recipient)));
+./vendor/symfony/mailer/Exception/TransportExceptionInterface.php:21:    public function appendDebug(string $debug): void;
+./vendor/symfony/mailer/Exception/TransportException.php:19:    private string $debug = '';
+./vendor/symfony/mailer/Exception/TransportException.php:23:        return $this->debug;
+./vendor/symfony/mailer/Exception/TransportException.php:26:    public function appendDebug(string $debug): void
+./vendor/symfony/mailer/Exception/TransportException.php:28:        $this->debug .= $debug;
+./vendor/symfony/http-kernel/DataCollector/DumpDataCollector.php:49:        $fileLinkFormat = $fileLinkFormat ?: \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+./vendor/symfony/http-kernel/DataCollector/DumpDataCollector.php:114:        // In all other conditions that remove the web debug toolbar, dumps are written on the output.
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:158:                    'token' => $response->headers->get('x-debug-token'),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:171:        if ($response->headers->has('x-previous-debug-token')) {
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:172:            $this->data['forward_token'] = $response->headers->get('x-previous-debug-token');
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:437:        $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:480:                    'class' => \is_object($controller[0]) ? get_debug_type($controller[0]) : $controller[0],
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:489:                        'class' => \is_object($controller[0]) ? get_debug_type($controller[0]) : $controller[0],
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:56:            'debug' => isset($this->kernel) ? $this->kernel->isDebug() : 'n/a',
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:61:            'xdebug_enabled' => \extension_loaded('xdebug'),
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:182:     * Returns true if the debug is enabled.
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:184:     * @return bool|string true if debug is enabled, false otherwise or a string if no kernel was set
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:188:        return $this->data['debug'];
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:192:     * Returns true if the Xdebug is enabled.
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:194:    public function hasXdebug(): bool
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:196:        return $this->data['xdebug_enabled'];
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:200:     * Returns true if the function xdebug_info is available.
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:202:    public function hasXdebugInfo(): bool
+./vendor/symfony/http-kernel/DataCollector/ConfigDataCollector.php:204:        return \function_exists('xdebug_info');
+./vendor/symfony/http-kernel/Resources/welcome.html.php:72:            You're seeing this page because you haven't configured any homepage URL and <a href="https://symfony.com/doc/<?= $docVersion; ?>/debug-mode">debug mode</a> is enabled.
+./vendor/symfony/http-kernel/CacheWarmer/CacheWarmerAggregate.php:26:    private bool $debug;
+./vendor/symfony/http-kernel/CacheWarmer/CacheWarmerAggregate.php:34:    public function __construct(iterable $warmers = [], bool $debug = false, ?string $deprecationLogsFilepath = null)
+./vendor/symfony/http-kernel/CacheWarmer/CacheWarmerAggregate.php:37:        $this->debug = $debug;
+./vendor/symfony/http-kernel/CacheWarmer/CacheWarmerAggregate.php:62:        if ($collectDeprecations = $this->debug && !\defined('PHPUNIT_COMPOSER_INSTALL')) {
+./vendor/symfony/http-kernel/CacheWarmer/CacheWarmerAggregate.php:75:                $backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+./vendor/symfony/http-kernel/Bundle/Bundle.php:73:                    throw new \LogicException(sprintf('Extension "%s" must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', get_debug_type($extension)));
+./vendor/symfony/http-kernel/KernelInterface.php:94:     * Checks if debug mode is enabled.
+./vendor/symfony/http-kernel/KernelInterface.php:109:     * Gets the request start time (not available if debug is disabled).
+./vendor/symfony/http-kernel/Controller/ArgumentResolver.php:97:                    throw new \InvalidArgumentException(sprintf('"%s::resolve()" must yield at most one value for non-variadic arguments.', get_debug_type($resolver)));
+./vendor/symfony/http-kernel/Controller/ArgumentResolver.php:106:                    throw new \InvalidArgumentException(sprintf('"%s::resolve()" must yield at least one value.', get_debug_type($resolver)));
+./vendor/symfony/http-kernel/Controller/ArgumentResolver.php:134:                $controller[0] = get_debug_type($controller[0]);
+./vendor/symfony/http-kernel/Controller/ArgumentResolver.php:141:            return get_debug_type($controller);
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/VariadicValueResolver.php:45:            throw new \InvalidArgumentException(sprintf('The action argument "...$%1$s" is required to be an array, the request attribute "%1$s" contains a type of "%2$s" instead.', $argument->getName(), get_debug_type($values)));
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/BackedEnumValueResolver.php:81:            throw new \LogicException(sprintf('Could not resolve the "%s $%s" controller argument: expecting an int or string, got "%s".', $argument->getType(), $argument->getName(), get_debug_type($value)));
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:170:            return sprintf('Controller class "%s" cannot be called without a method name. You need to implement "__invoke"%s.', get_debug_type($callable), $alternativeMsg);
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:174:            return sprintf('Invalid type for controller given, expected string, array or object, got "%s".', get_debug_type($callable));
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:187:        $className = \is_object($controller) ? get_debug_type($controller) : $controller;
+./vendor/symfony/http-kernel/Fragment/FragmentHandler.php:32:    private bool $debug;
+./vendor/symfony/http-kernel/Fragment/FragmentHandler.php:38:     * @param bool                        $debug     Whether the debug mode is enabled or not
+./vendor/symfony/http-kernel/Fragment/FragmentHandler.php:40:    public function __construct(RequestStack $requestStack, array $renderers = [], bool $debug = false)
+./vendor/symfony/http-kernel/Fragment/FragmentHandler.php:46:        $this->debug = $debug;
+./vendor/symfony/http-kernel/Fragment/FragmentHandler.php:72:            $options['ignore_errors'] = !$this->debug;
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:48:     *   * debug                  If true, exceptions are thrown when things go wrong. Otherwise, the cache
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:53:     *                            requests (including ESI subrequests). (default: 'full' if in debug; 'none' otherwise)
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:103:            'debug' => false,
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:117:            $this->options['trace_level'] = $this->options['debug'] ? 'full' : 'none';
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:310:                if ($this->options['debug']) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:339:            if ($this->options['debug']) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:625:            if ($this->options['debug']) {
+./vendor/symfony/http-kernel/Log/Logger.php:50:    private bool $debug = false;
+./vendor/symfony/http-kernel/Log/Logger.php:60:    public function __construct(?string $minLevel = null, $output = null, ?callable $formatter = null, private readonly ?RequestStack $requestStack = null, bool $debug = false)
+./vendor/symfony/http-kernel/Log/Logger.php:85:        $this->debug = $debug;
+./vendor/symfony/http-kernel/Log/Logger.php:90:        $this->debug = true;
+./vendor/symfony/http-kernel/Log/Logger.php:110:        if ($this->debug && $this->requestStack) {
+./vendor/symfony/http-kernel/DependencyInjection/LoggerPass.php:41:        if ($debug = $container->getParameter('kernel.debug')) {
+./vendor/symfony/http-kernel/DependencyInjection/LoggerPass.php:42:            $debug = $container->hasParameter('kernel.runtime_mode.web')
+./vendor/symfony/http-kernel/DependencyInjection/LoggerPass.php:48:            ->setArguments([null, null, null, new Reference(RequestStack::class), $debug]);
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:54:        if ($container->getParameter('kernel.debug') && class_exists(Stopwatch::class) && $container->has('debug.stopwatch')) {
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:56:                $resolvers[$name] = new Reference('.debug.value_resolver.'.$resolver);
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:57:                $container->register('.debug.value_resolver.'.$resolver, TraceableValueResolver::class)
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:58:                    ->setArguments([$resolver, new Reference('debug.stopwatch')]);
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:61:                $namedResolvers[$name] = new Reference('.debug.value_resolver.'.$resolver);
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:62:                $container->register('.debug.value_resolver.'.$resolver, TraceableValueResolver::class)
+./vendor/symfony/http-kernel/DependencyInjection/ControllerArgumentValueResolverPass.php:63:                    ->setArguments([$resolver, new Reference('debug.stopwatch')]);
+./vendor/symfony/http-kernel/DependencyInjection/LazyLoadingFragmentHandler.php:33:    public function __construct(ContainerInterface $container, RequestStack $requestStack, bool $debug = false)
+./vendor/symfony/http-kernel/DependencyInjection/LazyLoadingFragmentHandler.php:37:        parent::__construct($requestStack, [], $debug);
+./vendor/symfony/http-kernel/Kernel.php:65:    protected $debug;
+./vendor/symfony/http-kernel/Kernel.php:89:    public function __construct(string $environment, bool $debug)
+./vendor/symfony/http-kernel/Kernel.php:92:            throw new \InvalidArgumentException(sprintf('Invalid environment provided to "%s": the environment cannot be empty.', get_debug_type($this)));
+./vendor/symfony/http-kernel/Kernel.php:95:        $this->debug = $debug;
+./vendor/symfony/http-kernel/Kernel.php:117:                if ($this->debug) {
+./vendor/symfony/http-kernel/Kernel.php:219:            throw new \InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled. Maybe you forgot to add it in the "registerBundles()" method of your "%s.php" file?', $name, get_debug_type($this)));
+./vendor/symfony/http-kernel/Kernel.php:256:        return $this->debug;
+./vendor/symfony/http-kernel/Kernel.php:303:        return $this->debug && null !== $this->startTime ? $this->startTime : -\INF;
+./vendor/symfony/http-kernel/Kernel.php:375:        $class = str_replace('\\', '_', $class).ucfirst($this->environment).($this->debug ? 'Debug' : '').'Container';
+./vendor/symfony/http-kernel/Kernel.php:406:        $cache = new ConfigCache($buildDir.'/'.$class.'.php', $this->debug);
+./vendor/symfony/http-kernel/Kernel.php:415:                && (!$this->debug || (self::$freshCache[$cachePath] ?? $cache->isFresh()))
+./vendor/symfony/http-kernel/Kernel.php:450:        if ($collectDeprecations = $this->debug && !\defined('PHPUNIT_COMPOSER_INSTALL')) {
+./vendor/symfony/http-kernel/Kernel.php:463:                $backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 5);
+./vendor/symfony/http-kernel/Kernel.php:586:            'kernel.debug' => $this->debug,
+./vendor/symfony/http-kernel/Kernel.php:637:            if ($this->debug) {
+./vendor/symfony/http-kernel/Kernel.php:702:        $inlineClassLoader = $this->debug;
+./vendor/symfony/http-kernel/Kernel.php:715:            'debug' => $this->debug,
+./vendor/symfony/http-kernel/Kernel.php:760:        if ($this->debug) {
+./vendor/symfony/http-kernel/Kernel.php:763:        if ($this->debug && !isset($_ENV['SHELL_VERBOSITY']) && !isset($_SERVER['SHELL_VERBOSITY'])) {
+./vendor/symfony/http-kernel/Kernel.php:854:        return ['environment', 'debug'];
+./vendor/symfony/http-kernel/Kernel.php:862:        if (\is_object($this->environment) || \is_object($this->debug)) {
+./vendor/symfony/http-kernel/Kernel.php:866:        $this->__construct($this->environment, $this->debug);
+./vendor/symfony/http-kernel/Debug/TraceableEventDispatcher.php:47:                // In this case, `$token` contains the [B] debug token, but the  open `stopwatch` section ID
+./vendor/symfony/http-kernel/Debug/TraceableEventDispatcher.php:48:                // is equal to the [A] debug token. Trying to reopen section with the [B] token throws an exception
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:48:    private bool $debug;
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:58:    public function __construct(?ContainerInterface $container = null, bool $debug = false, array $sessionOptions = [])
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:61:        $this->debug = $debug;
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:223:        if ($this->debug) {
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:237:        if (!$this->debug) {
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:38:    protected $debug;
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:47:    public function __construct(string|object|array|null $controller, ?LoggerInterface $logger = null, bool $debug = false, array $exceptionsMapping = [])
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:51:        $this->debug = $debug;
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:138:        if ($this->debug) {
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:145:        if ($this->debug && $event->getRequest()->attributes->get('_remove_csp_headers', false)) {
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:49:    private bool $debug;
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:56:    public function __construct(UrlMatcherInterface|RequestMatcherInterface $matcher, RequestStack $requestStack, ?RequestContext $context = null, ?LoggerInterface $logger = null, ?string $projectDir = null, bool $debug = true)
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:67:        $this->debug = $debug;
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:137:        if (!$this->debug || !($e = $event->getThrowable()) instanceof NotFoundHttpException) {
+./vendor/symfony/mime/Email.php:273:            throw new \TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
+./vendor/symfony/mime/Email.php:304:            throw new \TypeError(sprintf('The body must be a string, a resource or null (got "%s").', get_debug_type($body)));
+./vendor/symfony/mime/MessageConverter.php:58:                throw new RuntimeException(sprintf('Unable to create an Email from an instance of "%s" as the body is too complex.', get_debug_type($message)));
+./vendor/symfony/mime/MessageConverter.php:64:        throw new RuntimeException(sprintf('Unable to create an Email from an instance of "%s" as the body is too complex.', get_debug_type($message)));
+./vendor/symfony/mime/MessageConverter.php:76:        throw new RuntimeException(sprintf('Unable to create an Email from an instance of "%s" as the body is too complex.', get_debug_type($message)));
+./vendor/symfony/mime/MessageConverter.php:93:        throw new RuntimeException(sprintf('Unable to create an Email from an instance of "%s" as the body is too complex.', get_debug_type($message)));
+./vendor/symfony/mime/MessageConverter.php:104:            throw new RuntimeException(sprintf('Unable to create an Email from an instance of "%s" as the body is too complex.', get_debug_type($message)));
+./vendor/symfony/mime/MessageConverter.php:114:                throw new RuntimeException(sprintf('Unable to create an Email from an instance of "%s" as the body is too complex.', get_debug_type($email)));
+./vendor/symfony/mime/Part/TextPart.php:48:            throw new \TypeError(sprintf('The body of "%s" must be a string, a resource, or an instance of "%s" (got "%s").', self::class, File::class, get_debug_type($body)));
+./vendor/symfony/mime/Part/Multipart/FormDataPart.php:74:                throw new InvalidArgumentException(sprintf('The value of the form field "%s" can only be a string, an array, or an instance of TextPart, "%s" given.', $fieldName, get_debug_type($item)));
+./vendor/symfony/mime/Header/Headers.php:244:        throw new LogicException(sprintf('The "%s" header must be an instance of "%s" (got "%s").', $header->getName(), implode('" or "', $headerClasses), get_debug_type($header)));
+./vendor/symfony/string/LazyString.php:29:            throw new \TypeError(\sprintf('Argument 1 passed to "%s()" must be a callable or a [Closure, method] lazy-callable, "%s" given.', __METHOD__, '['.implode(', ', array_map('get_debug_type', $callback)).']'));
+./vendor/symfony/string/LazyString.php:127:            $class = \is_object($callback[0]) ? get_debug_type($callback[0]) : $callback[0];
+./vendor/symfony/string/LazyString.php:139:            $class = get_debug_type($callback);
+./vendor/symfony/routing/Matcher/UrlMatcher.php:228:                throw new \TypeError(sprintf('"%s": Argument $routeParameters is expected to be an array, got "%s".', __METHOD__, get_debug_type($routeParameters)));
+./vendor/symfony/routing/Matcher/TraceableUrlMatcher.php:20: * TraceableUrlMatcher helps debug path info matching by tracing the match.
+./vendor/symfony/routing/Requirement/EnumRequirement.php:38:                    throw new InvalidArgumentException(sprintf('Case must be a "BackedEnum" instance, "%s" given.', get_debug_type($case)));
+./vendor/symfony/routing/Requirement/EnumRequirement.php:44:                    throw new InvalidArgumentException(sprintf('"%s::%s" is not a case of "%s".', get_debug_type($case), $case->name, $class));
+./vendor/symfony/routing/Loader/ObjectLoader.php:48:            throw new \TypeError(sprintf('"%s:getObject()" must return an object: "%s" returned.', static::class, get_debug_type($loaderObject)));
+./vendor/symfony/routing/Loader/ObjectLoader.php:52:            throw new \BadMethodCallException(sprintf('Method "%s" not found on "%s" when importing routing resource "%s".', $method, get_debug_type($loaderObject), $resource));
+./vendor/symfony/routing/Loader/ObjectLoader.php:58:            $type = get_debug_type($routeCollection);
+./vendor/symfony/routing/Loader/ObjectLoader.php:60:            throw new \LogicException(sprintf('The "%s::%s()" method must return a RouteCollection: "%s" returned.', get_debug_type($loaderObject), $method, $type));
+./vendor/symfony/routing/Loader/AttributeClassLoader.php:97:            throw new \TypeError(__METHOD__.sprintf(': Parameter $env was expected to be a string or null, "%s" given.', get_debug_type($env)));
+./vendor/symfony/routing/Router.php:110:     *   * debug:                  Whether to enable debugging or not (false by default)
+./vendor/symfony/routing/Router.php:127:            'debug' => false,
+./vendor/symfony/routing/Router.php:343:        return $this->configCacheFactory ??= new ConfigCacheFactory($this->options['debug']);
+./vendor/symfony/http-foundation/InputBag.php:32:            throw new \InvalidArgumentException(sprintf('Expected a scalar value as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($default)));
+./vendor/symfony/http-foundation/InputBag.php:71:            throw new \InvalidArgumentException(sprintf('Expected a scalar, or an array as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($value)));
+./vendor/symfony/http-foundation/InputBag.php:119:            throw new \InvalidArgumentException(sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, get_debug_type($options['options'] ?? null)));
+./vendor/symfony/http-foundation/InputBag.php:132:        $method = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
+./vendor/symfony/http-foundation/File/Exception/UnexpectedTypeException.php:18:        parent::__construct(sprintf('Expected argument of type %s, %s given', $expectedType, get_debug_type($value)));
+./vendor/symfony/http-foundation/JsonResponse.php:44:            throw new \TypeError(sprintf('"%s": If $json is set to true, argument $data must be a string or object implementing __toString(), "%s" given.', __METHOD__, get_debug_type($data)));
+./vendor/symfony/http-foundation/JsonResponse.php:91:                'debugger', 'function', 'this', 'with', 'default', 'if', 'throw', 'delete', 'in', 'try', 'class', 'enum', 'extends', 'super',  'const', 'export',
+./vendor/symfony/http-foundation/Request.php:1548:            throw new JsonException(sprintf('JSON content was expected to decode to an array, "%s" returned.', get_debug_type($content)));
+./vendor/symfony/http-foundation/Request.php:1574:            throw new JsonException(sprintf('JSON content was expected to decode to an array, "%s" returned.', get_debug_type($content)));
+./vendor/symfony/http-foundation/ParameterBag.php:48:            throw new BadRequestException(sprintf('Unexpected value for parameter "%s": expecting "array", got "%s".', $key, get_debug_type($value)));
+./vendor/symfony/http-foundation/ParameterBag.php:219:            throw new \InvalidArgumentException(sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, get_debug_type($options['options'] ?? null)));
+./vendor/symfony/http-foundation/ParameterBag.php:232:        $method = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
+./vendor/symfony/http-foundation/Session/Storage/Handler/SessionHandlerFactory.php:52:                throw new \InvalidArgumentException(sprintf('Unsupported Connection: "%s".', get_debug_type($connection)));
+./vendor/symfony/http-foundation/Session/Storage/Handler/StrictSessionHandler.php:27:            throw new \LogicException(sprintf('"%s" is already an instance of "SessionUpdateTimestampHandlerInterface", you cannot wrap it with "%s".', get_debug_type($handler), self::class));
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:506:            'dump_debug_info' => 'bool',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:630:            'debugDumpParams' => '?bool',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1034:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1062:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1096:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1167:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1216:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1232:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1403:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Internal/TentativeTypes.php:1417:            '__debugInfo' => 'array',
+./vendor/symfony/error-handler/Debug.php:15: * Registers all the debug tools.
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:30:    private bool|\Closure $debug;
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:35:     * @param bool|callable                     $debug  The debugging mode as a boolean or a callable that should return it
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:37:    public function __construct(SerializerInterface $serializer, string|callable $format, ?ErrorRendererInterface $fallbackErrorRenderer = null, bool|callable $debug = false)
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:42:        $this->debug = \is_bool($debug) ? $debug : $debug(...);
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:48:        $debug = \is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:49:        if ($debug) {
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:62:                'debug' => $debug,
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:37:    private bool|\Closure $debug;
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:47:     * @param bool|callable   $debug        The debugging mode as a boolean or a callable that should return it
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:50:    public function __construct(bool|callable $debug = false, ?string $charset = null, string|FileLinkFormatter|null $fileLinkFormat = null, ?string $projectDir = null, string|callable $outputBuffer = '', ?LoggerInterface $logger = null)
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:52:        $this->debug = \is_bool($debug) ? $debug : $debug(...);
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:63:        if (\is_bool($this->debug) ? $this->debug : ($this->debug)($exception)) {
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:86:        if (!$this->debug) {
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:93:    public static function isDebug(RequestStack $requestStack, bool $debug): \Closure
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:95:        return static function () use ($requestStack, $debug): bool {
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:97:                return $debug;
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:100:            return $debug && $request->attributes->getBoolean('showException', true);
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:123:    private function renderException(FlattenException $exception, string $debugTemplate = 'views/exception_full.html.php'): string
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:125:        $debug = \is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:129:        if (!$debug) {
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:138:        return $this->include($debugTemplate, [
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:345:     * Allows overriding the default non-debug template.
+./vendor/symfony/error-handler/ErrorRenderer/FileLinkFormatter.php:19: * Formats debug file links.
+./vendor/symfony/error-handler/ErrorRenderer/FileLinkFormatter.php:40:            $f = (ErrorRendererInterface::IDE_LINK_FORMATS[$f] ?? $f) ?: \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format') ?: 'file://%f#L%l';
+./vendor/symfony/error-handler/DebugClassLoader.php:107:        '__debugInfo' => 'array',
+./vendor/symfony/error-handler/BufferingLogger.php:61:                        $message = str_replace("{{$key}}", '[object '.get_debug_type($val).']', $message);
+./vendor/symfony/error-handler/ErrorHandler.php:93:    private bool $debug;
+./vendor/symfony/error-handler/ErrorHandler.php:165:                $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+./vendor/symfony/error-handler/ErrorHandler.php:180:    public function __construct(?BufferingLogger $bootstrappingLogger = null, bool $debug = false)
+./vendor/symfony/error-handler/ErrorHandler.php:198:        $this->debug = $debug;
+./vendor/symfony/error-handler/ErrorHandler.php:416:                $lightTrace = $this->tracedErrors & $type ? $this->cleanTrace(debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 5), $type, $file, $line, false) : [];
+./vendor/symfony/error-handler/ErrorHandler.php:439:                $backtrace = debug_backtrace(false, 5);
+./vendor/symfony/error-handler/ErrorHandler.php:653:        $renderer = \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? new CliErrorRenderer() : new HtmlErrorRenderer($this->debug);
+./vendor/symfony/error-handler/Error/FatalError.php:34:            if (\function_exists('xdebug_get_function_stack') && \in_array(\ini_get('xdebug.mode'), ['develop', false], true) && $trace = @xdebug_get_function_stack()) {
+./vendor/symfony/error-handler/Error/FatalError.php:41:                        // XDebug pre 2.1.1 doesn't currently set the call type key http://bugs.xdebug.org/view.php?id=695
+./vendor/symfony/error-handler/Exception/FlattenException.php:75:        $e->setClass(get_debug_type($exception));
+./vendor/symfony/error-handler/Exception/FlattenException.php:366:                $result[$key] = ['object', get_debug_type($value)];
+./vendor/symfony/process/Pipes/AbstractPipes.php:104:                        throw new InvalidArgumentException(sprintf('"%s" yielded a value of type "%s", but only scalars and stream resources are supported.', get_debug_type($this->input), get_debug_type($input)));
+./vendor/symfony/process/PhpSubprocess.php:42: * @author Partially copied and heavily inspired from composer/xdebug-handler by John Stevenson <john-stevenson@blueyonder.co.uk>
+./vendor/symfony/console/DataCollector/CommandDataCollector.php:50:                OutputInterface::VERBOSITY_DEBUG => 'debug',
+./vendor/symfony/console/Application.php:564:            throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name.', get_debug_type($command)));
+./vendor/symfony/console/Application.php:870:                $class = get_debug_type($e);
+./vendor/symfony/console/Application.php:1043:                                trigger_deprecation('symfony/console', '6.3', 'Not returning an exit code from "%s::handleSignal()" is deprecated, return "false" to keep the command running or "0" to exit successfully.', get_debug_type($command));
+./vendor/symfony/console/Application.php:1066:                        trigger_deprecation('symfony/console', '6.3', 'Not returning an exit code from "%s::handleSignal()" is deprecated, return "false" to keep the command running or "0" to exit successfully.', get_debug_type($command));
+./vendor/symfony/console/Application.php:1137:            new InputOption('--verbose', '-v|vv|vvv', InputOption::VALUE_NONE, 'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'),
+./vendor/symfony/console/Input/InputArgument.php:140:            throw new LogicException(sprintf('Closure for argument "%s" must return an array. Got "%s".', $this->name, get_debug_type($values)));
+./vendor/symfony/console/Input/InputOption.php:234:            throw new LogicException(sprintf('Closure for option "%s" must return an array. Got "%s".', $this->name, get_debug_type($values)));
+./vendor/symfony/console/CI/GithubActionReporter.php:76:     * Output a debug log using the Github annotations format.
+./vendor/symfony/console/CI/GithubActionReporter.php:78:     * @see https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-a-debug-message
+./vendor/symfony/console/CI/GithubActionReporter.php:80:    public function debug(string $message, ?string $file = null, ?int $line = null, ?int $col = null): void
+./vendor/symfony/console/CI/GithubActionReporter.php:82:        $this->log('debug', $message, $file, $line, $col);
+./vendor/symfony/console/Output/OutputInterface.php:86:     * Returns whether verbosity is debug (-vvv).
+./vendor/symfony/console/Output/Output.php:25: *  * debug: -vvv (all debug output)
+./vendor/symfony/console/Output/StreamOutput.php:88:     * Reference: Composer\XdebugHandler\Process::supportsColor
+./vendor/symfony/console/Output/StreamOutput.php:89:     * https://github.com/composer/xdebug-handler
+./vendor/symfony/console/Descriptor/Descriptor.php:41:            default => throw new InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_debug_type($object))),
+./vendor/symfony/console/Command/DumpCompletionCommand.php:88:            ->addOption('debug', null, InputOption::VALUE_NONE, 'Tail the completion debug log')
+./vendor/symfony/console/Command/DumpCompletionCommand.php:96:        if ($input->getOption('debug')) {
+./vendor/symfony/console/Command/DumpCompletionCommand.php:131:        $debugFile = sys_get_temp_dir().'/sf_'.$commandName.'.log';
+./vendor/symfony/console/Command/DumpCompletionCommand.php:132:        if (!file_exists($debugFile)) {
+./vendor/symfony/console/Command/DumpCompletionCommand.php:133:            touch($debugFile);
+./vendor/symfony/console/Command/DumpCompletionCommand.php:135:        $process = new Process(['tail', '-f', $debugFile], null, null, null, 0);
+./vendor/symfony/console/Command/Command.php:329:                throw new \TypeError(sprintf('Return value of "%s::execute()" must be of the type int, "%s" returned.', static::class, get_debug_type($statusCode)));
+./vendor/symfony/console/Command/Command.php:467:            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
+./vendor/symfony/console/Command/Command.php:491:            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
+./vendor/symfony/console/Helper/ProcessHelper.php:45:        $formatter = $this->getHelperSet()->get('debug_formatter');
+./vendor/symfony/console/Helper/ProcessHelper.php:109:     * Wraps a Process callback to add debugging output.
+./vendor/symfony/console/Helper/ProcessHelper.php:117:        $formatter = $this->getHelperSet()->get('debug_formatter');
+./vendor/symfony/console/Helper/ProgressBar.php:31:    public const FORMAT_DEBUG = 'debug';
+./vendor/symfony/console/Helper/ProgressBar.php:36:    private const FORMAT_DEBUG_NOMAX = 'debug_nomax';
+./vendor/symfony/console/Helper/DebugFormatterHelper.php:15: * Helps outputting debug information when running an external program from a command.
+./vendor/symfony/console/Helper/DebugFormatterHelper.php:28:     * Starts a debug formatting session.
+./vendor/symfony/console/Helper/DebugFormatterHelper.php:96:        return 'debug_formatter';
+./vendor/symfony/console/Helper/Table.php:171:            throw new \LogicException(sprintf('Setting a maximum column width is only supported when using a "%s" formatter, got "%s".', WrappableOutputFormatterInterface::class, get_debug_type($this->output->getFormatter())));
+./vendor/symfony/console/Helper/Table.php:700:                throw new InvalidArgumentException(sprintf('A cell must be a TableCell, a scalar or an object implementing "__toString()", "%s" given.', get_debug_type($cell)));
+./vendor/symfony/console/EventListener/ErrorListener.php:70:            $this->logger->debug('The console exited with code "{code}"', ['code' => $exitCode]);
+./vendor/symfony/console/EventListener/ErrorListener.php:75:        $this->logger->debug('Command "{command}" exited with code "{code}"', ['command' => $inputString, 'code' => $exitCode]);
+./vendor/sebastian/comparator/src/ExceptionComparator.php:36:            $array['xdebug_message'],
+./vendor/sebastian/environment/src/Runtime.php:37:     * Returns true when Xdebug or PCOV is available or
+./vendor/sebastian/environment/src/Runtime.php:42:        return $this->hasXdebug() || $this->hasPCOV() || $this->hasPHPDBGCodeCoverage();
+./vendor/sebastian/environment/src/Runtime.php:155:        if ($this->hasXdebug()) {
+./vendor/sebastian/environment/src/Runtime.php:157:                '%s with Xdebug %s',
+./vendor/sebastian/environment/src/Runtime.php:159:                phpversion('xdebug'),
+./vendor/sebastian/environment/src/Runtime.php:188:     * Returns true when the runtime used is PHP and Xdebug is loaded.
+./vendor/sebastian/environment/src/Runtime.php:190:    public function hasXdebug(): bool
+./vendor/sebastian/environment/src/Runtime.php:192:        return $this->isPHP() && extension_loaded('xdebug');
+./vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/Concerns/CanBeOneOfMany.php:309:        return debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'];
+./vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasRelationships.php:218:        // If no relation name was given, we will use this debug backtrace to extract
+./vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasRelationships.php:358:        [$one, $two, $caller] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+./vendor/laravel/framework/src/Illuminate/Database/Eloquent/Concerns/HasRelationships.php:671:        $caller = Arr::first(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), function ($trace) {
+./vendor/laravel/framework/src/Illuminate/Mail/MailManager.php:133:        // for easy unification of all "from" addresses as well as easy debugging
+./vendor/laravel/framework/src/Illuminate/Mail/Transport/LogTransport.php:54:        $this->logger->debug((string) $string);
+./vendor/laravel/framework/src/Illuminate/Mail/Message.php:253:     * Add an address debug header for a list of recipients.
+./vendor/laravel/framework/src/Illuminate/Contracts/Foundation/Application.php:103:     * Determine if the application is running with debug mode enabled.
+./vendor/laravel/framework/src/Illuminate/Foundation/Application.php:772:     * Determine if the application is running with debug mode enabled.
+./vendor/laravel/framework/src/Illuminate/Foundation/Application.php:778:        return (bool) $this['config']->get('app.debug');
+./vendor/laravel/framework/src/Illuminate/Foundation/Mix.php:63:            if (! app('config')->get('app.debug')) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Auth/Access/AuthorizesRequests.php:56:        $method = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['function'];
+./vendor/laravel/framework/src/Illuminate/Foundation/Providers/FoundationServiceProvider.php:80:     * Register a var dumper (with source) to debug variables.
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:641:        if (! $this->isHttpException($e) && config('app.debug')) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:678:            return config('app.debug') && app()->has(ExceptionRenderer::class)
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:680:                        : $this->renderExceptionWithSymfony($e, config('app.debug'));
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:682:            return $this->renderExceptionWithSymfony($e, config('app.debug'));
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:701:     * @param  bool  $debug
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:704:    protected function renderExceptionWithSymfony(Throwable $e, $debug)
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:706:        $renderer = new HtmlErrorRenderer($debug);
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:728:                config('app.debug') && throw $t;
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:817:        return config('app.debug') ? [
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Whoops/WhoopsHandler.php:12:     * Create a new Whoops handler for debug mode.
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Whoops/WhoopsHandler.php:63:        foreach (config('app.debug_blacklist', config('app.debug_hide', [])) as $key => $secrets) {
+./vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:478:     * Log a debug message to the logs.
+./vendor/laravel/framework/src/Illuminate/Foundation/helpers.php:490:        return app('log')->debug($message, $context);
+./vendor/laravel/framework/src/Illuminate/Foundation/Concerns/ResolvesDumpSource.php:29:        'xdebug' => 'xdebug://{file}@{line}',
+./vendor/laravel/framework/src/Illuminate/Foundation/Concerns/ResolvesDumpSource.php:64:        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 20);
+./vendor/laravel/framework/src/Illuminate/Foundation/Console/AboutCommand.php:173:            'Debug Mode' => static::format(config('app.debug'), console: $formatEnabledStatus),
+./vendor/laravel/framework/src/Illuminate/Testing/Exceptions/InvalidArgumentException.php:16:        $stack = debug_backtrace();
+./vendor/laravel/framework/src/Illuminate/Support/Number.php:270:            $method = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'];
+./vendor/laravel/framework/src/Illuminate/Support/Facades/Log.php:26: * @method static void debug(string|\Stringable $message, array $context = [])
+./vendor/laravel/framework/src/Illuminate/Log/Logger.php:137:     * Log a debug message to the logs.
+./vendor/laravel/framework/src/Illuminate/Log/Logger.php:143:    public function debug($message, array $context = []): void
+./vendor/laravel/framework/src/Illuminate/Log/LogManager.php:189:            $this->level(['level' => 'debug'])
+./vendor/laravel/framework/src/Illuminate/Log/LogManager.php:726:     * Detailed debug information.
+./vendor/laravel/framework/src/Illuminate/Log/LogManager.php:732:    public function debug($message, array $context = []): void
+./vendor/laravel/framework/src/Illuminate/Log/LogManager.php:734:        $this->driver()->debug($message, $context);
+./vendor/laravel/framework/src/Illuminate/Log/ParsesLogConfiguration.php:16:        'debug' => Level::Debug,
+./vendor/laravel/framework/src/Illuminate/Log/ParsesLogConfiguration.php:43:        $level = $config['level'] ?? 'debug';
+./vendor/laravel/framework/src/Illuminate/Log/ParsesLogConfiguration.php:62:        $level = $config['action_level'] ?? 'debug';
+./vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:334:            $itemType = get_debug_type($item);
+./vendor/laravel/framework/src/Illuminate/Console/OutputStyle.php:179:     * Returns whether verbosity is debug (-vvv).

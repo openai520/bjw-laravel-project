@@ -1,0 +1,51 @@
+./app/Models/Category.php:57:     * TODO: 后续需要实现真正的多语言支持
+./app/Models/Product.php:186:     * TODO: 后续需要实现真正的多语言支持
+./vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php:11:// TODO: Allow this to take matchers or values within the array
+./vendor/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/AttributeEmulator.php:35:        // TODO
+./vendor/nikic/php-parser/lib/PhpParser/Internal/TokenStream.php:233:                // TODO Handle non-space indentation
+./vendor/nikic/php-parser/lib/PhpParser/Comment.php:200:            // TODO: Rename these to include "start".
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:577:            // TODO Add <?php properly
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:808:                // TODO: Try to preserve formatting
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:859:                        // TODO: Preserve formatting.
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:969:                        // TODO: Preserve formatting.
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:992:            // TODO: Support removing single node.
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:1459:        // TODO: "yield" where both key and value are inserted doesn't work
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:1488:            //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, false, ' ', null], // TODO
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:1506:            //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:1609:        // TODO Insertion into empty statement lists.
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:1657:            /* TODO
+./vendor/nikic/php-parser/lib/PhpParser/PrettyPrinterAbstract.php:1684:            //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO
+./vendor/guzzlehttp/guzzle/src/Client.php:436:            // TODO: Add more sink validation?
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/TestResult.php:25:    public const TODO = 'todo';
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/TestResult.php:244:            case self::TODO:
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/TestResult.php:270:            case self::TODO:
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/TestResult.php:295:            case self::TODO:
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/TestResult.php:308:            case self::TODO:
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/State.php:73:            TestResult::TODO,
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/State.php:121:            if ($test->type !== TestResult::PASS && $test->type !== TestResult::TODO && $test->type !== TestResult::DEPRECATED && $test->type !== TestResult::NOTICE) {
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/State.php:139:            return 'TODO';
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/State.php:151:            return $test->type === TestResult::TODO;
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/State.php:179:            if ($test->type !== TestResult::PASS && $test->type !== TestResult::TODO && $test->type !== TestResult::DEPRECATED) {
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/State.php:191:            if ($test->type === TestResult::TODO) {
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/Printers/DefaultPrinter.php:366:        if ($event->message() === '__TODO__') {
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/Printers/DefaultPrinter.php:367:            $this->state->add(TestResult::fromTestCase($event->test(), TestResult::TODO));
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/Style.php:50:    private const TYPES = [TestResult::DEPRECATED, TestResult::FAIL, TestResult::WARN, TestResult::RISKY, TestResult::INCOMPLETE, TestResult::NOTICE, TestResult::TODO, TestResult::SKIPPED, TestResult::PASS];
+./vendor/nunomaduro/collision/src/Adapters/Phpunit/Style.php:237:                if ($type === TestResult::TODO && $countTests > 1) {
+./vendor/mockery/mockery/library/Mockery/Generator/MockConfiguration.php:215:     * @TODO workout if this will work
+./vendor/league/commonmark/src/Extension/CommonMark/Parser/Block/ListBlockStartParser.php:61:            // TODO for 3.0: Just make them tight by default in the block so we can remove this call
+./vendor/league/commonmark/src/Extension/CommonMark/Node/Block/ListBlock.php:30:    protected bool $tight = false; // TODO Make lists tight by default in v3
+./vendor/league/commonmark/src/Parser/Block/DocumentBlockParser.php:67:            // TODO for v3: It would be great if we could find an alternate way to identify such paragraphs.
+./vendor/league/commonmark/src/Delimiter/DelimiterStack.php:147:        // TODO: Remove the line below once PHP 7.4 support is dropped, as WeakMap won't hold onto the reference, making this unnecessary
+./vendor/league/commonmark/src/Delimiter/DelimiterStack.php:282:                // TODO: Remove this conditional check in 3.0. It only exists to prevent behavioral BC breaks in 2.x.
+./vendor/nesbot/carbon/src/Carbon/Lang/ar_Shakl.php:20:    // @TODO add shakl to months
+./vendor/nesbot/carbon/src/Carbon/Lang/ar_Shakl.php:55:    // @TODO add shakl to translations below
+./vendor/spatie/error-solutions/src/Support/Laravel/Composer/ComposerClassMap.php:53:        // TODO: This is incorrect. Doesnt list all fqcns. Need to parse namespace? e.g. App\LoginController is wrong
+./vendor/spatie/ignition/src/ErrorPage/ErrorPageViewModel.php:117:        // TODO: Should be based on Ignition config
+./vendor/doctrine/dbal/src/Platforms/DB2Platform.php:1009:     * TODO: We have to investigate how to get DB2 up and running with savepoints.
+./vendor/fakerphp/faker/src/Faker/Provider/kk_KZ/Address.php:16:    // TODO list all country names in the world
+./vendor/fakerphp/faker/src/Faker/Provider/Base.php:644:        // TODO: remove in v2
+./vendor/fakerphp/faker/src/Faker/ORM/CakePHP/EntityPopulator.php:122:        // TODO check if TreeBehavior attached to modify lft/rgt cols
+./vendor/dflydev/dot-access-data/src/Data.php:67:            // TODO: Is this really what we want to do?
+./vendor/symfony/translation/Loader/PoFileLoader.php:88:                // TODO: this fails when comments or contexts are added
+./vendor/symfony/http-kernel/HttpCache/Store.php:169:        // TODO the metaStore referenced an entity that doesn't exist in
+./vendor/symfony/mime/Header/ParameterizedHeader.php:118:            // TODO: text, or something else??

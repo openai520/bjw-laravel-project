@@ -1,0 +1,9 @@
+
+/Users/lailai/Desktop/bjw-laravel-project/resources/js/app.js
+  77:9  warning  Unexpected console statement  no-console
+
+/Users/lailai/Desktop/bjw-laravel-project/resources/js/frontend.js
+  57:9  warning  Unexpected console statement  no-console
+
+✖ 2 problems (0 errors, 2 warnings)
+

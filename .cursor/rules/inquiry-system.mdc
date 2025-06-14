@@ -1,9 +1,11 @@
 ---
-description:
-globs:
+description: 
+globs: 
 alwaysApply: false
 ---
 # 询价系统
+
+> 本规则文档与《PROJECT_RULES_UPDATED_2025.mdx》全局规则同步，须严格遵守WebP图片统一、云数据库直连、自动化部署、AI Agent Protocol终审等2025年最新规范。发现不符须立即修订。
 
 该项目实现了完整的询价系统，允许顾客提交产品询价单，管理员可查看和处理这些询价单。
 
