@@ -41,8 +41,8 @@ class PruneVisitorLogs extends Command
             Log::info("Visitor logs pruned: {$deletedCount} entries deleted older than {$cutoffDate->toDateString()}.");
 
         } catch (\Exception $e) {
-            $this->error('Failed to prune visitor logs: ' . $e->getMessage());
-            Log::error('Error pruning visitor logs: ' . $e->getMessage());
+            $this->error('Failed to prune visitor logs: '.$e->getMessage());
+            Log::error('Error pruning visitor logs: '.$e->getMessage());
         }
 
         return 0; // 返回0表示成功

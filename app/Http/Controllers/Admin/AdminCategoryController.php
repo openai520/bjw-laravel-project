@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class AdminCategoryController extends Controller
@@ -17,6 +17,7 @@ class AdminCategoryController extends Controller
     public function index(): View
     {
         $categories = Category::orderBy('sort_order', 'asc')->paginate(15);
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -48,7 +49,7 @@ class AdminCategoryController extends Controller
 
         // 检查 slug 唯一性
         while (Category::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $counter++;
+            $slug = $originalSlug.'-'.$counter++;
         }
 
         $dataToCreate = [
@@ -105,7 +106,7 @@ class AdminCategoryController extends Controller
             while (Category::where('slug', $slug)
                 ->where('id', '!=', $category->id)
                 ->exists()) {
-                $slug = $originalSlug . '-' . $counter++;
+                $slug = $originalSlug.'-'.$counter++;
             }
             $dataToUpdate['slug'] = $slug;
         }
@@ -136,19 +137,19 @@ class AdminCategoryController extends Controller
     public function move(Request $request, Category $category): RedirectResponse
     {
         $direction = $request->direction;
-        
+
         if ($direction === 'up') {
             // 查找排序值比当前分类小的最大排序值的分类
             $prevCategory = Category::where('sort_order', '<', $category->sort_order)
                 ->orderBy('sort_order', 'desc')
                 ->first();
-                
+
             if ($prevCategory) {
                 // 交换它们的排序值
                 $tempOrder = $category->sort_order;
                 $category->sort_order = $prevCategory->sort_order;
                 $prevCategory->sort_order = $tempOrder;
-                
+
                 $category->save();
                 $prevCategory->save();
             }
@@ -157,18 +158,18 @@ class AdminCategoryController extends Controller
             $nextCategory = Category::where('sort_order', '>', $category->sort_order)
                 ->orderBy('sort_order', 'asc')
                 ->first();
-                
+
             if ($nextCategory) {
                 // 交换它们的排序值
                 $tempOrder = $category->sort_order;
                 $category->sort_order = $nextCategory->sort_order;
                 $nextCategory->sort_order = $tempOrder;
-                
+
                 $category->save();
                 $nextCategory->save();
             }
         }
-        
+
         return redirect()->route('admin.categories.index');
     }
 }

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductView;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Carbon\Carbon;
 
 class ProductAnalyticsController extends Controller
 {
@@ -17,14 +17,14 @@ class ProductAnalyticsController extends Controller
     public function index(Request $request): View
     {
         $days = $request->get('days', 30); // 默认显示30天内的数据
-        
+
         // 获取热门产品排行
         $popularProducts = ProductView::select('product_id', \DB::raw('COUNT(*) as view_count'))
             ->where('viewed_at', '>=', now()->subDays($days))
             ->groupBy('product_id')
             ->orderByDesc('view_count')
             ->limit(20)
-            ->with(['product' => function($query) {
+            ->with(['product' => function ($query) {
                 $query->select('id', 'name', 'price', 'status');
             }])
             ->get();
@@ -37,7 +37,7 @@ class ProductAnalyticsController extends Controller
             $dailyStats[] = [
                 'date' => $date->format('Y-m-d'),
                 'date_cn' => $date->format('m月d日'),
-                'count' => $count
+                'count' => $count,
             ];
         }
 
@@ -48,11 +48,11 @@ class ProductAnalyticsController extends Controller
         $thisMonthViews = ProductView::where('viewed_at', '>=', now()->startOfMonth())->count();
 
         return view('admin.analytics.index', compact(
-            'popularProducts', 
-            'dailyStats', 
-            'totalViews', 
-            'todayViews', 
-            'thisWeekViews', 
+            'popularProducts',
+            'dailyStats',
+            'totalViews',
+            'todayViews',
+            'thisWeekViews',
             'thisMonthViews',
             'days'
         ));
@@ -79,7 +79,7 @@ class ProductAnalyticsController extends Controller
             $dailyStats[] = [
                 'date' => $date->format('Y-m-d'),
                 'date_cn' => $date->format('m月d日'),
-                'count' => $count
+                'count' => $count,
             ];
         }
 
@@ -93,9 +93,9 @@ class ProductAnalyticsController extends Controller
             ->get();
 
         return view('admin.analytics.product', compact(
-            'product', 
-            'views', 
-            'dailyStats', 
+            'product',
+            'views',
+            'dailyStats',
             'referrerStats',
             'days'
         ));

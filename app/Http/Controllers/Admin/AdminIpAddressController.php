@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BlockedIp;
 use App\Models\VisitorLog;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 
 class AdminIpAddressController extends Controller
 {
@@ -59,7 +59,7 @@ class AdminIpAddressController extends Controller
     public function unblock(string $ip): RedirectResponse
     {
         // 验证IP格式
-        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        if (! filter_var($ip, FILTER_VALIDATE_IP)) {
             return redirect()->route('admin.ip_addresses.index')
                 ->with('error', __('admin.invalid_ip_address'));
         }

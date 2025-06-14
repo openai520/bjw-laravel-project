@@ -44,9 +44,10 @@ class ProductImage extends Model
      */
     public function getMainImageUrlAttribute(): string
     {
-        if (!$this->image_path) {
+        if (! $this->image_path) {
             return asset('img/placeholder.svg');
         }
+
         // 清理路径并生成 URL
         return $this->generateStorageUrl($this->image_path);
     }
@@ -57,11 +58,11 @@ class ProductImage extends Model
     public function getThumbnailUrlAttribute(): string
     {
         $thumbPath = $this->thumbnail_path;
-        
+
         if ($thumbPath) {
             return $this->generateStorageUrl($thumbPath);
         }
-        
+
         // 如果没有缩略图路径，尝试使用主图路径
         if ($this->image_path) {
             return $this->generateStorageUrl($this->image_path);
@@ -79,15 +80,15 @@ class ProductImage extends Model
         $cleanedPath = ltrim($path, '/');
         $cleanedPath = preg_replace('#^(public/|storage/)#', '', $cleanedPath);
         // 确保以 'products/' 开头，如果它还不是
-        if (!str_starts_with($cleanedPath, 'products/') && !str_contains($cleanedPath, '/products/')) {
-            $cleanedPath = 'products/' . $cleanedPath;
+        if (! str_starts_with($cleanedPath, 'products/') && ! str_contains($cleanedPath, '/products/')) {
+            $cleanedPath = 'products/'.$cleanedPath;
         } elseif (str_contains($cleanedPath, '/products/')) {
             // 如果是 something/products/image.jpg, 提取 products/image.jpg
             $cleanedPath = substr($cleanedPath, strpos($cleanedPath, 'products/'));
         }
-         // 再次清理以防万一
+        // 再次清理以防万一
         $cleanedPath = preg_replace('#^(public/|storage/)#', '', $cleanedPath);
-        
+
         // 使用 Storage::url() 生成相对路径
         return Storage::disk('public')->url($cleanedPath);
     }
@@ -99,10 +100,10 @@ class ProductImage extends Model
     {
         $images = self::all();
         foreach ($images as $image) {
-            if (!str_starts_with($image->image_path, 'products/')) {
-                $image->image_path = 'products/' . $image->image_path;
+            if (! str_starts_with($image->image_path, 'products/')) {
+                $image->image_path = 'products/'.$image->image_path;
                 $image->save();
             }
         }
     }
-} 
+}

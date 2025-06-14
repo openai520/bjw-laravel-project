@@ -15,13 +15,14 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->is_admin) {
+        if (! auth()->check() || ! auth()->user()->is_admin) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => '无权限执行此操作'
+                    'message' => '无权限执行此操作',
                 ], 403);
             }
+
             return redirect()->route('admin.login');
         }
 

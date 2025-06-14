@@ -1,24 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-// 前台控制器
-use App\Http\Controllers\Frontend\LanguageController;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\ProductController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\InquiryController;
-
-// 后台控制器
-use App\Http\Controllers\Admin\AdminLoginController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminCategoryController;
-use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminBatchProductUploadController;
+// 前台控制器
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminHomeSettingController;
 use App\Http\Controllers\Admin\AdminInquiryController;
 use App\Http\Controllers\Admin\AdminIpAddressController;
-use App\Http\Controllers\Admin\AdminHomeSettingController;
+// 后台控制器
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\ProductAnalyticsController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\InquiryController;
+use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Frontend\ProductController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +50,7 @@ Route::prefix('{lang}')
         // 产品路由
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/{product:id}', [ProductController::class, 'show'])->name('products.show');
-        
+
         // 产品模态框API路由
         Route::get('/api/products/{product}/modal', [ProductController::class, 'getModalData'])->name('products.modal');
 
@@ -110,7 +108,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/test', function () {
             return view('admin.test');
         })->name('test');
-        
+
         Route::get('/simple-test', function () {
             return view('admin.simple-test');
         })->name('simple-test');

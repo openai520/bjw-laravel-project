@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         $name_en = fake()->unique()->words(rand(2, 4), true);
+
         return [
             'name_en' => $name_en,
             'name_fr' => fake()->unique()->words(rand(2, 4), true),

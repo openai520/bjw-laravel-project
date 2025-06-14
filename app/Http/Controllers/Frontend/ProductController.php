@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -26,7 +25,7 @@ class ProductController extends Controller
             $currentCategory = Category::where('slug', $categorySlug)->first();
 
             // 如果找不到，尝试通过ID查找（兼容旧链接）
-            if (!$currentCategory && is_numeric($categorySlug)) {
+            if (! $currentCategory && is_numeric($categorySlug)) {
                 $currentCategory = Category::find($categorySlug);
             }
 
@@ -37,12 +36,12 @@ class ProductController extends Controller
 
         // 修改缓存策略，不使用标签，使用更具体的缓存键
         // 构建包含所有筛选条件的缓存键
-        $cacheKey = 'products.index.page.' . $currentPage;
+        $cacheKey = 'products.index.page.'.$currentPage;
         if ($categoryId) {
-            $cacheKey .= '.category.' . $categoryId;
+            $cacheKey .= '.category.'.$categoryId;
         }
         if ($searchTerm) {
-            $cacheKey .= '.search.' . $searchTerm;
+            $cacheKey .= '.search.'.$searchTerm;
         }
 
         // 减少缓存时间到10分钟，避免长时间缓存不更新
@@ -66,7 +65,7 @@ class ProductController extends Controller
             'cacheKey_would_be' => $cacheKey,
             'categoryId' => $categoryId,
             'searchTerm' => $searchTerm,
-            'status' => 'published'
+            'status' => 'published',
         ]);
 
         // 修复N+1查询问题 - 预加载所有需要的关系
@@ -81,8 +80,8 @@ class ProductController extends Controller
         }
 
         $products = $query->where('status', 'published')
-                            ->latest()
-                            ->paginate(12);
+            ->latest()
+            ->paginate(12);
 
         \Log::debug('[DIRECT_QUERY] ProductController@index: Products query result.', [
             'count_on_current_page' => $products->count(),
@@ -97,10 +96,11 @@ class ProductController extends Controller
         // 处理AJAX请求，返回JSON格式
         if ($request->ajax()) {
             $view = view('frontend.partials._product_cards', compact('products'))->render();
+
             return response()->json([
                 'html' => $view,
                 'next_page_url' => $products->nextPageUrl(),
-                'has_category' => !empty($categoryId)
+                'has_category' => ! empty($categoryId),
             ]);
         }
 
@@ -146,13 +146,14 @@ class ProductController extends Controller
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             // 特别捕获模型未找到的异常，以确保正确的404
-            \Log::warning('ModelNotFoundException in ProductController@show for lang ' . $lang . ', product ID attempted: ' . request()->route('product') . '. Error: ' . $e->getMessage());
+            \Log::warning('ModelNotFoundException in ProductController@show for lang '.$lang.', product ID attempted: '.request()->route('product').'. Error: '.$e->getMessage());
             abort(404, 'The requested product could not be found.');
         } catch (\Throwable $e) {
             // \Log::error('Critical error in ProductController@show for lang ' . $lang . ': ' . $e->getMessage());
             // \Log::error('File: ' . $e->getFile() . ' Line: ' . $e->getLine());
             // \Log::error('Stack trace: ' . $e->getTraceAsString());
-            \Log::error('Critical error in ProductController@show for lang ' . $lang . ', product ID attempted: ' . request()->route('product') . ': ' . $e->getMessage(), ['exception' => $e]);
+            \Log::error('Critical error in ProductController@show for lang '.$lang.', product ID attempted: '.request()->route('product').': '.$e->getMessage(), ['exception' => $e]);
+
             return response('An internal server error occurred. Please try again later.', 500);
         }
     }
@@ -167,7 +168,7 @@ class ProductController extends Controller
             if ($product->status !== 'published') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Product is not available.'
+                    'message' => 'Product is not available.',
                 ], 404);
             }
 
@@ -180,7 +181,7 @@ class ProductController extends Controller
                     'id' => $image->id,
                     'thumbnail_url' => $this->getOptimizedImageUrl($image, 'thumbnail'),
                     'main_image_url' => $this->getOptimizedImageUrl($image, 'main'),
-                    'is_main' => $image->is_main
+                    'is_main' => $image->is_main,
                 ];
             });
 
@@ -191,7 +192,7 @@ class ProductController extends Controller
                     'id' => 0,
                     'thumbnail_url' => $placeholderUrl,
                     'main_image_url' => $placeholderUrl,
-                    'is_main' => true
+                    'is_main' => true,
                 ]]);
             }
 
@@ -226,14 +227,15 @@ class ProductController extends Controller
                     'add_to_cart' => __('messages.add_to_cart'),
                     'product_details' => __('messages.product_details'),
                     'close' => __('messages.close'),
-                ]
+                ],
             ]);
 
         } catch (\Exception $e) {
-            \Log::error('Error in ProductController@getModalData: ' . $e->getMessage(), ['exception' => $e]);
+            \Log::error('Error in ProductController@getModalData: '.$e->getMessage(), ['exception' => $e]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred while loading product data.'
+                'message' => 'An error occurred while loading product data.',
             ], 500);
         }
     }
@@ -243,19 +245,20 @@ class ProductController extends Controller
      */
     protected function getOptimizedImageUrl($image, $type = 'main')
     {
-        if (!$image) {
+        if (! $image) {
             return asset('img/placeholder.svg');
         }
 
-        $path = $type === 'thumbnail' && $image->thumbnail_path 
-            ? $image->thumbnail_path 
+        $path = $type === 'thumbnail' && $image->thumbnail_path
+            ? $image->thumbnail_path
             : $image->image_path;
 
         if ($path) {
             $cleanPath = ltrim($path, '/');
-            return asset('storage/' . $cleanPath);
+
+            return asset('storage/'.$cleanPath);
         }
-        
+
         return asset('img/placeholder.svg');
     }
 
@@ -267,7 +270,8 @@ class ProductController extends Controller
         // 如果已经预加载了mainImage关联
         if ($product->relationLoaded('mainImage') && $product->mainImage) {
             $cleanPath = ltrim($product->mainImage->image_path, '/');
-            return asset('storage/' . $cleanPath);
+
+            return asset('storage/'.$cleanPath);
         }
 
         // 如果没有主图，尝试获取第一个图片
@@ -275,11 +279,12 @@ class ProductController extends Controller
             $firstImage = $product->images->first();
             if ($firstImage) {
                 $cleanPath = ltrim($firstImage->image_path, '/');
-                return asset('storage/' . $cleanPath);
+
+                return asset('storage/'.$cleanPath);
             }
         }
 
         // 返回默认图片
         return asset('img/placeholder.svg');
     }
-} 
+}

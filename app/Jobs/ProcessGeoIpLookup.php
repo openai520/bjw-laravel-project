@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\VisitorLog;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -38,36 +37,38 @@ class ProcessGeoIpLookup implements ShouldQueue
         try {
             // 查找访问日志记录
             $visitorLog = VisitorLog::find($this->visitorLogId);
-            
-            if (!$visitorLog) {
+
+            if (! $visitorLog) {
                 Log::warning("VisitorLog with ID {$this->visitorLogId} not found");
+
                 return;
             }
-            
+
             // 如果IP为空或已经有国家信息，则跳过
-            if (empty($visitorLog->ip_address) || !empty($visitorLog->country) && $visitorLog->country !== 'Unknown') {
+            if (empty($visitorLog->ip_address) || ! empty($visitorLog->country) && $visitorLog->country !== 'Unknown') {
                 Log::info("Skipping geo lookup for visitor log {$this->visitorLogId}: IP is empty or country already set");
+
                 return;
             }
-            
+
             // 使用IP地址获取国家信息
             $location = Location::get($visitorLog->ip_address);
-            
-            if ($location && !empty($location->countryName)) {
+
+            if ($location && ! empty($location->countryName)) {
                 // 更新国家信息
                 $visitorLog->country = $location->countryName;
                 $visitorLog->save();
-                
+
                 Log::info("Updated country for visitor log {$this->visitorLogId}: {$location->countryName}");
             } else {
                 // 更新为未知国家
                 $visitorLog->country = 'Unknown';
                 $visitorLog->save();
-                
+
                 Log::info("Could not determine country for IP: {$visitorLog->ip_address}");
             }
         } catch (\Exception $e) {
-            Log::error("Error processing geo IP lookup for visitor log {$this->visitorLogId}: " . $e->getMessage());
+            Log::error("Error processing geo IP lookup for visitor log {$this->visitorLogId}: ".$e->getMessage());
         }
     }
 }

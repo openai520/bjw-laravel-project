@@ -4,14 +4,14 @@
     $thumbnailUrl = $product->thumbnail_url ?? asset('img/placeholder.svg');
 @endphp
 <a href="{{ route('frontend.products.show', ['lang' => app()->getLocale(), 'product' => $product->id]) }}"
-   class="group block bg-white rounded-lg overflow-hidden border border-gray-200">
+    class="group block bg-white rounded-lg overflow-hidden border border-gray-200">
 
     <!-- 图片容器 -->
     <div class="w-full overflow-hidden">
         <img src="{{ $thumbnailUrl }}"
-             alt="{{ $product->name ?? 'Product Image' }}"
-             class="w-full h-40 object-contain object-center"
-             loading="lazy">
+            alt="{{ $product->name ?? 'Product Image' }}"
+            class="w-full h-40 object-contain object-center"
+            loading="lazy">
     </div>
 
     <!-- 内容容器 -->
@@ -26,4 +26,4 @@
             ¥{{ number_format($product->price, 2) }}
         </p>
     </div>
-</a> 
+</a>

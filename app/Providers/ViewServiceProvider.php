@@ -25,12 +25,12 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'frontend.home.index',
             'frontend.products.index',
-            'frontend.partials._category_nav'
+            'frontend.partials._category_nav',
         ], function ($view) {
             $locale = app()->getLocale();
             $categories = Category::orderBy('sort_order', 'asc')
                 ->get();
-            
+
             $view->with('categories', $categories);
         });
     }

@@ -72,4 +72,4 @@ return [
     'save_featured_products' => 'Save Featured Products',
     'show_on_homepage' => 'Show on Homepage',
     'category_not_on_home' => 'This category is not set to display on homepage',
-]; 
+];

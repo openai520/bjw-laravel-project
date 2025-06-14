@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -17,10 +16,10 @@ class AdminController extends Controller
         // 应用管理员中间件
         $this->middleware('auth');
         $this->middleware('admin');
-        
+
         // 确保不记录IP地址
         // 注意：这是双重保险，LogVisitor中间件已经跳过了admin路由
     }
-    
+
     // ... existing code ...
 }

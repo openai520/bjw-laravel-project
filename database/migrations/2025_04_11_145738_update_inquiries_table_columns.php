@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('wechat', 50)->nullable()->after('whatsapp')->comment('微信 ID');
             $table->integer('total_quantity')->default(0)->after('wechat')->comment('总数量');
             $table->decimal('total_amount', 10, 2)->default(0)->after('total_quantity')->comment('总金额');
-            
+
             // 删除不需要的列
             $table->dropColumn(['customer_email', 'customer_company', 'customer_message']);
         });
@@ -42,7 +42,7 @@ return new class extends Migration
             $table->string('customer_email', 100)->after('name')->comment('客户邮箱');
             $table->string('customer_company', 100)->nullable()->after('phone')->comment('客户公司');
             $table->text('customer_message')->nullable()->after('customer_company')->comment('客户留言');
-            
+
             // 删除新增的列
             $table->dropColumn(['country', 'whatsapp', 'wechat', 'total_quantity', 'total_amount']);
         });

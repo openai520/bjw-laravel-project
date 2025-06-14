@@ -24,7 +24,7 @@ class ProductImageFactory extends Factory
         'IMG_1578.JPG',
         'IMG_1753.JPG',
         'IMG_1754.JPG',
-        'IMG_1756.JPG'
+        'IMG_1756.JPG',
     ];
 
     /**
@@ -36,13 +36,13 @@ class ProductImageFactory extends Factory
     {
         // 随机选择一个实际存在的图片文件
         $imageFile = fake()->randomElement($this->imageFiles);
-        $imagePath = 'products/' . $imageFile;
-        
+        $imagePath = 'products/'.$imageFile;
+
         // 生成缩略图路径 - 使用_thumb后缀作为命名约定
         $extension = pathinfo($imageFile, PATHINFO_EXTENSION);
         $fileName = pathinfo($imageFile, PATHINFO_FILENAME);
-        $thumbnailPath = 'products/' . $fileName . '_thumb.' . $extension;
-        
+        $thumbnailPath = 'products/'.$fileName.'_thumb.'.$extension;
+
         return [
             'image_path' => $imagePath,
             'thumbnail_path' => $thumbnailPath,

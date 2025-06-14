@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * 产品模型
@@ -73,7 +72,8 @@ class Product extends Model
             if ($mainImg && $mainImg->image_path) {
                 // 使用 asset() 确保生成完整的URL
                 $cleanPath = ltrim($mainImg->image_path, '/');
-                return asset('storage/' . $cleanPath);
+
+                return asset('storage/'.$cleanPath);
             }
 
             // 如果没有主图，尝试获取第一个图片
@@ -88,14 +88,16 @@ class Product extends Model
             if ($firstImg && $firstImg->image_path) {
                 // 同样使用 asset() 生成完整的URL
                 $cleanPath = ltrim($firstImg->image_path, '/');
-                return asset('storage/' . $cleanPath);
+
+                return asset('storage/'.$cleanPath);
             }
-            
+
             // 没有找到任何图片，返回默认SVG
             return asset('img/placeholder.svg');
 
         } catch (\Exception $e) {
-            \Log::error("Error in getMainImageUrlAttribute for product {$this->id}: " . $e->getMessage(), ['exception' => $e]);
+            \Log::error("Error in getMainImageUrlAttribute for product {$this->id}: ".$e->getMessage(), ['exception' => $e]);
+
             return asset('img/placeholder.svg'); // Fallback to default SVG on any error
         }
     }
@@ -111,7 +113,8 @@ class Product extends Model
 
             if ($mainImg && $mainImg->thumbnail_path) {
                 $cleanPath = ltrim($mainImg->thumbnail_path, '/');
-                return asset('storage/' . $cleanPath);
+
+                return asset('storage/'.$cleanPath);
             }
 
             // 如果主图没有缩略图，尝试获取第一个图片的缩略图
@@ -124,14 +127,16 @@ class Product extends Model
 
             if ($firstImg && $firstImg->thumbnail_path) {
                 $cleanPath = ltrim($firstImg->thumbnail_path, '/');
-                return asset('storage/' . $cleanPath);
+
+                return asset('storage/'.$cleanPath);
             }
 
             // 如果没有缩略图，回退到主图
             return $this->main_image_url;
 
         } catch (\Exception $e) {
-            \Log::error("Error in getThumbnailUrlAttribute for product {$this->id}: " . $e->getMessage());
+            \Log::error("Error in getThumbnailUrlAttribute for product {$this->id}: ".$e->getMessage());
+
             return asset('img/placeholder.svg');
         }
     }
@@ -141,7 +146,7 @@ class Product extends Model
      */
     protected function getDefaultImageSvg()
     {
-        return 'data:image/svg+xml;base64,' . base64_encode('
+        return 'data:image/svg+xml;base64,'.base64_encode('
             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
                 <rect width="100" height="100" fill="#f3f4f6"/>
                 <text x="50" y="50" font-family="Arial" font-size="12" fill="#9ca3af" text-anchor="middle" dy=".3em">暂无图片</text>

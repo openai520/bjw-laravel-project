@@ -11,4 +11,4 @@ return [
     'main_image' => 'Image Principale',
     'additional_images' => 'Images Supplémentaires',
     'max_additional_images' => 'Vous pouvez télécharger jusqu\'à 5 images supplémentaires',
-]; 
+];

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +17,10 @@
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/frontend.js'])
 </head>
+
 <body class="font-sans antialiased bg-gray-200 min-h-screen flex flex-col">
+    {{-- 前台主布局模板 --}}
+    {{-- 统一头部、导航、内容区、页脚、全局模态框等 --}}
     <!-- 导航栏 -->
     @include('frontend.partials._navbar')
 
@@ -30,12 +34,13 @@
 
     <!-- 全局购物车图标 -->
     <div id="cart-icon"
-         class="fixed bottom-4 right-4 bg-white rounded-full shadow-lg p-4 cursor-pointer z-50 transition-transform hover:scale-105"
-         x-data="{ itemCount: 0 }"
-         x-show="itemCount > 0"
-         x-transition>
-        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center"
-              x-text="itemCount"></span>
+        class="fixed bottom-4 right-4 bg-white rounded-full shadow-lg p-4 cursor-pointer z-50 transition-transform hover:scale-105"
+        x-data="{ itemCount: 0 }"
+        x-show="itemCount > 0"
+        x-transition>
+        <span
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center"
+            x-text="itemCount"></span>
         <!-- 购物车图标和数量将通过 JS 更新 -->
     </div>
 
@@ -53,8 +58,8 @@
     <!-- 产品模态框脚本 -->
     @include('frontend.partials._product_modal_script')
 
-{{-- Script for Toast & Modal - REVERTED --}}
-{{-- <script>
+    {{-- Script for Toast & Modal - REVERTED --}}
+    {{-- <script>
 document.addEventListener('DOMContentLoaded', function() {
     // ... toast logic ...
     // ... modal logic ...
@@ -62,4 +67,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script> --}}
 
 </body>
+
 </html>

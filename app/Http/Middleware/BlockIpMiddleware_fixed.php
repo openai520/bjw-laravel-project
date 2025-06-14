@@ -28,7 +28,8 @@ class BlockIpMiddleware
                     return BlockedIp::pluck('ip_address')->toArray();
                 } catch (\Exception $e) {
                     // 记录错误但返回空数组
-                    \Illuminate\Support\Facades\Log::error('获取禁止IP列表失败: ' . $e->getMessage());
+                    \Illuminate\Support\Facades\Log::error('获取禁止IP列表失败: '.$e->getMessage());
+
                     return [];
                 }
             });
@@ -39,9 +40,9 @@ class BlockIpMiddleware
             }
         } catch (\Exception $e) {
             // 捕获任何异常，记录日志但允许请求继续
-            \Illuminate\Support\Facades\Log::error('IP屏蔽检查失败: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('IP屏蔽检查失败: '.$e->getMessage());
         }
 
         return $next($request);
     }
-} 
+}

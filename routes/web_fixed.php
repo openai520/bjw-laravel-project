@@ -1,22 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-// 前台控制器
-use App\Http\Controllers\Frontend\LanguageController;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\ProductController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\InquiryController;
-
-// 后台控制器
-use App\Http\Controllers\Admin\AdminLoginController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminCategoryController;
-use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminBatchProductUploadController;
+// 前台控制器
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminInquiryController;
 use App\Http\Controllers\Admin\AdminIpAddressController;
+use App\Http\Controllers\Admin\AdminLoginController;
+// 后台控制器
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\InquiryController;
+use App\Http\Controllers\Frontend\LanguageController;
+use App\Http\Controllers\Frontend\ProductController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,16 +83,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('products/batch-upload', [AdminBatchProductUploadController::class, 'showUploadForm'])->name('products.batch_upload.form');
         Route::post('products/batch-import', [AdminBatchProductUploadController::class, 'handleBatchImport'])->name('products.batch_import.handle');
         Route::post('products/batch-upload-image', [AdminBatchProductUploadController::class, 'uploadTemporaryImage'])->name('products.batch_upload.image');
-        
+
         // 检查产品名称是否存在
         Route::post('products/check-name', [AdminProductController::class, 'checkName'])->name('products.check-name');
-        
+
         // 快速更新产品价格
         Route::patch('products/{product}/update-price', [AdminProductController::class, 'updatePrice'])->name('products.update-price');
-        
+
         // 批量删除产品路由
         Route::delete('products/batch-destroy', [AdminProductController::class, 'batchDestroy'])->name('products.batch-destroy');
-        
+
         // 批量更新产品状态路由
         Route::patch('products/batch-update-status', [AdminProductController::class, 'batchUpdateStatus'])->name('products.batch-update-status');
 
@@ -113,4 +111,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('ip-addresses/unblock/{ip}', [AdminIpAddressController::class, 'unblock'])->name('ip_addresses.unblock');
         Route::post('ip-addresses/clear-logs', [AdminIpAddressController::class, 'clearLogs'])->name('ip_addresses.clear-logs');
     });
-}); 
+});

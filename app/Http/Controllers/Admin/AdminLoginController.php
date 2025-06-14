@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -41,11 +41,11 @@ class AdminLoginController extends Controller
         // 尝试登录
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             // 检查是否是管理员
-            if (!Auth::user()->is_admin) {
+            if (! Auth::user()->is_admin) {
                 Auth::logout();
                 Session::invalidate();
                 Session::regenerateToken();
-                
+
                 return back()
                     ->withInput($request->only('email', 'remember'))
                     ->withErrors([

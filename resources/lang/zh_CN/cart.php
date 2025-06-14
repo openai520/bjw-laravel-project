@@ -16,4 +16,4 @@ return [
     'confirm_delete_message' => '确定要从购物车中移除此商品吗？',
     'back_to_products' => '返回产品页',
     'back' => '返回',
-]; 
+];

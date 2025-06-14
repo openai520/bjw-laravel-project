@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('referer')->nullable();
             $table->timestamp('viewed_at');
             $table->timestamps();
-            
+
             // 索引优化
             $table->index(['product_id', 'viewed_at']);
             $table->index(['ip_address', 'product_id', 'viewed_at']);

@@ -37,7 +37,7 @@ return [
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
-	    'queue' =>env('QUEUE_DEFAULT', 'image_processing'),
+            'queue' => env('QUEUE_DEFAULT', 'image_processing'),
             'retry_after' => 90,
             'after_commit' => false,
         ],

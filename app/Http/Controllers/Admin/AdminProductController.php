@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 use App\Services\ImageService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class AdminProductController extends Controller
 {
@@ -31,10 +31,10 @@ class AdminProductController extends Controller
 
         $query = Product::with([
             'category',
-            'images' => fn($query) => $query->where('is_main', true)
+            'images' => fn ($query) => $query->where('is_main', true),
         ])->withCount([
             'views as view_count',
-            'views as today_view_count' => fn($query) => $query->whereDate('viewed_at', today())
+            'views as today_view_count' => fn ($query) => $query->whereDate('viewed_at', today()),
         ])->latest();
 
         // 应用搜索条件
@@ -51,12 +51,12 @@ class AdminProductController extends Controller
         if ($status) {
             $query->where('status', $status);
         }
-        
+
         // 应用价格筛选
         if ($minPrice !== null) {
             $query->where('price', '>=', $minPrice);
         }
-        
+
         if ($maxPrice !== null) {
             $query->where('price', '<=', $maxPrice);
         }
@@ -100,7 +100,7 @@ class AdminProductController extends Controller
                     'size' => $file->getSize(),
                     'mime' => $file->getMimeType(),
                     'is_valid' => $file->isValid(),
-                    'error' => $file->getError()
+                    'error' => $file->getError(),
                 ]);
             }
         }
@@ -135,9 +135,9 @@ class AdminProductController extends Controller
 
             // 处理图片上传 - 使用ImageService转换为WebP格式
             if ($request->hasFile('images')) {
-                $imageService = new ImageService();
+                $imageService = new ImageService;
                 $isFirst = true;
-                
+
                 foreach ($request->file('images') as $index => $image) {
                     try {
                         // 使用ImageService保存并优化图片为WebP格式
@@ -148,29 +148,29 @@ class AdminProductController extends Controller
                             true, // 调整尺寸
                             'webp' // 转换为WebP格式
                         );
-                        
+
                         \Log::debug("WebP image processed {$index}", [
                             'main_path' => $imagePaths['main'],
-                            'thumbnail_path' => $imagePaths['thumbnail'] ?? null
+                            'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
                         ]);
 
                         $productImage = new ProductImage([
                             'image_path' => $imagePaths['main'],
                             'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
-                            'is_main' => $isFirst
+                            'is_main' => $isFirst,
                         ]);
 
                         $product->images()->save($productImage);
                         \Log::debug("WebP image {$index} saved to database", [
                             'is_main' => $isFirst,
-                            'has_thumbnail' => isset($imagePaths['thumbnail'])
+                            'has_thumbnail' => isset($imagePaths['thumbnail']),
                         ]);
 
                         $isFirst = false;
                     } catch (\Exception $e) {
                         \Log::error("Error processing WebP image {$index}", [
                             'error' => $e->getMessage(),
-                            'trace' => $e->getTraceAsString()
+                            'trace' => $e->getTraceAsString(),
                         ]);
                     }
                 }
@@ -188,13 +188,13 @@ class AdminProductController extends Controller
                     'message' => __('admin.product_created'),
                     'product_id' => $product->id, // 可以选择性返回产品ID或其他数据
                     // 如果需要重定向URL给前端处理
-                    // 'redirect_url' => route('admin.products.index', ['page' => $request->input('page')]) 
+                    // 'redirect_url' => route('admin.products.index', ['page' => $request->input('page')])
                 ], 201); // 201 Created
             }
 
             $redirectRoute = route('admin.products.index');
             if ($request->filled('page')) {
-                $redirectRoute .= '?page=' . $request->input('page');
+                $redirectRoute .= '?page='.$request->input('page');
             }
 
             return redirect($redirectRoute)
@@ -204,30 +204,31 @@ class AdminProductController extends Controller
             DB::rollBack();
             \Log::warning('Product creation validation failed:', [
                 'errors' => $e->errors(),
-                'input' => $request->all()
+                'input' => $request->all(),
             ]);
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
                     'message' => __('admin.product_validation_failed'),
-                    'errors' => $e->errors()
+                    'errors' => $e->errors(),
                 ], 422); // 422 Unprocessable Entity
             }
+
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
 
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Product creation failed: ' . $e->getMessage(), [
+            \Log::error('Product creation failed: '.$e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
-                'input' => $request->all()
+                'input' => $request->all(),
             ]);
 
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
-                    'message' => __('admin.product_creation_failed_server') // 使用更具体的错误消息键
+                    'message' => __('admin.product_creation_failed_server'), // 使用更具体的错误消息键
                 ], 500); // 500 Internal Server Error
             }
 
@@ -262,7 +263,7 @@ class AdminProductController extends Controller
             'category_id' => $product->category_id,
             'has_images' => $product->images->isNotEmpty(),
             'image_count' => $product->images->count(),
-            'categories_count' => $categories->count()
+            'categories_count' => $categories->count(),
         ]);
 
         return view('admin.products.edit', compact('product', 'categories'));
@@ -284,7 +285,7 @@ class AdminProductController extends Controller
             'status' => 'required|in:draft,published',
             'images' => 'nullable|array|max:6',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            'main_image_id' => 'nullable|exists:product_images,id'
+            'main_image_id' => 'nullable|exists:product_images,id',
         ]);
 
         Log::debug('Validation passed', $validated);
@@ -326,7 +327,7 @@ class AdminProductController extends Controller
                     } catch (\Exception $e) {
                         Log::error('Failed to delete image', [
                             'image_id' => $image->id,
-                            'error' => $e->getMessage()
+                            'error' => $e->getMessage(),
                         ]);
                     }
                 }
@@ -335,18 +336,19 @@ class AdminProductController extends Controller
             // 处理新上传的图片 - 使用ImageService转换为WebP格式
             if ($request->hasFile('images')) {
                 Log::debug('Processing new image uploads for WebP conversion');
-                $imageService = new ImageService();
-                $isFirstImage = !$product->images()->where('is_main', true)->exists();
+                $imageService = new ImageService;
+                $isFirstImage = ! $product->images()->where('is_main', true)->exists();
 
                 foreach ($request->file('images') as $index => $image) {
                     Log::debug("Processing image {$index} for WebP conversion", [
                         'original_name' => $image->getClientOriginalName(),
                         'size' => $image->getSize(),
-                        'mime_type' => $image->getMimeType()
+                        'mime_type' => $image->getMimeType(),
                     ]);
 
-                    if (!$image->isValid()) {
+                    if (! $image->isValid()) {
                         Log::warning("Image {$index} is not valid");
+
                         continue;
                     }
 
@@ -363,21 +365,21 @@ class AdminProductController extends Controller
                         $productImage = new ProductImage([
                             'image_path' => $imagePaths['main'],
                             'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
-                            'is_main' => $isFirstImage
+                            'is_main' => $isFirstImage,
                         ]);
 
                         $product->images()->save($productImage);
                         Log::debug('New WebP image saved', [
                             'main_path' => $imagePaths['main'],
                             'thumbnail_path' => $imagePaths['thumbnail'] ?? null,
-                            'is_main' => $isFirstImage
+                            'is_main' => $isFirstImage,
                         ]);
 
                         $isFirstImage = false;
                     } catch (\Exception $e) {
                         Log::error('Failed to save WebP image', [
                             'error' => $e->getMessage(),
-                            'trace' => $e->getTraceAsString()
+                            'trace' => $e->getTraceAsString(),
                         ]);
                     }
                 }
@@ -401,11 +403,11 @@ class AdminProductController extends Controller
 
             // Cache::tags(['products.list'])->flush(); // 清除产品列表相关缓存
             Cache::flush(); // 清除所有应用缓存
-            Cache::forget('products.detail.' . $product->id); // 清除当前产品详情缓存
+            Cache::forget('products.detail.'.$product->id); // 清除当前产品详情缓存
 
             $redirectRoute = route('admin.products.index');
             if ($request->filled('page')) {
-                $redirectRoute .= '?page=' . $request->input('page');
+                $redirectRoute .= '?page='.$request->input('page');
             }
 
             // 根据请求类型返回不同的响应
@@ -413,7 +415,7 @@ class AdminProductController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => __('admin.product_updated'),
-                    'redirect' => $redirectRoute
+                    'redirect' => $redirectRoute,
                 ]);
             }
 
@@ -424,14 +426,14 @@ class AdminProductController extends Controller
             DB::rollBack();
             Log::error('Product update failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
                     'message' => __('admin.product_update_failed'),
-                    'errors' => $e->getMessage()
+                    'errors' => $e->getMessage(),
                 ], 422);
             }
 
@@ -455,11 +457,11 @@ class AdminProductController extends Controller
 
             // Cache::tags(['products.list'])->flush(); // 清除产品列表相关缓存
             Cache::flush(); // 清除所有应用缓存
-            Cache::forget('products.detail.' . $productId); // 清除当前产品详情缓存
+            Cache::forget('products.detail.'.$productId); // 清除当前产品详情缓存
 
             $redirectRoute = route('admin.products.index');
             if ($request->filled('page')) {
-                $redirectRoute .= '?page=' . $request->input('page');
+                $redirectRoute .= '?page='.$request->input('page');
             }
 
             return redirect($redirectRoute)
@@ -467,8 +469,9 @@ class AdminProductController extends Controller
         } catch (\Exception $e) {
             $redirectRoute = route('admin.products.index');
             if ($request->filled('page')) {
-                $redirectRoute .= '?page=' . $request->input('page');
+                $redirectRoute .= '?page='.$request->input('page');
             }
+
             return redirect($redirectRoute)
                 ->with('error', '删除产品时发生错误');
         }
@@ -480,10 +483,10 @@ class AdminProductController extends Controller
     public function destroyImage(Product $product, $image)
     {
         // 检查用户是否有权限
-        if (!auth()->user()->is_admin) {
+        if (! auth()->user()->is_admin) {
             return response()->json([
                 'success' => false,
-                'message' => '无权限执行此操作'
+                'message' => '无权限执行此操作',
             ], 403);
         }
 
@@ -494,7 +497,7 @@ class AdminProductController extends Controller
             if ($image->product_id !== $product->id) {
                 return response()->json([
                     'success' => false,
-                    'message' => '图片不属于该产品'
+                    'message' => '图片不属于该产品',
                 ], 403);
             }
 
@@ -519,18 +522,18 @@ class AdminProductController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => '图片删除成功'
+                'message' => '图片删除成功',
             ]);
 
         } catch (\Exception $e) {
             \Log::error('删除产品图片失败', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => '删除失败，请重试'
+                'message' => '删除失败，请重试',
             ], 500);
         }
     }
@@ -543,14 +546,14 @@ class AdminProductController extends Controller
         try {
             $validated = $request->validate([
                 'ids' => 'required|array',
-                'ids.*' => 'integer|exists:products,id'
+                'ids.*' => 'integer|exists:products,id',
             ]);
 
             // 记录批量删除操作
             Log::info('Batch product deletion requested', [
                 'user_id' => auth()->id(),
                 'product_count' => count($validated['ids']),
-                'product_ids' => $validated['ids']
+                'product_ids' => $validated['ids'],
             ]);
 
             // 执行批量删除
@@ -559,17 +562,17 @@ class AdminProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => __('admin.products_deleted', ['count' => $count]),
-                'deleted_count' => $count
+                'deleted_count' => $count,
             ]);
         } catch (\Exception $e) {
             Log::error('Batch product deletion failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => __('admin.products_deletion_failed')
+                'message' => __('admin.products_deletion_failed'),
             ], 500);
         }
     }
@@ -583,7 +586,7 @@ class AdminProductController extends Controller
             $validated = $request->validate([
                 'ids' => 'required|array',
                 'ids.*' => 'integer|exists:products,id',
-                'status' => 'required|in:published,draft'
+                'status' => 'required|in:published,draft',
             ]);
 
             // 记录批量更新状态操作
@@ -591,7 +594,7 @@ class AdminProductController extends Controller
                 'user_id' => auth()->id(),
                 'product_count' => count($validated['ids']),
                 'product_ids' => $validated['ids'],
-                'new_status' => $validated['status']
+                'new_status' => $validated['status'],
             ]);
 
             // 执行批量更新
@@ -601,17 +604,17 @@ class AdminProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => __('admin.products_status_updated', ['count' => $count]),
-                'updated_count' => $count
+                'updated_count' => $count,
             ]);
         } catch (\Exception $e) {
             Log::error('Batch product status update failed', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => __('admin.products_status_update_failed')
+                'message' => __('admin.products_status_update_failed'),
             ], 500);
         }
     }
@@ -623,24 +626,24 @@ class AdminProductController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name' => 'required|string|max:255'
+                'name' => 'required|string|max:255',
             ]);
 
             $exists = Product::where('name', $validated['name'])->exists();
 
             return response()->json([
                 'exists' => $exists,
-                'message' => $exists ? '产品名称已存在，请使用其他名称' : ''
+                'message' => $exists ? '产品名称已存在，请使用其他名称' : '',
             ]);
         } catch (\Exception $e) {
             Log::error('Product name check failed', [
                 'error' => $e->getMessage(),
-                'name' => $request->input('name')
+                'name' => $request->input('name'),
             ]);
 
             return response()->json([
                 'exists' => false,
-                'message' => '检查产品名称时发生错误'
+                'message' => '检查产品名称时发生错误',
             ], 500);
         }
     }
@@ -652,28 +655,28 @@ class AdminProductController extends Controller
     {
         try {
             $validated = $request->validate([
-                'price' => 'required|numeric|min:0'
+                'price' => 'required|numeric|min:0',
             ]);
 
             $product->update([
-                'price' => $validated['price']
+                'price' => $validated['price'],
             ]);
 
             return response()->json([
                 'success' => true,
                 'message' => '价格更新成功',
-                'price' => $validated['price']
+                'price' => $validated['price'],
             ]);
         } catch (\Exception $e) {
             Log::error('Product price update failed', [
                 'error' => $e->getMessage(),
                 'product_id' => $product->id,
-                'price' => $request->input('price')
+                'price' => $request->input('price'),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => '更新价格失败'
+                'message' => '更新价格失败',
             ], 500);
         }
     }

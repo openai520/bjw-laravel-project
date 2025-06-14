@@ -28,7 +28,7 @@ class InquiryController extends Controller
             $ipAddress = $request->ip();
 
             // 生成询价单号 (前缀INQ + 当前日期 + 随机6位数字)
-            $inquiryNo = 'INQ' . date('Ymd') . mt_rand(100000, 999999);
+            $inquiryNo = 'INQ'.date('Ymd').mt_rand(100000, 999999);
 
             // 计算总数量和总金额
             $cart = session()->get('cart', []);
@@ -71,16 +71,16 @@ class InquiryController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => '询价单提交成功！'
+                'message' => '询价单提交成功！',
             ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('询价单提交失败: ' . $e->getMessage());
+            Log::error('询价单提交失败: '.$e->getMessage());
 
             return response()->json([
                 'success' => false,
-                'message' => '提交失败，请重试'
+                'message' => '提交失败，请重试',
             ], 500);
         }
     }

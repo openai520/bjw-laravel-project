@@ -5,12 +5,12 @@ return [
     'search_products' => 'Rechercher des produits...',
     'shopping_cart' => 'Panier',
     'loading' => 'Chargement...',
-    
+
     // Product lists
     'back_to_products' => 'Retour aux produits',
     'your_shopping_cart' => 'Votre panier',
     'view_more' => 'Voir plus',
-    
+
     // Pictures & Table headers
     'pictures' => 'Images',
     'model' => 'Modèle',
@@ -19,7 +19,7 @@ return [
     'total' => 'Total',
     'actions' => 'Actions',
     'remove' => 'Supprimer',
-    
+
     // Cart info
     'cart_empty' => 'Le panier est vide',
     'cart_empty_prompt' => 'Vous n\'avez encore ajouté aucun article à votre panier',
@@ -28,12 +28,12 @@ return [
     'pieces' => 'pièces',
     'total_amount' => 'Montant total',
     'submit_inquiry' => 'Soumettre une demande',
-    
+
     // Product details
     'minimum_order_quantity' => 'Quantité minimum de commande',
     'quantity' => 'Quantité',
     'add_to_cart' => 'Ajouter au panier',
-    
+
     // Form labels
     'name' => 'Nom',
     'country' => 'Pays',
@@ -45,7 +45,7 @@ return [
     'optional' => 'Optionnel',
     'message_placeholder' => 'Entrez vos exigences spécifiques ou messages ici...',
     'required' => 'Requis',
-    
+
     // General messages
     'please_fill_info' => 'Veuillez remplir correctement vos informations pour recevoir notre devis.',
     'no_message' => 'Pas de message',
@@ -91,4 +91,4 @@ return [
     // 导航
     'menu' => 'Menu',
     'close' => 'Fermer',
-]; 
+];

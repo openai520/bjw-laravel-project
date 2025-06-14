@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -21,20 +21,20 @@ return new class extends Migration
         $hasCustomerEmail = Schema::hasColumn('inquiries', 'customer_email');
 
         // 第一步：添加缺失的列
-        Schema::table('inquiries', function (Blueprint $table) use ($hasCountry, $hasEmail, $hasCustomerEmail) {
+        Schema::table('inquiries', function (Blueprint $table) use ($hasCountry, $hasEmail) {
             // 如果不存在country列，则添加
-            if (!$hasCountry) {
+            if (! $hasCountry) {
                 $table->string('country', 100)->nullable()->after('name')->comment('客户国家/地区');
             }
-            
+
             // 如果不存在email列，添加它
-            if (!$hasEmail) {
+            if (! $hasEmail) {
                 $table->string('email', 100)->nullable()->after('name')->comment('客户邮箱');
             }
         });
 
         // 第二步：如果两个email字段都存在，复制数据
-        if (!$hasEmail && $hasCustomerEmail) {
+        if (! $hasEmail && $hasCustomerEmail) {
             // 复制customer_email数据到新的email字段
             DB::statement('UPDATE inquiries SET email = customer_email');
         }

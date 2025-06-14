@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Inquiry;
 use App\Models\Product;
-use App\Models\Category;
 use App\Models\VisitorLog;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AdminDashboardController extends Controller
@@ -22,7 +21,7 @@ class AdminDashboardController extends Controller
         $totalCategories = Category::count();
         $pendingInquiries = Inquiry::where('status', 'pending')->count();
         $processedInquiries = Inquiry::where('status', 'processed')->count();
-        
+
         // 获取最新的5条询价单记录
         $latestInquiries = Inquiry::latest()->take(5)->get();
 
@@ -35,11 +34,11 @@ class AdminDashboardController extends Controller
             ->orderByDesc('total_visits')
             ->limit(10)
             ->get();
-        
+
         return view('admin.dashboard', compact(
-            'totalProducts', 
-            'totalCategories', 
-            'pendingInquiries', 
+            'totalProducts',
+            'totalCategories',
+            'pendingInquiries',
             'processedInquiries',
             'latestInquiries',
             'topCountriesByVisits'

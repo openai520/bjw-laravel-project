@@ -5,12 +5,12 @@ return [
     'search_products' => 'Search products...',
     'shopping_cart' => 'Shopping Cart',
     'loading' => 'Loading...',
-    
+
     // Product lists
     'back_to_products' => 'Back to Products',
     'your_shopping_cart' => 'Your Shopping Cart',
     'view_more' => 'View More',
-    
+
     // Pictures & Table headers
     'pictures' => 'Pictures',
     'model' => 'Model',
@@ -19,7 +19,7 @@ return [
     'total' => 'Total',
     'actions' => 'Actions',
     'remove' => 'Remove',
-    
+
     // Cart info
     'cart_empty' => 'Cart is empty',
     'cart_empty_prompt' => 'You haven\'t added any items to your cart yet',
@@ -28,12 +28,12 @@ return [
     'pieces' => 'pieces',
     'total_amount' => 'Total Amount',
     'submit_inquiry' => 'Submit Inquiry',
-    
+
     // Product details
     'minimum_order_quantity' => 'Minimum Order Quantity',
     'quantity' => 'Quantity',
     'add_to_cart' => 'Add to Cart',
-    
+
     // Form labels
     'name' => 'Name',
     'country' => 'Country',
@@ -45,7 +45,7 @@ return [
     'optional' => 'Optional',
     'message_placeholder' => 'Enter your specific requirements or messages here...',
     'required' => 'Required',
-    
+
     // General messages
     'please_fill_info' => 'Please fill in your information correctly to receive our quotation.',
     'no_message' => 'No message',
@@ -89,4 +89,4 @@ return [
     // 导航
     'menu' => 'Menu',
     'close' => 'Close',
-]; 
+];

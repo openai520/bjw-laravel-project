@@ -4,8 +4,8 @@ $source_file = 'resources/views/admin/layouts/app.blade.php';
 $target_path = '/home/kala/laravel-apps/kalala/resources/views/admin/layouts/app.blade.php';
 
 // 检查文件是否存在
-if (!file_exists($source_file)) {
-    die("源文件不存在: $source_file\n");
+if (! file_exists($source_file)) {
+    exit("源文件不存在: $source_file\n");
 }
 
 // 读取文件内容
@@ -31,7 +31,7 @@ if ($return_var !== 0) {
     $scp_command = "scp '$source_file' '$username@$host:$target_path'";
     echo "执行命令: $scp_command\n";
     exec($scp_command, $scp_output, $scp_return);
-    
+
     echo "SCP返回值: $scp_return\n";
     echo "SCP输出:\n";
     print_r($scp_output);

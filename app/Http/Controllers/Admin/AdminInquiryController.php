@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Inquiry;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class AdminInquiryController extends Controller
 {
@@ -50,7 +50,7 @@ class AdminInquiryController extends Controller
                 'inquiry_id' => $inquiry->id,
                 'old_status' => $oldStatus,
                 'new_status' => $inquiry->status,
-                'updated_by' => auth()->id()
+                'updated_by' => auth()->id(),
             ]);
 
             return redirect()->route('admin.inquiries.show', $inquiry)
@@ -58,7 +58,7 @@ class AdminInquiryController extends Controller
         } catch (\Exception $e) {
             Log::error('Failed to update inquiry status', [
                 'inquiry_id' => $inquiry->id,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
             return redirect()->back()

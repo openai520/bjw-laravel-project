@@ -16,4 +16,4 @@ return [
     'confirm_delete_message' => 'Êtes-vous sûr de vouloir supprimer cet article de votre panier ?',
     'back_to_products' => 'Retour aux produits',
     'back' => 'Retour',
-]; 
+];

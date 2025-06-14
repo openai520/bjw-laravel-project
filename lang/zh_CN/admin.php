@@ -89,5 +89,5 @@ return [
     'ip_address_list' => 'IP地址列表',
     'ip_address' => 'IP地址',
     'country_from_ip' => '来源国家',
-    'Unknown' => '未知'
+    'Unknown' => '未知',
 ];

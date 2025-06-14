@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
@@ -39,7 +38,7 @@ class FixProductCategories extends Command
         $categories = Category::all();
         if ($categories->isEmpty()) {
             $this->error('没有找到任何分类！请先创建分类。');
-            
+
             if ($this->confirm('是否创建示例分类?')) {
                 $this->createSampleCategories();
                 $categories = Category::all();
@@ -68,13 +67,14 @@ class FixProductCategories extends Command
         $productIds = Product::pluck('id');
         if ($productIds->isEmpty()) {
             $this->warn('没有找到任何产品。');
+
             return 0;
         }
 
         $invalidProducts = Product::whereNotIn('category_id', $categories->pluck('id'))->get();
-        
+
         if ($invalidProducts->isNotEmpty()) {
-            $this->warn('发现 ' . $invalidProducts->count() . ' 个产品的分类ID无效:');
+            $this->warn('发现 '.$invalidProducts->count().' 个产品的分类ID无效:');
             $this->table(
                 ['产品ID', '产品名称', '无效的分类ID'],
                 $invalidProducts->map(function ($product) {
@@ -107,6 +107,7 @@ class FixProductCategories extends Command
         }
 
         $this->info('产品分类修复完成。');
+
         return 0;
     }
 
@@ -115,7 +116,7 @@ class FixProductCategories extends Command
      */
     private function checkCategorySortOrderField()
     {
-        if (!Schema::hasColumn('categories', 'sort_order')) {
+        if (! Schema::hasColumn('categories', 'sort_order')) {
             $this->info('正在添加分类排序字段...');
             Schema::table('categories', function ($table) {
                 $table->integer('sort_order')->default(0)->after('slug');
@@ -194,11 +195,11 @@ class FixProductCategories extends Command
     {
         // 清除所有产品相关缓存
         Cache::flush();
-        
+
         // 或者更有针对性地清除
         // Cache::tags(['products'])->flush();
         // foreach (Category::pluck('id') as $categoryId) {
         //     Cache::tags(['category-'.$categoryId])->flush();
         // }
     }
-} 
+}

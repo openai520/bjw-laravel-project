@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +24,7 @@ class RedirectIfAuthenticated
                 if (Auth::user()->is_admin) {
                     return redirect()->route('admin.dashboard');
                 }
+
                 // 如果是普通用户，重定向到前台首页
                 return redirect()->route('frontend.home', ['lang' => app()->getLocale()]);
             }

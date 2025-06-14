@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\VisitorLog;
 use App\Jobs\ProcessGeoIpLookup;
+use App\Models\VisitorLog;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
@@ -29,10 +29,10 @@ class LogVisitor
 
         try {
             $ip = $request->ip();
-            
+
             // 使用缓存避免重复记录同一IP在短时间内的访问
-            $cacheKey = "visitor_logged_{$ip}_" . date('Y-m-d-H'); // 每小时只记录一次同一IP
-            
+            $cacheKey = "visitor_logged_{$ip}_".date('Y-m-d-H'); // 每小时只记录一次同一IP
+
             if (Cache::has($cacheKey)) {
                 // 如果这个IP在这小时内已经记录过，跳过
                 return $response;
@@ -56,7 +56,7 @@ class LogVisitor
 
         } catch (\Exception $e) {
             // 记录日志失败不应影响用户体验，只静默失败
-            \Log::error('Failed to log visitor: ' . $e->getMessage());
+            \Log::error('Failed to log visitor: '.$e->getMessage());
         }
 
         return $response;

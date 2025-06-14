@@ -23,7 +23,7 @@ class Category extends Model
         'slug',
         'sort_order',
         'show_on_home',
-        'display_order'
+        'display_order',
     ];
 
     /**
@@ -59,13 +59,14 @@ class Category extends Model
     public function getTranslation(string $field, ?string $locale = null, ?string $fallbackLocale = null)
     {
         if ($field === 'name') {
-            $localeField = 'name_' . strtolower($locale ?: 'en'); // 默认为 en
+            $localeField = 'name_'.strtolower($locale ?: 'en'); // 默认为 en
             if (array_key_exists($localeField, $this->attributes)) {
                 return $this->{$localeField};
             } elseif (array_key_exists('name_en', $this->attributes)) {
                 // 如果特定语言的字段不存在，回退到英文
                 return $this->name_en;
             }
+
             // 如果连 name_en 都没有，可以返回一个默认值或 null
             return $this->slug; // 或者返回 slug 作为备用
         }

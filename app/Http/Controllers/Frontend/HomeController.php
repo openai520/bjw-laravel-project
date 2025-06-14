@@ -13,24 +13,24 @@ class HomeController extends Controller
     {
         // 获取最新的12个已发布的产品 - 修复N+1查询问题
         $latestProducts = Product::with(['mainImage', 'images'])
-                               ->where('status', 'published')
-                               ->latest()
-                               ->take(12)
-                               ->get();
+            ->where('status', 'published')
+            ->latest()
+            ->take(12)
+            ->get();
 
         // 获取所有希望在首页显示的分类，并预加载它们设置的推荐产品 - 修复N+1查询问题
         $categories = Category::where('show_on_home', true)
-                            ->orderBy('display_order')
-                            ->with([
-                                'homeFeaturedProducts' => function ($query) {
-                                    $query->orderBy('display_order');
-                                }, 
-                                'homeFeaturedProducts.product' => function ($query) {
-                                    $query->where('status', 'published')
-                                          ->with(['mainImage', 'images']);
-                                }
-                            ])
-                            ->get();
+            ->orderBy('display_order')
+            ->with([
+                'homeFeaturedProducts' => function ($query) {
+                    $query->orderBy('display_order');
+                },
+                'homeFeaturedProducts.product' => function ($query) {
+                    $query->where('status', 'published')
+                        ->with(['mainImage', 'images']);
+                },
+            ])
+            ->get();
 
         // 对每个分类，确保其 homeFeaturedProducts 集合中的 product 不为 null
         $categories->each(function ($category) {

@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
-                
+
             // Load V2 routes
             // Route::middleware('web')
             //     ->group(base_path('routes/v2.php'));

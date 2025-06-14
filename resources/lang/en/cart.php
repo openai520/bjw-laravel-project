@@ -14,4 +14,4 @@ return [
     'confirm_delete_message' => 'Are you sure you want to remove this item from your cart?',
     'back_to_products' => 'Back to Products',
     'back' => 'Back',
-]; 
+];
